@@ -27,7 +27,7 @@ export function fetchViaHono(
       if (!headers.has(key)) headers.set(key, value);
     });
   }
-  return app.fetch(new Request(absolute, { ...init, headers }));
+  return Promise.resolve(app.fetch(new Request(absolute, { ...init, headers })));
 }
 
 export function internalApiUrl(path: string): string {
