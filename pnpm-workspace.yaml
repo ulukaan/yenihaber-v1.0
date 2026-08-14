@@ -1,3 +1,6 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+# Hostinger Corepack pnpm 11, yerel 9.15 ile çakışmasın
+pmOnFail: ignore
