@@ -1,16 +1,17 @@
 import "server-only";
 import type { NextRequest } from "next/server";
+import { getApiApp } from "@yenihaber/api/app";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * Hono API — Hostinger’da tek Next süreci. /api/v1/*
+ * Hono API — aynı Node süreci. Dinamik import Hostinger’da paketi
+ * çözemeyince 503 “API yüklenemedi” dönüyordu.
  */
 async function handle(req: NextRequest) {
   try {
-    const { getApiApp } = await import("@yenihaber/api/app");
-    return getApiApp().fetch(req);
+    return await getApiApp().fetch(req);
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "API yüklenemedi";

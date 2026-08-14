@@ -15,7 +15,6 @@ const nextConfig: NextConfig = {
     "@yenihaber/config",
   ],
   serverExternalPackages: [
-    "@yenihaber/api",
     "@prisma/client",
     "prisma",
     "bcryptjs",
