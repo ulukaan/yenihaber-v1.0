@@ -1,6 +1,11 @@
 import { createServer } from "node:http";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { parse } from "node:url";
 
+const rootDir = dirname(fileURLToPath(import.meta.url));
+const webRequire = createRequire(join(rootDir, "apps/web/package.json"));
 const port = Number(process.env.PORT || 3000);
 
 let handle = null;
@@ -34,8 +39,8 @@ createServer((req, res) => {
 
 void (async () => {
   try {
-    const next = (await import("next")).default;
-    const nextApp = next({ dev: false, dir: "./apps/web" });
+    const next = webRequire("next");
+    const nextApp = next({ dev: false, dir: join(rootDir, "apps/web") });
     await nextApp.prepare();
     handle = nextApp.getRequestHandler();
     console.log("Next hazır");
