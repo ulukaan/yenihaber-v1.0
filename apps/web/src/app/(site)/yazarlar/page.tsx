@@ -255,7 +255,7 @@ export default async function AuthorsIndexPage({ searchParams }: Props) {
                         <AuthorAvatar
                           author={author}
                           sizeClass={
-                            author.avatarUrl ? styles.cardAv : styles.cardAvPh
+                            (author.avatarUrl ? styles.cardAv : styles.cardAvPh) ?? ""
                           }
                         />
                         <div className={styles.cardId}>

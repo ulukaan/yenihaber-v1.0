@@ -175,23 +175,17 @@ reactionRoutes.post("/:articleId", async (c) => {
     where: { articleId_ipHash: { articleId, ipHash: voter } },
   });
 
-  let mine: ReactionType | null = type;
-  let action: "add" | "remove" | "switch" = "add";
-
-  await prisma.$transaction(async (tx) => {
+  const { action, mine } = await prisma.$transaction(async (tx) => {
     if (existing && existing.type === type) {
-      action = "remove";
-      mine = null;
       await tx.reactionVote.delete({ where: { id: existing.id } });
       await tx.articleReactionCount.updateMany({
         where: { articleId, type, count: { gt: 0 } },
         data: { count: { decrement: 1 } },
       });
-      return;
+      return { action: "remove" as const, mine: null as ReactionType | null };
     }
 
     if (existing && existing.type !== type) {
-      action = "switch";
       const prev = existing.type as ReactionType;
       await tx.reactionVote.update({
         where: { id: existing.id },
@@ -206,7 +200,7 @@ reactionRoutes.post("/:articleId", async (c) => {
         create: { articleId, type, count: 1 },
         update: { count: { increment: 1 } },
       });
-      return;
+      return { action: "switch" as const, mine: type as ReactionType | null };
     }
 
     await tx.reactionVote.create({
@@ -217,6 +211,7 @@ reactionRoutes.post("/:articleId", async (c) => {
       create: { articleId, type, count: 1 },
       update: { count: { increment: 1 } },
     });
+    return { action: "add" as const, mine: type as ReactionType | null };
   });
 
   const { counts, total } = await loadCounts(articleId);

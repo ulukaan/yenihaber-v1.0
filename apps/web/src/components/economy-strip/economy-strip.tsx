@@ -13,8 +13,8 @@ type Quote = {
 };
 
 function changeClass(up: boolean, change: string): string {
-  if (!change || change === "—") return styles.flat;
-  return up ? styles.up : styles.down;
+  if (!change || change === "—") return styles.flat ?? "";
+  return (up ? styles.up : styles.down) ?? "";
 }
 
 function pick(

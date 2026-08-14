@@ -96,7 +96,7 @@ electionRoutes.get("/live", async (c) => {
 
 electionRoutes.get("/races/:id", async (c) => {
   const compareRegionId = c.req.query("compareRegionId") || undefined;
-  const race = await mapRace(c.req.param("id"), { compareRegionId });
+  const race = await mapRace(c.req.param("id")!, { compareRegionId });
   if (!race) throw new HTTPException(404, { message: "Yarış yok" });
   return c.json({ race });
 });
@@ -134,7 +134,7 @@ electionRoutes.get(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const id = c.req.param("id");
+    const id = c.req.param("id")!;
     const election = await prisma.election.findUnique({
       where: { id },
       include: {
@@ -188,7 +188,7 @@ electionRoutes.patch(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const id = c.req.param("id");
+    const id = c.req.param("id")!;
     const body = z
       .object({
         name: z.string().min(3).optional(),
@@ -217,7 +217,7 @@ electionRoutes.post(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const electionId = c.req.param("id");
+    const electionId = c.req.param("id")!;
     const body = PartyBodySchema.parse(await c.req.json());
 
     const existing = await prisma.electionParty.findMany({
@@ -259,7 +259,7 @@ electionRoutes.patch(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const partyId = c.req.param("partyId");
+    const partyId = c.req.param("partyId")!;
     const body = PartyBodySchema.partial()
       .extend({
         name: z.string().min(2).optional(),
@@ -321,7 +321,7 @@ electionRoutes.delete(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const partyId = c.req.param("partyId");
+    const partyId = c.req.param("partyId")!;
     const current = await prisma.electionParty.findUnique({
       where: { id: partyId },
     });
@@ -337,7 +337,7 @@ electionRoutes.post(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const electionId = c.req.param("id");
+    const electionId = c.req.param("id")!;
     const body = z
       .object({
         name: z.string().min(2),
@@ -367,7 +367,7 @@ electionRoutes.post(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const electionId = c.req.param("id");
+    const electionId = c.req.param("id")!;
     const body = z
       .object({
         name: z.string().min(2),
@@ -390,7 +390,7 @@ electionRoutes.post(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const electionId = c.req.param("id");
+    const electionId = c.req.param("id")!;
     const body = z
       .object({
         regionId: z.string(),
@@ -437,7 +437,7 @@ electionRoutes.patch(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const raceId = c.req.param("raceId");
+    const raceId = c.req.param("raceId")!;
     const body = z
       .object({
         name: z.string().min(3).optional(),
@@ -486,7 +486,7 @@ electionRoutes.post(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const raceId = c.req.param("raceId");
+    const raceId = c.req.param("raceId")!;
     const body = z
       .object({
         name: z.string().min(2),
@@ -522,7 +522,7 @@ electionRoutes.patch(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const candidateId = c.req.param("candidateId");
+    const candidateId = c.req.param("candidateId")!;
     const body = z
       .object({
         name: z.string().min(2).optional(),
@@ -571,7 +571,7 @@ electionRoutes.delete(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const candidateId = c.req.param("candidateId");
+    const candidateId = c.req.param("candidateId")!;
     const current = await prisma.electionCandidate.findUnique({
       where: { id: candidateId },
       include: { race: { select: { electionId: true } } },
@@ -589,7 +589,7 @@ electionRoutes.put(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const raceId = c.req.param("raceId");
+    const raceId = c.req.param("raceId")!;
     const body = z
       .object({
         regionId: z.string().optional(),
@@ -675,7 +675,7 @@ electionRoutes.post(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const raceId = c.req.param("raceId");
+    const raceId = c.req.param("raceId")!;
     await recomputeSeats(raceId);
     const mapped = await mapRace(raceId);
     return c.json({ race: mapped });
@@ -687,7 +687,7 @@ electionRoutes.post(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const strip = await refreshStripCache(c.req.param("id"));
+    const strip = await refreshStripCache(c.req.param("id")!);
     return c.json({ strip });
   },
 );

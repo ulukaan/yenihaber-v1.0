@@ -198,7 +198,7 @@ export function ElectionSetupPanel({
     setCandPartyId(c.party?.id ?? "");
     setCandStrip(c.showInStrip);
     setCandStripPin(
-      c.stripPin === 1 || c.stripPin === 2 ? String(c.stripPin) : "",
+      c.stripPin === 1 ? "1" : c.stripPin === 2 ? "2" : "",
     );
     setCandPhoto(c.photoUrl ?? null);
   }

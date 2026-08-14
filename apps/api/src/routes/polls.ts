@@ -312,7 +312,7 @@ pollRoutes.patch(
   requireAuth,
   requireRole("ADMIN", "EDITOR"),
   async (c) => {
-    const id = c.req.param("id");
+    const id = c.req.param("id")!;
     const body = PollUpdateSchema.parse(await c.req.json());
     const existing = await loadPoll(id);
     if (!existing) throw new HTTPException(404, { message: "Anket yok" });

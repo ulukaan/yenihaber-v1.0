@@ -526,7 +526,7 @@ commentRoutes.patch(
     const body = z
       .object({ status: CommentStatusSchema })
       .parse(await c.req.json());
-    const id = c.req.param("id");
+    const id = c.req.param("id")!;
     const existing = await prisma.comment.findUnique({ where: { id } });
     if (!existing) {
       throw new HTTPException(404, { message: "Yorum bulunamadı" });

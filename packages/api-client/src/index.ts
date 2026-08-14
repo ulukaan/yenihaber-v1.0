@@ -81,6 +81,7 @@ import type {
   ApiElectionStrip,
   ApiElectionBundle,
   ApiElectionRace,
+  VideoOembedResult,
 } from "@yenihaber/shared";
 
 export type ApiClientOptions = {
