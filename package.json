@@ -16,7 +16,12 @@
     "db:seed": "pnpm --filter @yenihaber/database seed",
     "db:studio": "pnpm --filter @yenihaber/database studio",
     "setup": "pnpm install && pnpm db:generate && pnpm db:push && pnpm db:seed",
-    "check:tokens": "node scripts/check-tokens.mjs"
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "build:hosting": "pnpm --filter @yenihaber/database generate && pnpm --filter @yenihaber/web build",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "tsx": "^4.19.4"
   },
   "devDependencies": {
     "turbo": "^2.5.4",
