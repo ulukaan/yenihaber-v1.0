@@ -13,18 +13,21 @@ const nextConfig: NextConfig = {
   transpilePackages: [
     "@yenihaber/ui",
     "@yenihaber/api-client",
-    "@yenihaber/api",
     "@yenihaber/database",
     "@yenihaber/shared",
     "@yenihaber/config",
   ],
   serverExternalPackages: [
+    "@yenihaber/api",
     "@prisma/client",
     "prisma",
     "bcryptjs",
     "jose",
-    "@hono/node-server",
+    "hono",
+    "dotenv",
     "nodemailer",
+    "zod",
+    "@hono/node-server",
   ],
   images: {
     remotePatterns: [

@@ -8,7 +8,7 @@
     "dev:web": "pnpm --filter @yenihaber/web dev",
     "dev:admin": "pnpm --filter @yenihaber/admin dev",
     "dev:api": "pnpm --filter @yenihaber/api dev",
-    "build": "node scripts/hostinger-prep.mjs && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/database generate && node scripts/hostinger-prep.mjs && node scripts/hostinger-db.mjs && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/web build",
+    "build": "node scripts/hostinger-prep.mjs && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/database generate && node scripts/hostinger-prep.mjs && node scripts/hostinger-db.mjs && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/api build && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/web build",
     "build:hosting": "pnpm run build",
     "build:turbo": "node ./node_modules/turbo/bin/turbo run build --filter=@yenihaber/web",
     "lint": "turbo run lint",

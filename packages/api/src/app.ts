@@ -1,3 +1,4 @@
+import "server-only";
 import "./env";
 import { Hono } from "hono";
 import { cors } from "hono/cors";

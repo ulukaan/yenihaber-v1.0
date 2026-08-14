@@ -86,11 +86,31 @@ export function resolveSiteOrigin(
   return "http://localhost:3000";
 }
 
-/** Admin origin. Tanımsızsa boş — localhost:3001 üretilmez. */
+/**
+ * Admin origin.
+ * Canlıda yalnızca genel URL (localhost atılır).
+ * Geliştirmede NEXT_PUBLIC_ADMIN_URL / varsayılan :3001 kullanılır —
+ * aksi halde personel site girişinden /hesabim’e düşer, panele gitmez.
+ */
 export function resolveAdminOrigin(
   env: NodeJS.ProcessEnv = process.env,
 ): string {
-  return firstPublicUrl(env.ADMIN_PUBLIC_URL, env.NEXT_PUBLIC_ADMIN_URL);
+  const publicUrl = firstPublicUrl(
+    env.ADMIN_PUBLIC_URL,
+    env.NEXT_PUBLIC_ADMIN_URL,
+  );
+  if (publicUrl) {
+    if (isProd(env) && publicUrl.startsWith("http://")) {
+      return `https://${publicUrl.slice("http://".length)}`;
+    }
+    return publicUrl;
+  }
+  if (isProd(env)) return "";
+  for (const c of [env.ADMIN_PUBLIC_URL, env.NEXT_PUBLIC_ADMIN_URL]) {
+    const v = (c ?? "").trim();
+    if (v) return stripSlash(v);
+  }
+  return "http://localhost:3001";
 }
 
 export function resolveRevalidateOrigin(

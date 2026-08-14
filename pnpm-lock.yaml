@@ -77,60 +77,11 @@ importers:
         specifier: ^5.8.3
         version: 5.9.3
 
-  apps/api:
-    dependencies:
-      '@hono/node-server':
-        specifier: ^1.14.3
-        version: 1.19.17(hono@4.13.1)
-      '@yenihaber/config':
-        specifier: workspace:*
-        version: link:../../packages/config
-      '@yenihaber/database':
-        specifier: workspace:*
-        version: link:../../packages/database
-      '@yenihaber/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
-      bcryptjs:
-        specifier: ^3.0.2
-        version: 3.0.3
-      dotenv:
-        specifier: ^16.5.0
-        version: 16.6.1
-      hono:
-        specifier: ^4.7.10
-        version: 4.13.1
-      jose:
-        specifier: ^6.0.11
-        version: 6.2.8
-      nodemailer:
-        specifier: ^9.0.5
-        version: 9.0.5
-      zod:
-        specifier: ^3.24.2
-        version: 3.25.76
-    devDependencies:
-      '@types/bcryptjs':
-        specifier: ^2.4.6
-        version: 2.4.6
-      '@types/node':
-        specifier: ^22.15.29
-        version: 22.20.1
-      '@types/nodemailer':
-        specifier: ^8.0.1
-        version: 8.0.1
-      tsx:
-        specifier: ^4.19.4
-        version: 4.23.12
-      typescript:
-        specifier: ^5.8.3
-        version: 5.9.3
-
   apps/web:
     dependencies:
       '@yenihaber/api':
         specifier: workspace:*
-        version: link:../api
+        version: link:../../packages/api
       '@yenihaber/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
@@ -149,6 +100,12 @@ importers:
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.3
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.6.1
+      hono:
+        specifier: ^4.7.10
+        version: 4.13.1
       jose:
         specifier: ^6.0.11
         version: 6.2.8
@@ -158,6 +115,9 @@ importers:
       next:
         specifier: ^15.3.3
         version: 15.5.23(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      nodemailer:
+        specifier: ^9.0.5
+        version: 9.0.5
       react:
         specifier: ^19.1.0
         version: 19.2.8
@@ -167,16 +127,77 @@ importers:
       server-only:
         specifier: ^0.0.1
         version: 0.0.1
+      zod:
+        specifier: ^3.24.2
+        version: 3.25.76
     devDependencies:
+      '@types/bcryptjs':
+        specifier: ^2.4.6
+        version: 2.4.6
       '@types/node':
         specifier: ^22.15.29
         version: 22.20.1
+      '@types/nodemailer':
+        specifier: ^8.0.1
+        version: 8.0.1
       '@types/react':
         specifier: ^19.1.6
         version: 19.2.18
       '@types/react-dom':
         specifier: ^19.1.5
         version: 19.2.4(@types/react@19.2.18)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+
+  packages/api:
+    dependencies:
+      '@hono/node-server':
+        specifier: ^1.14.3
+        version: 1.19.17(hono@4.13.1)
+      '@yenihaber/config':
+        specifier: workspace:*
+        version: link:../config
+      '@yenihaber/database':
+        specifier: workspace:*
+        version: link:../database
+      '@yenihaber/shared':
+        specifier: workspace:*
+        version: link:../shared
+      bcryptjs:
+        specifier: ^3.0.2
+        version: 3.0.3
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.6.1
+      hono:
+        specifier: ^4.7.10
+        version: 4.13.1
+      jose:
+        specifier: ^6.0.11
+        version: 6.2.8
+      nodemailer:
+        specifier: ^9.0.5
+        version: 9.0.5
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+      zod:
+        specifier: ^3.24.2
+        version: 3.25.76
+    devDependencies:
+      '@types/bcryptjs':
+        specifier: ^2.4.6
+        version: 2.4.6
+      '@types/node':
+        specifier: ^22.15.29
+        version: 22.20.1
+      '@types/nodemailer':
+        specifier: ^8.0.1
+        version: 8.0.1
+      tsx:
+        specifier: ^4.19.4
+        version: 4.23.12
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
