@@ -391,14 +391,6 @@ function pageTitleFromPath(pathname: string, search = ""): string {
   return "Yönetim";
 }
 
-function NavIcon({ icon: Icon }: { icon: IconComp }) {
-  return (
-    <span className={styles.navIconWrap} aria-hidden>
-      <Icon width={18} height={18} strokeWidth={1.75} className={styles.navIcon} />
-    </span>
-  );
-}
-
 function filterItem(item: NavItem, role: Role | undefined): NavItem | null {
   if (item.roles && role && !item.roles.includes(role)) return null;
   if (!isBranch(item)) return item;
@@ -471,8 +463,11 @@ function NavNode({
             }));
           }}
         >
-          <NavIcon icon={item.icon} />
-          {!collapsed ? (
+          {collapsed ? (
+            <span className={styles.navCollapsedMark} aria-hidden>
+              {item.label.slice(0, 1)}
+            </span>
+          ) : (
             <>
               <span className={styles.navLabel}>{item.label}</span>
               <ChevronDown
@@ -481,7 +476,7 @@ function NavNode({
                 aria-hidden
               />
             </>
-          ) : null}
+          )}
         </button>
         {open ? (
           <div className={styles.navChildren}>
@@ -545,11 +540,6 @@ function NavNode({
         else onNavigate?.();
       }}
     >
-      {item.icon ? (
-        <NavIcon icon={item.icon} />
-      ) : (
-        <span className={styles.navIconWrap} aria-hidden />
-      )}
       {!collapsed ? (
         <>
           <span className={styles.navLabel}>{item.label}</span>
@@ -560,9 +550,16 @@ function NavNode({
             </span>
           ) : null}
         </>
-      ) : badge > 0 ? (
-        <span className={styles.navBadgeDot} aria-label={`${badge} bekleyen`} />
-      ) : null}
+      ) : (
+        <>
+          <span className={styles.navCollapsedMark} aria-hidden>
+            {item.label.slice(0, 1)}
+          </span>
+          {badge > 0 ? (
+            <span className={styles.navBadgeDot} aria-label={`${badge} bekleyen`} />
+          ) : null}
+        </>
+      )}
     </Link>
   );
 }
@@ -1086,6 +1083,32 @@ function AdminShellInner({ children }: { children: ReactNode }) {
         </header>
 
         <main className={styles.main}>{children}</main>
+
+        <nav className={styles.mobileDock} aria-label="Mobil editör işleri">
+          <Link
+            href="/manset"
+            className={`${styles.dockItem}${pathname.startsWith("/manset") && searchParams.get("tab") !== "sondakika" ? ` ${styles.dockOn}` : ""}`}
+          >
+            Manşet
+          </Link>
+          <Link
+            href="/comments"
+            className={`${styles.dockItem}${pathname.startsWith("/comments") ? ` ${styles.dockOn}` : ""}`}
+          >
+            Yorum
+            {commentBadge > 0 ? (
+              <span className={styles.dockBadge}>
+                {commentBadge > 99 ? "99+" : commentBadge}
+              </span>
+            ) : null}
+          </Link>
+          <Link
+            href="/manset?tab=sondakika"
+            className={`${styles.dockItem}${searchParams.get("tab") === "sondakika" ? ` ${styles.dockOn}` : ""}`}
+          >
+            Son dakika
+          </Link>
+        </nav>
       </div>
     </div>
   );

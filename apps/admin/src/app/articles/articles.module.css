@@ -202,34 +202,49 @@
 
 .tableWrap {
   overflow-x: auto;
-  border: 1px solid var(--yh-border);
-  border-radius: var(--yh-radius);
-  background: var(--yh-surface);
+  border: 0;
+  border-radius: 12px;
+  background: var(--yh-surface, #eef0f3);
+  padding: 8px;
 }
 
 .table {
   width: 100%;
   min-width: 960px;
-  border-collapse: collapse;
-  font-size: var(--yh-text-ui);
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  font-size: 13px;
 }
 
 .table th,
 .table td {
-  padding: 8px 10px;
+  padding: 10px 12px;
   text-align: left;
   vertical-align: middle;
-  border-bottom: 1px solid var(--yh-border);
+  border-bottom: 0;
+  background: transparent;
 }
 
 .table th {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   text-transform: none;
   color: var(--yh-muted);
-  background: color-mix(in srgb, var(--yh-surface) 92%, #888 8%);
+  background: transparent;
   white-space: nowrap;
+}
+
+.table tbody td {
+  background: var(--yh-surface-2, #fff);
+}
+
+.table tbody td:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.table tbody td:last-child {
+  border-radius: 0 10px 10px 0;
 }
 
 .table tbody tr:last-child td {
@@ -237,7 +252,7 @@
 }
 
 .table tbody tr:hover td {
-  background: var(--yh-surface-muted);
+  background: var(--yh-surface-2, #fff);
 }
 
 .rowFocus td {
@@ -296,7 +311,7 @@
   height: 22px;
   padding: 0 4px;
   border-radius: var(--yh-radius-xs);
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
   color: #fff;
 }
@@ -386,6 +401,13 @@
   display: flex;
   gap: 5px;
   align-items: center;
+  opacity: 0;
+}
+
+.table tbody tr:hover .shareRow,
+.table tbody tr:focus-within .shareRow,
+.rowFocus .shareRow {
+  opacity: 1;
 }
 
 .shareEye,
@@ -474,7 +496,7 @@
   gap: 4px;
   min-height: 36px;
   padding: 0 12px;
-  border: 1px solid var(--yh-accent, #ef233c);
+  border: 0;
   border-radius: var(--yh-radius-sm, 10px);
   background: var(--yh-accent, #ef233c);
   color: #fff;
@@ -482,10 +504,14 @@
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
-  transition:
-    background 140ms ease,
-    border-color 140ms ease,
-    transform 60ms ease;
+  opacity: 0;
+}
+
+.table tbody tr:hover .islemBtn,
+.table tbody tr:focus-within .islemBtn,
+.rowFocus .islemBtn,
+.islemBtn[aria-expanded="true"] {
+  opacity: 1;
 }
 
 .islemBtn:hover {

@@ -574,3 +574,40 @@
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
+@media (max-width: 960px) {
+  .tab,
+  .tabOn {
+    min-height: 48px;
+    flex: 1;
+  }
+
+  .slot {
+    min-height: 88px;
+    padding: 12px;
+  }
+
+  .iconBtn {
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .assignBtn {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 14px;
+  }
+
+  .breakingInput {
+    min-height: 52px;
+    font-size: 16px;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    min-height: 48px;
+    flex: 1;
+  }
+}

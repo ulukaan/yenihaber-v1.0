@@ -116,8 +116,12 @@
     gap: 16px;
   }
 
+  .sideCol {
+    order: 2;
+  }
+
   .mainCol .block {
-    padding: 16px 14px 4px;
+    padding: 16px;
   }
 }
 

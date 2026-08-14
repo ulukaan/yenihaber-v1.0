@@ -307,6 +307,14 @@
   text-overflow: ellipsis;
 }
 
+.navCollapsedMark {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .navBadge {
   display: inline-flex;
   align-items: center;
@@ -1055,12 +1063,68 @@
   }
 
   .main {
-    padding: 16px 14px 32px;
+    padding: 16px 14px calc(88px + env(safe-area-inset-bottom, 0px));
   }
 
   .crumbMute,
   .crumbSep {
     display: none;
+  }
+}
+
+.mobileDock {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .mobileDock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: #fff;
+    border-top: 1px solid #d9dee8;
+  }
+
+  .dockItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 8px;
+    border-radius: 10px;
+    background: #f4f6f9;
+    color: #2b2d42;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .dockOn {
+    background: color-mix(in srgb, var(--accent, #ef233c) 14%, #fff);
+    color: var(--accent, #ef233c);
+  }
+
+  .dockBadge {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--accent, #ef233c);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    line-height: 18px;
   }
 }
 

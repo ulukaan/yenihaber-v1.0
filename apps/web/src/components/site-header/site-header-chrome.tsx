@@ -13,6 +13,8 @@ import type { ApiMenuItem, MainNav, MainNavItem } from "@yenihaber/shared";
 import { AnimatedIcon } from "@yenihaber/ui";
 import { BrandLogo } from "@/components/brand-logo/brand-logo";
 import { ElectionStrip } from "@/components/election/election-strip";
+import { CategoryStrip } from "@/components/category-strip/category-strip";
+import { MobileTabBar } from "@/components/mobile-tab-bar/mobile-tab-bar";
 import { MenuTrigger, SideMenu } from "@/components/side-menu/side-menu";
 import { AccountMenu } from "@/components/member-account/account-menu";
 import { HeaderSearch } from "./header-search";
@@ -300,6 +302,7 @@ export function SiteHeaderChrome({
             />
           </div>
         </nav>
+        <CategoryStrip items={mainNav} />
       </header>
 
       <SideMenu
@@ -309,6 +312,11 @@ export function SiteHeaderChrome({
         open={menuOpen}
         onOpenChange={setMenuOpen}
         showTrigger={false}
+      />
+
+      <MobileTabBar
+        moreOpen={menuOpen}
+        onMore={() => setMenuOpen((v) => !v)}
       />
 
       <div

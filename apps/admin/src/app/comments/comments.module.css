@@ -351,6 +351,16 @@
   .bulk {
     width: 100%;
   }
+
+  .iconOk,
+  .iconArch,
+  .iconTrash,
+  .btnSuccess,
+  .btnGhost,
+  .btnDanger {
+    min-width: 48px;
+    min-height: 48px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

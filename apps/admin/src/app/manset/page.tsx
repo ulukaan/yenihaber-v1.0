@@ -89,6 +89,13 @@ export default function MansetPage() {
   }, [kind, only48h, applyPanel]);
 
   useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("tab") === "sondakika") {
+      setTab("sondakika");
+      setKind("home");
+    }
+  }, []);
+
+  useEffect(() => {
     void adminApi.categories.list().then(setCategories).catch(() => undefined);
   }, []);
 

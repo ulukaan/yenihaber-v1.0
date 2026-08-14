@@ -16,15 +16,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  GripVertical,
-  LayoutList,
-  PanelBottom,
-  PanelLeft,
-  Plus,
-  Sparkles,
-  Trash2,
-} from "lucide-react";
+import { GripVertical, Trash2 } from "lucide-react";
 import type {
   ApiCategory,
   ApiMenu,
@@ -39,23 +31,11 @@ import {
 } from "@yenihaber/shared";
 import { AdminShell } from "@/components/admin-shell/admin-shell";
 import { adminApi } from "@/lib/api";
+import { AddItemRow } from "./menu-add-row";
+import { MenuLivePreview } from "./menu-preview";
 import styles from "./menu.module.css";
 
 const TABS: MenuLocation[] = ["header", "footer", "sidebar", "icons"];
-
-const TAB_ICONS: Record<MenuLocation, typeof LayoutList> = {
-  header: LayoutList,
-  footer: PanelBottom,
-  sidebar: PanelLeft,
-  icons: Sparkles,
-};
-
-const TAB_HINTS: Record<MenuLocation, string> = {
-  header: "Site üst gezinme",
-  footer: "Alt sütun linkleri",
-  sidebar: "Hamburger panel",
-  icons: "Araç çubuğu ikonları",
-};
 
 const TYPE_LABEL: Record<string, string> = {
   category: "Kategori",
@@ -185,17 +165,11 @@ export default function MenuAdminPage() {
     }
   }
 
-  async function addItem() {
+  async function addItem(type: MenuItemType) {
     setBusy(true);
     try {
-      const type: MenuItemType =
-        location === "icons"
-          ? "icon"
-          : location === "footer"
-            ? "link"
-            : "category";
       const body =
-        location === "icons"
+        type === "icon"
           ? {
               type: "icon" as const,
               refId:
@@ -205,12 +179,30 @@ export default function MenuAdminPage() {
               icon: "Share2",
               isActive: true,
             }
-          : {
-              type,
-              refId: categories[0]?.id ?? null,
-              label: null,
-              isActive: true,
-            };
+          : type === "heading"
+            ? {
+                type: "heading" as const,
+                label: "Başlık",
+                isActive: true,
+              }
+            : type === "link"
+              ? {
+                  type: "link" as const,
+                  label: "Bağlantı",
+                  url: "/",
+                  isActive: true,
+                }
+              : type === "page"
+                ? {
+                    type: "page" as const,
+                    refId: MENU_STATIC_PAGES[0]?.id ?? "iletisim",
+                    isActive: true,
+                  }
+                : {
+                    type,
+                    refId: categories[0]?.id ?? null,
+                    isActive: true,
+                  };
       await adminApi.menus.createItem(location, body);
       await load(location);
       setOk("Öğe eklendi");
@@ -242,8 +234,13 @@ export default function MenuAdminPage() {
       <div className={styles.page}>
         <header className={styles.head}>
           <div>
-            <h1>Menü</h1>
-            <p>{meta.note}</p>
+            <h1>Menü yönetimi</h1>
+            <p>
+              {meta.label} · {itemCount} öğe
+              {menu?.updatedAt
+                ? ` · son kayıt ${new Date(menu.updatedAt).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })}`
+                : ""}
+            </p>
           </div>
           {location === "sidebar" ? (
             <button
@@ -259,7 +256,6 @@ export default function MenuAdminPage() {
 
         <nav className={styles.tabs} aria-label="Menü lokasyonu">
           {TABS.map((t) => {
-            const Icon = TAB_ICONS[t];
             const on = location === t;
             return (
               <button
@@ -269,16 +265,7 @@ export default function MenuAdminPage() {
                 onClick={() => setLocation(t)}
                 aria-current={on ? "page" : undefined}
               >
-                <span className={styles.tabLabel}>
-                  <span className={styles.tabIcon} aria-hidden>
-                    <Icon size={16} />
-                  </span>
-                  {MENU_LOCATION_META[t].label}
-                  {on && itemCount > 0 ? (
-                    <span className={styles.tabCount}>{itemCount}</span>
-                  ) : null}
-                </span>
-                <span className={styles.tabHint}>{TAB_HINTS[t]}</span>
+                {MENU_LOCATION_META[t].label}
               </button>
             );
           })}
@@ -357,18 +344,15 @@ export default function MenuAdminPage() {
                   </DndContext>
                 )}
               </div>
-              <button
-                type="button"
-                className={styles.addBtn}
+              <AddItemRow
                 disabled={busy || itemCount >= meta.maxRoots}
-                onClick={() => void addItem()}
-              >
-                <Plus size={16} aria-hidden /> Öğe ekle
-              </button>
+                onAdd={(type) => void addItem(type)}
+              />
             </section>
 
             <ItemEditor
               item={selected}
+              items={menu.items}
               categories={categories}
               location={location}
               busy={busy}
@@ -411,6 +395,7 @@ function SortableRow({
       <div
         className={[
           styles.row,
+          item.type === "heading" ? styles.rowHead : "",
           selectedId === item.id ? styles.rowOn : "",
           !item.isActive ? styles.rowPassive : "",
         ]
@@ -427,16 +412,6 @@ function SortableRow({
           </span>
           <span className={styles.rowBody}>
             <strong>{item.resolvedLabel}</strong>
-            <em>
-              <span className={styles.typePill}>
-                {TYPE_LABEL[item.type] ?? item.type}
-              </span>
-              {item.children.length
-                ? ` · ${item.children.length} alt`
-                : ""}
-              {item.dropdownType === "mega" ? " · mega" : ""}
-              {!item.isActive ? " · pasif" : ""}
-            </em>
           </span>
           {item.badgeText ? (
             <span
@@ -471,7 +446,6 @@ function SortableRow({
                 onClick={() => onSelect(ch.id)}
               >
                 {ch.resolvedLabel}
-                <em>{TYPE_LABEL[ch.type] ?? ch.type}</em>
               </button>
               <button
                 type="button"
@@ -611,6 +585,7 @@ function IconRow({
 
 function ItemEditor({
   item,
+  items,
   categories,
   location,
   busy,
@@ -619,6 +594,7 @@ function ItemEditor({
   onRemove,
 }: {
   item: ApiMenuItem | null;
+  items: ApiMenuItem[];
   categories: ApiCategory[];
   location: MenuLocation;
   busy: boolean;
@@ -631,10 +607,13 @@ function ItemEditor({
     type: "category" as MenuItemType,
     refId: "",
     url: "",
+    icon: "",
     badgeText: "",
     badgeColor: "#E10600",
     dropdownType: "simple",
+    hasDropdown: true,
     device: "all",
+    targetBlank: false,
     isActive: true,
     startAt: "",
     endAt: "",
@@ -647,10 +626,13 @@ function ItemEditor({
       type: item.type,
       refId: item.refId ?? "",
       url: item.url ?? "",
+      icon: item.icon ?? "",
       badgeText: item.badgeText ?? "",
       badgeColor: item.badgeColor ?? "#E10600",
       dropdownType: item.dropdownType,
+      hasDropdown: item.children.length > 0 || item.dropdownType === "mega",
       device: item.device,
+      targetBlank: item.targetBlank,
       isActive: item.isActive,
       startAt: item.startAt ? toLocal(item.startAt) : "",
       endAt: item.endAt ? toLocal(item.endAt) : "",
@@ -666,6 +648,7 @@ function ItemEditor({
             Soldaki listeden düzenlemek istediğiniz menü öğesini seçin.
           </p>
         </div>
+        <MenuLivePreview items={items} />
       </section>
     );
   }
@@ -681,17 +664,15 @@ function ItemEditor({
           <div>
             <h2>{item.resolvedLabel}</h2>
             <p className={styles.editorMeta}>
-              {item.isActive ? "Aktif" : "Pasif"}
-              {item.children.length
-                ? ` · ${item.children.length} alt öğe`
-                : ""}
+              {TYPE_LABEL[item.type] ?? item.type}
+              {item.href ? ` · ${item.href}` : ""}
             </p>
           </div>
         </div>
 
         <div className={styles.fieldGrid}>
           <label>
-            Etiket
+            Görünen ad
             <input
               value={form.label}
               placeholder="Boşsa hedefin adı"
@@ -699,6 +680,29 @@ function ItemEditor({
                 setForm((f) => ({ ...f, label: e.target.value }))
               }
             />
+          </label>
+          <label>
+            İkon
+            <input
+              value={form.icon}
+              placeholder="map-pin"
+              onChange={(e) =>
+                setForm((f) => ({ ...f, icon: e.target.value }))
+              }
+            />
+          </label>
+          <label>
+            Cihaz
+            <select
+              value={form.device}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, device: e.target.value }))
+              }
+            >
+              <option value="all">Hepsi</option>
+              <option value="desktop">Masaüstü</option>
+              <option value="mobile">Mobil</option>
+            </select>
           </label>
           <label>
             Bağlantı tipi
@@ -801,51 +805,34 @@ function ItemEditor({
               </select>
             </label>
           ) : null}
-          <div className={styles.deviceRow}>
-            <span>Görünürlük</span>
-            <button
-              type="button"
-              className={
-                form.device === "all" || form.device === "desktop"
-                  ? styles.chipOn
-                  : styles.chip
-              }
-              onClick={() =>
+          <label className={styles.switchLine}>
+            <input
+              type="checkbox"
+              checked={form.hasDropdown}
+              onChange={(e) =>
                 setForm((f) => ({
                   ...f,
-                  device:
-                    f.device === "mobile"
-                      ? "all"
-                      : f.device === "all"
-                        ? "mobile"
-                        : "desktop",
+                  hasDropdown: e.target.checked,
+                  dropdownType: e.target.checked
+                    ? f.dropdownType === "mega"
+                      ? "mega"
+                      : "simple"
+                    : "simple",
                 }))
               }
-            >
-              Masaüstü
-            </button>
-            <button
-              type="button"
-              className={
-                form.device === "all" || form.device === "mobile"
-                  ? styles.chipOn
-                  : styles.chip
+            />
+            Alt menüsü açılabilir
+          </label>
+          <label className={styles.switchLine}>
+            <input
+              type="checkbox"
+              checked={form.targetBlank}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, targetBlank: e.target.checked }))
               }
-              onClick={() =>
-                setForm((f) => ({
-                  ...f,
-                  device:
-                    f.device === "desktop"
-                      ? "all"
-                      : f.device === "all"
-                        ? "desktop"
-                        : "mobile",
-                }))
-              }
-            >
-              Mobil
-            </button>
-          </div>
+            />
+            Yeni sekmede aç
+          </label>
           <div className={styles.row2}>
             <label>
               Başlangıç
@@ -880,6 +867,8 @@ function ItemEditor({
           </label>
         </div>
 
+        <MenuLivePreview items={items} />
+
         <div className={styles.editorActions}>
           <button
             type="button"
@@ -908,10 +897,12 @@ function ItemEditor({
                   type: form.type,
                   refId: form.refId || null,
                   url: form.url || null,
+                  icon: form.icon || null,
                   badgeText: form.badgeText || null,
                   badgeColor: form.badgeText ? form.badgeColor : null,
                   dropdownType: form.dropdownType,
                   device: form.device,
+                  targetBlank: form.targetBlank,
                   isActive: form.isActive,
                   startAt: form.startAt
                     ? new Date(form.startAt).toISOString()

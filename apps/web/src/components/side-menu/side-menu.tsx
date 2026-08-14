@@ -1,17 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useId, useState } from "react";
-import { LogIn, Megaphone, UserRound, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import type { ApiMenuItem, MainNav } from "@yenihaber/shared";
 import { BrandLogo } from "@/components/brand-logo/brand-logo";
 import { useMemberSession } from "@/hooks/use-member-session";
 import styles from "./side-menu.module.css";
 
-export type SideMenuCategory = {
-  name: string;
-  slug: string;
-};
+export type SideMenuCategory = { name: string; slug: string };
 
 export type SideMenuProps = {
   categories: SideMenuCategory[];
@@ -66,37 +70,56 @@ export function MenuTrigger({
   );
 }
 
+function linkKind(href: string): "cat" | "section" | "muted" {
+  if (href === "/" || href.startsWith("/kategori/")) return "cat";
+  if (
+    href.startsWith("/servis") ||
+    ["/iletisim", "/kvkk", "/gizlilik", "/reklam", "/kayit", "/ara"].includes(
+      href,
+    )
+  ) {
+    return "muted";
+  }
+  return "section";
+}
+
+function linkClass(href: string, active: boolean): string {
+  const kind = linkKind(href);
+  const base =
+    kind === "cat"
+      ? styles.linkCat
+      : kind === "muted"
+        ? styles.linkMuted
+        : styles.linkSection;
+  return `${base}${active ? ` ${styles.linkActive}` : ""}`;
+}
+
+function isActivePath(pathname: string, href: string): boolean {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 function SideMenuFromItems({
   items,
   onNavigate,
+  pathname,
 }: {
   items: ApiMenuItem[];
   onNavigate: () => void;
+  pathname: string;
 }) {
   return (
     <nav className={styles.nav} aria-label="Yan menü">
       {items.map((item) => {
-        if (item.type === "heading") {
-          return (
-            <p key={item.id} className={styles.sectionLabel}>
-              {item.resolvedLabel}
-            </p>
-          );
-        }
-
-        if (!item.href) return null;
-
+        if (item.type === "heading" || !item.href) return null;
         return (
           <div key={item.id} className={styles.group}>
             <Link
               href={item.href}
-              className={styles.link}
+              className={linkClass(item.href, isActivePath(pathname, item.href))}
               onClick={onNavigate}
             >
-              <span>{item.resolvedLabel}</span>
-              {item.badgeText ? (
-                <span className={styles.badge}>{item.badgeText}</span>
-              ) : null}
+              {item.resolvedLabel}
             </Link>
             {item.children?.length ? (
               <div className={styles.sub}>
@@ -105,7 +128,10 @@ function SideMenuFromItems({
                     <Link
                       key={ch.id}
                       href={ch.href}
-                      className={styles.subLink}
+                      className={linkClass(
+                        ch.href,
+                        isActivePath(pathname, ch.href),
+                      )}
                       onClick={onNavigate}
                     >
                       {ch.resolvedLabel}
@@ -127,38 +153,21 @@ function MenuActions({ onNavigate }: { onNavigate: () => void }) {
 
   return (
     <div className={styles.actions}>
-      {logged ? (
-        <Link
-          href="/hesabim"
-          className={styles.actionPrimary}
-          onClick={onNavigate}
-        >
-          <UserRound size={18} strokeWidth={2} aria-hidden />
-          Hesabım
-        </Link>
-      ) : (
-        <Link
-          href="/giris"
-          className={styles.actionPrimary}
-          onClick={onNavigate}
-        >
-          <LogIn size={18} strokeWidth={2} aria-hidden />
-          Giriş yap
-        </Link>
-      )}
       <Link
-        href="/ihbar"
-        className={styles.actionSecondary}
+        href={logged ? "/hesabim" : "/giris"}
+        className={styles.actionPrimary}
         onClick={onNavigate}
       >
-        <Megaphone size={18} strokeWidth={2} aria-hidden />
+        {logged ? "Hesabım" : "Giriş yap"}
+      </Link>
+      <Link href="/ihbar" className={styles.actionSecondary} onClick={onNavigate}>
         İhbar
       </Link>
     </div>
   );
 }
 
-/** Sağ hamburger panel — sade mobil menü */
+/** Tam ekran mobil menü — sağa kaydırarak kapanır */
 export function SideMenu({
   categories,
   mainNav = [],
@@ -169,11 +178,15 @@ export function SideMenu({
   triggerClassName,
   tone = "default",
 }: SideMenuProps) {
+  const pathname = usePathname() || "";
   const [uncontrolled, setUncontrolled] = useState(false);
   const controlled = openProp !== undefined;
   const open = controlled ? Boolean(openProp) : uncontrolled;
   const titleId = useId();
   const panelId = useId();
+  const dragX = useRef(0);
+  const startX = useRef(0);
+  const panelRef = useRef<HTMLElement>(null);
 
   const setOpen = useCallback(
     (next: boolean | ((v: boolean) => boolean)) => {
@@ -188,11 +201,9 @@ export function SideMenu({
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
     }
-
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
@@ -204,14 +215,40 @@ export function SideMenu({
     setOpen(false);
   }
 
+  function onPointerDown(e: ReactPointerEvent<HTMLElement>) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    startX.current = e.clientX;
+    dragX.current = 0;
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
+
+  function onPointerMove(e: ReactPointerEvent<HTMLElement>) {
+    if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
+    const dx = e.clientX - startX.current;
+    dragX.current = Math.max(0, dx);
+    const el = panelRef.current;
+    if (el) {
+      el.style.transition = "none";
+      el.style.transform = `translateX(${dragX.current}px)`;
+    }
+  }
+
+  function onPointerUp(e: ReactPointerEvent<HTMLElement>) {
+    if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
+    e.currentTarget.releasePointerCapture(e.pointerId);
+    const el = panelRef.current;
+    if (el) {
+      el.style.transition = "";
+      el.style.transform = "";
+    }
+    if (dragX.current > 72) close();
+    dragX.current = 0;
+  }
+
   const managed = sideItems.filter((i) => i.isActive !== false);
   const useManaged = managed.length > 0;
-
   const usedHrefs = new Set(
-    mainNav.flatMap((n) => [
-      n.href,
-      ...(n.children ?? []).map((c) => c.href),
-    ]),
+    mainNav.flatMap((n) => [n.href, ...(n.children ?? []).map((c) => c.href)]),
   );
   const extraCats = categories.filter(
     (c) => !usedHrefs.has(`/kategori/${c.slug}`),
@@ -239,12 +276,17 @@ export function SideMenu({
       />
 
       <aside
+        ref={panelRef}
         id={panelId}
         className={open ? styles.panelOpen : styles.panel}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         aria-hidden={!open}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
       >
         <div className={styles.head}>
           <BrandLogo
@@ -253,13 +295,16 @@ export function SideMenu({
             className={styles.logo}
             onClick={close}
           />
+          <Link href="/ara" className={styles.searchLink} onClick={close}>
+            Ara
+          </Link>
           <button
             type="button"
             className={styles.closeBtn}
             onClick={close}
             aria-label="Kapat"
           >
-            <X size={18} strokeWidth={2} aria-hidden />
+            Kapat
           </button>
         </div>
 
@@ -267,73 +312,75 @@ export function SideMenu({
           <h2 id={titleId} className={styles.srOnly}>
             Menü
           </h2>
-
           <MenuActions onNavigate={close} />
-
           <div className={styles.divider} aria-hidden />
 
           {useManaged ? (
-            <SideMenuFromItems items={managed} onNavigate={close} />
+            <SideMenuFromItems
+              items={managed}
+              onNavigate={close}
+              pathname={pathname}
+            />
           ) : (
-            <>
-              <nav className={styles.nav} aria-label="Ana menü">
-                <Link href="/" className={styles.link} onClick={close}>
-                  <span>Ana Sayfa</span>
+            <nav className={styles.nav} aria-label="Ana menü">
+              <Link
+                href="/"
+                className={linkClass("/", isActivePath(pathname, "/"))}
+                onClick={close}
+              >
+                Ana Sayfa
+              </Link>
+              {mainNav.map((item) => (
+                <div key={item.id} className={styles.group}>
+                  <Link
+                    href={item.href}
+                    className={linkClass(
+                      item.href,
+                      isActivePath(pathname, item.href),
+                    )}
+                    onClick={close}
+                  >
+                    {item.label}
+                  </Link>
+                  {(item.children?.length ?? 0) > 0 ? (
+                    <div className={styles.sub}>
+                      {item.children!.map((ch) => (
+                        <Link
+                          key={ch.id}
+                          href={ch.href}
+                          className={linkClass(
+                            ch.href,
+                            isActivePath(pathname, ch.href),
+                          )}
+                          onClick={close}
+                        >
+                          {ch.label}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+              {extraCats.map((cat) => (
+                <Link
+                  key={cat.slug}
+                  href={`/kategori/${cat.slug}`}
+                  className={linkClass(
+                    `/kategori/${cat.slug}`,
+                    isActivePath(pathname, `/kategori/${cat.slug}`),
+                  )}
+                  onClick={close}
+                >
+                  {cat.name}
                 </Link>
-                {mainNav.map((item) => (
-                  <div key={item.id} className={styles.group}>
-                    <Link
-                      href={item.href}
-                      className={styles.link}
-                      onClick={close}
-                    >
-                      <span>{item.label}</span>
-                    </Link>
-                    {(item.children?.length ?? 0) > 0 ? (
-                      <div className={styles.sub}>
-                        {item.children!.map((ch) => (
-                          <Link
-                            key={ch.id}
-                            href={ch.href}
-                            className={styles.subLink}
-                            onClick={close}
-                          >
-                            {ch.label}
-                          </Link>
-                        ))}
-                      </div>
-                    ) : null}
-                  </div>
-                ))}
-              </nav>
-
-              {extraCats.length > 0 ? (
-                <>
-                  <p className={styles.sectionLabel}>Kategoriler</p>
-                  <nav className={styles.nav} aria-label="Kategoriler">
-                    {extraCats.map((cat) => (
-                      <Link
-                        key={cat.slug}
-                        href={`/kategori/${cat.slug}`}
-                        className={styles.link}
-                        onClick={close}
-                      >
-                        <span>{cat.name}</span>
-                      </Link>
-                    ))}
-                  </nav>
-                </>
-              ) : null}
-            </>
+              ))}
+            </nav>
           )}
         </div>
 
         <div className={styles.foot}>
           <Link href="/servis" className={styles.footLink} onClick={close}>
             Servisler
-          </Link>
-          <Link href="/ara" className={styles.footLink} onClick={close}>
-            Ara
           </Link>
           <Link href="/iletisim" className={styles.footLink} onClick={close}>
             İletişim

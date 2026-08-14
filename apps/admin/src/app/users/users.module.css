@@ -84,32 +84,47 @@
 
 .tableWrap {
   overflow-x: auto;
-  border: 1px solid var(--yh-border);
-  border-radius: var(--yh-radius);
-  background: var(--yh-surface-2, #fff);
-  box-shadow: var(--yh-shadow-sm);
+  border: 0;
+  border-radius: 12px;
+  background: var(--yh-surface, #eef0f3);
+  box-shadow: none;
+  padding: 8px;
 }
 
 .table {
   width: 100%;
-  border-collapse: collapse;
-  font-size: var(--yh-text-ui);
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  font-size: 13px;
 }
 
 .table th,
 .table td {
   text-align: left;
   padding: 12px 14px;
-  border-bottom: 1px solid var(--yh-border);
+  border-bottom: 0;
   vertical-align: top;
 }
 
 .table th {
-  font-size: var(--yh-text-meta);
-  color: var(--yh-faint);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  background: var(--yh-surface-muted);
+  font-size: 13px;
+  color: var(--yh-muted);
+  text-transform: none;
+  letter-spacing: 0;
+  background: transparent;
+  font-weight: 600;
+}
+
+.table tbody td {
+  background: var(--yh-surface-2, #fff);
+}
+
+.table tbody td:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.table tbody td:last-child {
+  border-radius: 0 10px 10px 0;
 }
 
 .table tbody tr:last-child td {
@@ -213,17 +228,20 @@
   min-width: 44px;
   padding: 0 12px;
   border-radius: var(--yh-radius-sm, 10px);
-  border: 1px solid var(--yh-border);
-  background: #fff;
+  border: 0;
+  background: transparent;
   color: var(--yh-ink);
   font: inherit;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  transition:
-    background 140ms ease,
-    border-color 140ms ease,
-    transform 60ms ease;
+  opacity: 0;
+}
+
+.table tbody tr:hover .iconBtn,
+.table tbody tr:focus-within .iconBtn,
+.iconBtn:focus-visible {
+  opacity: 1;
 }
 
 .iconBtn:hover:not(:disabled) {
@@ -323,11 +341,11 @@
 }
 
 .matrix {
-  border: 1px solid var(--yh-border);
-  border-radius: var(--yh-radius);
+  border: 0;
+  border-radius: 12px;
   padding: 16px;
-  background: var(--yh-surface-2, #fff);
-  box-shadow: var(--yh-shadow-sm);
+  background: var(--yh-surface, #eef0f3);
+  box-shadow: none;
 }
 
 .matrix h2 {
@@ -403,10 +421,12 @@
 .inviteList {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 8px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  background: var(--yh-surface, #eef0f3);
+  border-radius: 12px;
 }
 
 .inviteList li {
@@ -414,9 +434,10 @@
   grid-template-columns: 1fr auto auto;
   gap: 12px;
   padding: 10px 12px;
-  border: 1px solid var(--yh-border);
-  border-radius: var(--yh-radius);
-  font-size: var(--yh-text-ui);
+  border: 0;
+  border-radius: 10px;
+  background: var(--yh-surface-2, #fff);
+  font-size: 13px;
 }
 
 .inviteLink {

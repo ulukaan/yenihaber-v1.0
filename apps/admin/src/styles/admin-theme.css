@@ -20,7 +20,9 @@ html {
   --yh-surface-2: #ffffff;
   --yh-border: #e4e7ec;
   --yh-header: #ffffff;
-  --yh-radius: 16px;
+  --yh-text-ui: 13px;
+  --yh-text-meta: 13px;
+  --yh-radius: 12px;
   --yh-radius-sm: 10px;
   --yh-radius-xs: 8px;
   --yh-shadow: 0 10px 30px rgba(43, 45, 66, 0.06);
@@ -37,6 +39,7 @@ body {
   font-family: var(--yh-font-sans);
   background: var(--admin-paper);
   color: var(--yh-ink);
+  font-size: 13px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -161,10 +164,10 @@ body {
 
 /* —— Kart / panel —— */
 .adminCard {
-  background: var(--yh-surface-2);
-  border: 1px solid var(--yh-border);
+  background: var(--yh-surface);
+  border: 0;
   border-radius: var(--yh-radius);
-  box-shadow: var(--yh-shadow-sm);
+  box-shadow: none;
 }
 
 .adminCardPad {
@@ -273,34 +276,45 @@ body {
 /* —— Tablo yumuşatma —— */
 .adminTableWrap {
   overflow: auto;
-  border: 1px solid var(--yh-border);
+  border: 0;
   border-radius: var(--yh-radius);
-  background: #fff;
-  box-shadow: var(--yh-shadow-sm);
+  background: var(--yh-surface);
+  box-shadow: none;
+  padding: 8px;
 }
 
 .adminTableWrap table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 6px;
 }
 
 .adminTableWrap th {
-  padding: 12px 14px;
+  padding: 10px 14px;
   text-align: left;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--yh-faint);
-  background: var(--yh-surface);
-  border-bottom: 1px solid var(--yh-border);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--yh-muted);
+  background: transparent;
+  border-bottom: 0;
 }
 
 .adminTableWrap td {
   padding: 12px 14px;
-  border-bottom: 1px solid var(--yh-border);
+  border-bottom: 0;
   vertical-align: middle;
-  font-size: 0.9rem;
+  font-size: 13px;
+  background: var(--yh-surface-2, #fff);
+}
+
+.adminTableWrap tbody tr td:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.adminTableWrap tbody tr td:last-child {
+  border-radius: 0 10px 10px 0;
 }
 
 .adminTableWrap tr:last-child td {
@@ -308,7 +322,7 @@ body {
 }
 
 .adminTableWrap tbody tr:hover td {
-  background: color-mix(in srgb, var(--yh-accent) 3%, #fff);
+  background: var(--yh-surface-2, #fff);
 }
 
 @media (prefers-reduced-motion: reduce) {

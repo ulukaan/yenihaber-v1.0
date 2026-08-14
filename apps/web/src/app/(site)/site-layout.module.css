@@ -3,6 +3,12 @@
   min-width: 0;
 }
 
+@media (max-width: 900px) {
+  .main {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 /* /secim — kenardan kenara, site chrome yok */
 .secimMain {
   width: 100%;
