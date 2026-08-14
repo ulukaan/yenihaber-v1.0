@@ -1,0 +1,322 @@
+/**
+ * Admin panel — kurumsal UI token’ları ve ortak bileşen sınıfları.
+ * Site (web) theme.css’ini bozmaz; yalnızca admin html kapsamında override eder.
+ */
+
+html {
+  --yh-primary: #2b2d42;
+  --yh-ink: #2b2d42;
+  --yh-text: #2b2d42;
+  --yh-muted: #5c6378;
+  --yh-faint: #8d99ae;
+  --yh-secondary: #8d99ae;
+  --yh-accent: #ef233c;
+  --yh-accent-hover: #d91d34;
+  --yh-accent-fg: #ffffff;
+  --yh-success: #06d6a0;
+  --yh-warning: #ffd166;
+  --yh-danger: #ef476f;
+  --yh-surface: #f8f9fa;
+  --yh-surface-2: #ffffff;
+  --yh-border: #e4e7ec;
+  --yh-header: #ffffff;
+  --yh-radius: 16px;
+  --yh-radius-sm: 10px;
+  --yh-radius-xs: 8px;
+  --yh-shadow: 0 10px 30px rgba(43, 45, 66, 0.06);
+  --yh-shadow-sm: 0 2px 8px rgba(43, 45, 66, 0.04);
+  --yh-font-sans: var(--font-yh-sans), "Manrope", system-ui, sans-serif;
+  --yh-font-serif: var(--yh-font-sans);
+  --yh-font-weight-medium: 600;
+  --admin-sidebar-bg: #2b2d42;
+  --admin-sidebar-bg-2: #232536;
+  --admin-paper: #f1f3f6;
+}
+
+body {
+  font-family: var(--yh-font-sans);
+  background: var(--admin-paper);
+  color: var(--yh-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* —— Ortak sayfa iskeleti —— */
+.adminPage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.adminPageWide {
+  max-width: none;
+}
+
+.adminHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.adminHeadText {
+  min-width: 0;
+  flex: 1;
+}
+
+.adminTitle {
+  margin: 0;
+  font-family: var(--yh-font-sans);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--yh-ink);
+  line-height: 1.2;
+}
+
+.adminSub {
+  margin: 6px 0 0;
+  max-width: 62ch;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--yh-muted);
+}
+
+.adminActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* —— Butonlar —— */
+.adminBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: var(--yh-radius-sm);
+  background: var(--yh-surface-2);
+  color: var(--yh-ink);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease,
+    transform 60ms ease;
+}
+
+.adminBtn:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--yh-accent) 28%, var(--yh-border));
+  color: var(--yh-accent);
+}
+
+.adminBtn:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--yh-accent) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.adminBtn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.adminBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.adminBtnPrimary {
+  background: var(--yh-accent);
+  border-color: var(--yh-accent);
+  color: #fff !important;
+}
+
+.adminBtnPrimary:hover:not(:disabled) {
+  background: var(--yh-accent-hover);
+  border-color: var(--yh-accent-hover);
+  color: #fff !important;
+}
+
+.adminBtnGhost {
+  background: transparent;
+  border-color: var(--yh-border);
+}
+
+.adminBtnDanger {
+  background: color-mix(in srgb, var(--yh-danger) 10%, #fff);
+  border-color: color-mix(in srgb, var(--yh-danger) 28%, var(--yh-border));
+  color: var(--yh-danger);
+}
+
+/* —— Kart / panel —— */
+.adminCard {
+  background: var(--yh-surface-2);
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+  box-shadow: var(--yh-shadow-sm);
+}
+
+.adminCardPad {
+  padding: 18px 20px;
+}
+
+.adminEmpty {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  min-height: 180px;
+  padding: 28px 20px;
+  text-align: center;
+  color: var(--yh-muted);
+  background: var(--yh-surface-2);
+  border: 1px dashed color-mix(in srgb, var(--yh-secondary) 40%, var(--yh-border));
+  border-radius: var(--yh-radius);
+}
+
+.adminEmpty strong {
+  color: var(--yh-ink);
+  font-size: 1rem;
+}
+
+.adminEmpty p {
+  margin: 0;
+  max-width: 42ch;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+/* —— Sekmeler —— */
+.adminTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  background: color-mix(in srgb, var(--yh-secondary) 10%, #fff);
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius-sm);
+}
+
+.adminTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--yh-muted);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.adminTab[data-active="true"],
+.adminTabActive {
+  background: #fff;
+  color: var(--yh-ink);
+  box-shadow: var(--yh-shadow-sm);
+}
+
+/* —— Form alanları —— */
+.adminField {
+  display: grid;
+  gap: 6px;
+}
+
+.adminField label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--yh-muted);
+}
+
+.adminField input,
+.adminField select,
+.adminField textarea {
+  min-height: 44px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius-xs);
+  background: #fff;
+  color: var(--yh-ink);
+  font: inherit;
+  font-size: 0.92rem;
+}
+
+.adminField textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.adminField input:focus,
+.adminField select:focus,
+.adminField textarea:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--yh-accent) 45%, var(--yh-border));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--yh-accent) 14%, transparent);
+}
+
+/* —— Tablo yumuşatma —— */
+.adminTableWrap {
+  overflow: auto;
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+  background: #fff;
+  box-shadow: var(--yh-shadow-sm);
+}
+
+.adminTableWrap table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.adminTableWrap th {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--yh-faint);
+  background: var(--yh-surface);
+  border-bottom: 1px solid var(--yh-border);
+}
+
+.adminTableWrap td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--yh-border);
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+.adminTableWrap tr:last-child td {
+  border-bottom: 0;
+}
+
+.adminTableWrap tbody tr:hover td {
+  background: color-mix(in srgb, var(--yh-accent) 3%, #fff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adminBtn {
+    transition: none;
+  }
+
+  .adminBtn:active:not(:disabled) {
+    transform: none;
+  }
+}

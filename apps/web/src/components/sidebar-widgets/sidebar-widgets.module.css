@@ -1,0 +1,160 @@
+.stack {
+  display: grid;
+  gap: 14px;
+  position: sticky;
+  top: 150px;
+  max-height: calc(100dvh - 160px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.widget,
+.newsletter,
+.adSlot {
+  background: var(--yh-surface);
+  border: 1px solid var(--yh-border);
+  border-radius: 0;
+  box-shadow: var(--yh-shadow);
+  padding: 16px;
+}
+
+.widget h2,
+.newsletter h2 {
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--yh-primary);
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 0;
+  background: var(--yh-accent);
+  box-shadow: 0 0 0 0 rgba(239, 35, 60, 0.5);
+  animation: pulse 1.6s ease-out infinite;
+}
+
+@keyframes pulse {
+  70% {
+    box-shadow: 0 0 0 10px rgba(239, 35, 60, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 35, 60, 0);
+  }
+}
+
+.breakingList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.breakingList li {
+  padding: 11px 0;
+  border-top: 1px solid var(--yh-border);
+  font-weight: 650;
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.breakingList li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.breakingList a:hover {
+  color: var(--yh-accent);
+}
+
+.cta {
+  display: inline-flex;
+  margin-top: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--yh-accent);
+}
+
+.popular {
+  display: grid;
+  gap: 8px;
+}
+
+.newsletter {
+  background: linear-gradient(145deg, #2b2d42, #3d4160);
+  color: #fff;
+  border: 0;
+}
+
+.newsletter h2 {
+  color: #fff;
+}
+
+.newsletter p {
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.9rem;
+}
+
+.form {
+  display: grid;
+  gap: 8px;
+}
+
+.form input {
+  min-height: 44px;
+  border: 0;
+  border-radius: 0;
+  padding: 0 12px;
+  font: inherit;
+}
+
+.form button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 0;
+  background: var(--yh-accent);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.adSlot {
+  min-height: 180px;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(239, 35, 60, 0.12), transparent 50%),
+    var(--yh-surface-muted);
+}
+
+.adSlot span {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--yh-text-muted);
+  font-weight: 800;
+}
+
+.adSlot strong {
+  font-size: 1.05rem;
+}
+
+.adSlot p {
+  margin: 0;
+  color: var(--yh-text-muted);
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+  }
+}

@@ -1,0 +1,45 @@
+.rail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin: 12px 0 4px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--yh-border, rgba(255, 255, 255, 0.08));
+}
+
+.label {
+  font-size: var(--yh-text-meta, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--yh-muted, #8d99ae);
+  flex-shrink: 0;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--yh-border, rgba(255, 255, 255, 0.12));
+  border-radius: var(--yh-radius, 4px);
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: border-color 0.16s ease, color 0.16s ease;
+}
+
+.chip:hover {
+  border-color: var(--yh-accent, #1f5fa8);
+  color: var(--yh-accent, #1f5fa8);
+}

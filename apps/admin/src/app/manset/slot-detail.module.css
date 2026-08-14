@@ -1,0 +1,83 @@
+.box {
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+  background: var(--yh-surface);
+  padding: 14px;
+}
+
+.box h3 {
+  margin: 0 0 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: baseline;
+  font-size: var(--yh-text-ui);
+}
+
+.box h3 span {
+  font-weight: 400;
+  color: var(--yh-muted);
+  font-size: var(--yh-text-meta);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--yh-text-meta);
+  color: var(--yh-muted);
+}
+
+.grid input,
+.grid textarea {
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+  font: inherit;
+  font-size: var(--yh-text-ui);
+  color: var(--yh-ink);
+  background: var(--yh-surface);
+}
+
+.grid input[type="color"] {
+  padding: 4px;
+  width: 64px;
+  cursor: pointer;
+}
+
+.hint,
+.warn {
+  font-style: normal;
+  font-size: 11px;
+}
+
+.hint {
+  color: var(--yh-faint);
+}
+
+.warn {
+  color: var(--yh-warning, #b77a0b);
+}
+
+.muted {
+  margin: 0;
+  color: var(--yh-muted);
+  font-size: var(--yh-text-ui);
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

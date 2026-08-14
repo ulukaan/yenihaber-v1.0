@@ -1,0 +1,38 @@
+{
+  "name": "@yenihaber/database",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "generate": "prisma generate",
+    "push": "prisma db push",
+    "seed": "tsx prisma/seed.ts",
+    "seed:election": "tsx scripts/seed-election.ts",
+    "seed:ads": "tsx scripts/seed-ads.ts",
+    "backfill:covers": "tsx scripts/backfill-default-covers.ts",
+    "cleanup:tags": "tsx scripts/cleanup-tags.ts",
+    "classify:buckets": "tsx scripts/classify-category-buckets.ts",
+    "import:radikal": "tsx prisma/import-radikal.ts",
+    "clean:seed": "tsx prisma/clean-seed.ts",
+    "studio": "prisma studio",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.9.0",
+    "@yenihaber/shared": "workspace:*",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "prisma": "^6.9.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}

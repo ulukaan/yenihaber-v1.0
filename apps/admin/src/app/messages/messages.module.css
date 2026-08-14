@@ -1,0 +1,240 @@
+.page {
+  display: grid;
+  gap: 16px;
+}
+
+.head h1 {
+  margin: 0 0 6px;
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-text-heading);
+  font-weight: var(--yh-font-weight-medium);
+}
+
+.head p {
+  margin: 0;
+  color: var(--yh-muted);
+  font-size: var(--yh-text-meta);
+  max-width: 52ch;
+  line-height: 1.45;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-bottom: 1px solid var(--yh-border);
+  padding-bottom: 2px;
+}
+
+.tab,
+.tabOn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  background: transparent;
+  color: var(--yh-muted);
+  font: inherit;
+  font-size: var(--yh-text-ui);
+  font-weight: var(--yh-font-weight-medium);
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--yh-ink);
+}
+
+.tabOn {
+  color: var(--yh-ink);
+  border-bottom-color: var(--yh-accent, #ef233c);
+}
+
+.tab em,
+.tabOn em {
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  min-width: 1.4em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--yh-ink) 8%, transparent);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tabOn em {
+  background: color-mix(in srgb, var(--yh-accent, #ef233c) 16%, transparent);
+  color: var(--yh-accent, #ef233c);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.card {
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+  background: var(--yh-surface-2, #fff);
+  box-shadow: var(--yh-shadow-sm);
+  overflow: hidden;
+}
+
+.cardNew {
+  border-color: color-mix(in srgb, var(--yh-accent, #ef233c) 35%, var(--yh-border));
+}
+
+.cardOpen {
+  box-shadow: var(--yh-shadow);
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 16px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.cardMeta {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cardMeta strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--yh-ink);
+}
+
+.cardMeta span {
+  font-size: 0.8rem;
+  color: var(--yh-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardHead time {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  color: var(--yh-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cardBody {
+  padding: 0 16px 16px;
+  display: grid;
+  gap: 12px;
+  border-top: 1px solid var(--yh-border);
+  padding-top: 14px;
+  margin: 0 16px 0;
+}
+
+.email {
+  margin: 0;
+  font-size: 0.86rem;
+}
+
+.email a {
+  color: var(--yh-accent, #ef233c);
+  font-weight: 600;
+}
+
+.body {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.55;
+  font-size: 0.92rem;
+  color: var(--yh-ink);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn,
+.btnDanger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: var(--yh-radius-sm);
+  border: 1px solid var(--yh-border);
+  background: var(--yh-surface, #fff);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--yh-ink);
+}
+
+.btn:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--yh-accent, #ef233c) 40%, var(--yh-border));
+}
+
+.btn:disabled,
+.btnDanger:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btnDanger {
+  color: #b42318;
+  border-color: color-mix(in srgb, #b42318 25%, var(--yh-border));
+}
+
+.empty {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  padding: 48px 16px;
+  color: var(--yh-muted);
+  border: 1px dashed var(--yh-border);
+  border-radius: var(--yh-radius);
+}
+
+.empty p {
+  margin: 0;
+}
+
+.muted {
+  color: var(--yh-muted);
+  margin: 0;
+}
+
+.err {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--yh-radius-sm);
+  background: color-mix(in srgb, #ef476f 12%, #fff);
+  color: #b42318;
+  font-size: 0.88rem;
+}
+
+.ok {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--yh-radius-sm);
+  background: color-mix(in srgb, #06d6a0 14%, #fff);
+  color: #0d7a5f;
+  font-size: 0.88rem;
+}

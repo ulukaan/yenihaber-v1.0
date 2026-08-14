@@ -1,0 +1,247 @@
+@import "./theme.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-fs-govde);
+  font-weight: var(--fw-normal);
+  color: var(--yh-text);
+  background: var(--yh-bg);
+  line-height: var(--yh-lh-govde);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Bağlantı — aksanın 3. yeri */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--yh-accent);
+}
+
+a.yh-link,
+.yh-link {
+  color: var(--yh-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  font-weight: var(--fw-orta);
+}
+
+a.yh-link:hover,
+.yh-link:hover {
+  color: var(--yh-accent-hover);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+.btn {
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-fs-buton);
+  font-weight: var(--fw-orta);
+  line-height: 1;
+  min-height: 44px;
+}
+
+/* Başlıklar — Newsreader; Türkçe için uppercase yok */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.yh-serif {
+  font-family: var(--yh-font-serif);
+  font-weight: var(--fw-kalin);
+  color: var(--yh-ink);
+  text-wrap: balance;
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--yh-fs-h1);
+  line-height: var(--yh-lh-baslik);
+}
+
+h2 {
+  font-size: var(--yh-fs-h2);
+  line-height: var(--yh-lh-ara);
+}
+
+h3 {
+  font-size: var(--yh-fs-h3);
+  line-height: var(--yh-lh-ara);
+}
+
+h4 {
+  font-size: var(--yh-fs-h4);
+  line-height: var(--yh-lh-kisa);
+}
+
+h5 {
+  font-size: var(--yh-fs-h5);
+  line-height: var(--yh-lh-kisa);
+}
+
+h6 {
+  font-size: var(--yh-fs-h6);
+  line-height: var(--yh-lh-kisa);
+}
+
+/* Tipografi util sınıfları */
+.yh-display,
+.manset-bas {
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-fs-manset);
+  font-weight: var(--fw-kalin);
+  line-height: var(--yh-lh-manset);
+  text-wrap: balance;
+  color: var(--yh-ink);
+}
+
+.yh-heading {
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-fs-h2);
+  font-weight: var(--fw-kalin);
+  line-height: var(--yh-lh-ara);
+  text-wrap: balance;
+  color: var(--yh-ink);
+}
+
+.yh-body,
+.haber-metin {
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-fs-govde);
+  font-weight: var(--fw-normal);
+  line-height: var(--yh-lh-govde);
+  text-wrap: pretty;
+  color: var(--yh-text);
+  max-width: var(--yh-olcu-metin);
+}
+
+.haber-metin p {
+  margin: 0 0 1.4em;
+}
+
+.haber-metin h2 {
+  margin: 2em 0 0.6em;
+}
+
+.haber-metin h3 {
+  margin: 1.6em 0 0.5em;
+}
+
+.haber-metin a {
+  font-weight: var(--fw-orta);
+  color: var(--yh-link, #1d5fa8);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.haber-metin blockquote {
+  font-size: var(--yh-fs-spot);
+  line-height: var(--yh-lh-spot);
+  border-left: 3px solid currentColor;
+  padding-left: 1em;
+  margin: 1.6em 0;
+}
+
+.yh-ui {
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-fs-kart);
+  font-weight: var(--fw-normal);
+  line-height: var(--yh-lh-kisa);
+  color: var(--yh-text);
+}
+
+.yh-meta,
+.meta {
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-fs-meta);
+  font-weight: var(--fw-normal);
+  line-height: var(--yh-lh-kisa);
+  color: var(--yh-faint);
+}
+
+.spot {
+  font-size: var(--yh-fs-spot);
+  line-height: var(--yh-lh-spot);
+  font-weight: var(--fw-normal);
+}
+
+.kart-bas {
+  font-size: var(--yh-fs-kart);
+  line-height: var(--yh-lh-ara);
+  font-weight: var(--fw-orta);
+}
+
+.liste-bas {
+  font-size: var(--yh-fs-liste);
+  line-height: var(--yh-lh-kisa);
+  font-weight: var(--fw-orta);
+}
+
+.rozet {
+  font-size: var(--yh-fs-rozet);
+  font-weight: var(--fw-orta);
+}
+
+.sayi {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--yh-accent);
+  outline-offset: 2px;
+}
+
+.yh-container {
+  width: min(1200px, calc(100% - 24px));
+  margin-inline: auto;
+}
+
+.yh-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+input,
+textarea,
+select {
+  border-radius: var(--yh-radius);
+  border: 1px solid var(--yh-border);
+}
+
+.yh-radius {
+  border-radius: var(--yh-radius);
+}
+
+.yh-section {
+  margin-block: var(--yh-section);
+}

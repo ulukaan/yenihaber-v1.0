@@ -1,0 +1,48 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  line-height: 0;
+  text-decoration: none;
+  user-select: none;
+}
+
+.img {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.sm .img {
+  height: 40px;
+  width: auto;
+}
+
+.md .img {
+  height: 56px;
+  width: auto;
+}
+
+.lg .img {
+  height: 64px;
+  width: auto;
+}
+
+@media (max-width: 720px) {
+  .md .img {
+    height: 44px;
+  }
+
+  .lg .img {
+    height: 52px;
+  }
+}
+
+@media (max-width: 420px) {
+  .md .img {
+    height: 40px;
+  }
+}

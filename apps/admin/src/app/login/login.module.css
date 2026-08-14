@@ -1,0 +1,95 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(
+      1200px 600px at 50% -10%,
+      color-mix(in srgb, var(--yh-accent) 22%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(
+      160deg,
+      var(--admin-sidebar-bg, #2b2d42),
+      var(--admin-sidebar-bg-2, #232536)
+    );
+}
+
+.card {
+  width: min(420px, 100%);
+  display: grid;
+  gap: 16px;
+  padding: 32px 28px;
+  background: var(--yh-surface-2, #fff);
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+  box-shadow: var(--yh-shadow);
+}
+
+.head {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.head h1 {
+  margin: 12px 0 6px;
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-text-heading);
+  font-weight: var(--yh-font-weight-medium);
+  letter-spacing: -0.02em;
+  color: var(--yh-ink);
+}
+
+.head p {
+  margin: 0;
+  color: var(--yh-muted);
+  font-size: var(--yh-text-ui);
+}
+
+.mark {
+  width: 52px;
+  height: 52px;
+  display: inline-grid;
+  place-items: center;
+  background: var(--yh-accent);
+  color: var(--yh-accent-fg);
+  font-weight: var(--yh-font-weight-medium);
+  font-size: var(--yh-text-ui);
+  letter-spacing: -0.02em;
+  border-radius: var(--yh-radius);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--yh-accent) 35%, transparent);
+}
+
+.error {
+  margin: 0;
+  color: var(--yh-danger);
+  font-size: var(--yh-text-ui);
+  font-weight: var(--yh-font-weight-medium);
+}
+
+.submit {
+  width: 100%;
+}
+
+.ok {
+  margin: 0;
+  color: var(--yh-success, #0a7a5c);
+  font-size: var(--yh-text-ui);
+}
+
+.textLink {
+  border: 0;
+  background: none;
+  color: var(--yh-muted);
+  font: inherit;
+  font-size: var(--yh-text-meta);
+  text-decoration: underline;
+  cursor: pointer;
+  justify-self: center;
+  min-height: 44px;
+}
+
+.loading {
+  color: #fff;
+}

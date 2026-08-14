@@ -1,0 +1,44 @@
+.btn,
+.btnOn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 60ms ease;
+}
+
+.btn:active,
+.btnOn:active {
+  transform: scale(0.97);
+}
+
+.btn {
+  border: 1px solid var(--yh-accent, #1f5fa8);
+  background: transparent;
+  color: var(--yh-accent, #1f5fa8);
+}
+
+.btn:hover {
+  background: color-mix(in srgb, var(--yh-accent, #1f5fa8) 10%, transparent);
+}
+
+.btnOn {
+  border: 1px solid var(--yh-accent, #1f5fa8);
+  background: var(--yh-accent, #1f5fa8);
+  color: #fff;
+}
+
+.btnOn:hover {
+  background: var(--yh-accent-h, #17497f);
+  border-color: var(--yh-accent-h, #17497f);
+}

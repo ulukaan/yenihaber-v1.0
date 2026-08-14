@@ -1,0 +1,132 @@
+.box {
+  margin-top: 28px;
+  padding: 20px;
+  border: 1px solid var(--yh-border, #e3e6eb);
+  border-radius: 12px;
+  background: var(--yh-surface, #f6f7f9);
+  scroll-margin-top: 88px;
+}
+
+.box h2 {
+  margin: 0 0 8px;
+  font-size: var(--yh-fs-h3);
+  font-weight: 600;
+}
+
+.lead {
+  margin: 0 0 16px;
+  color: var(--yh-muted, #5a6472);
+  font-size: var(--yh-fs-liste);
+  line-height: 1.55;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--yh-border, #e3e6eb);
+}
+
+.row strong {
+  display: block;
+  font-size: var(--yh-fs-kart);
+}
+
+.row span {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--yh-fs-meta);
+  color: var(--yh-muted, #5a6472);
+}
+
+.locked {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: var(--yh-fs-meta);
+  font-weight: 600;
+  color: var(--yh-muted, #5a6472);
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: var(--yh-fs-meta);
+  font-weight: 600;
+}
+
+.switch input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--yh-accent, #1f5fa8);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 60ms ease;
+}
+
+.primary:active,
+.secondary:active {
+  transform: scale(0.97);
+}
+
+.primary {
+  border: 1px solid var(--yh-accent, #1f5fa8);
+  background: var(--yh-accent, #1f5fa8);
+  color: #fff;
+}
+
+.secondary {
+  border: 1px solid var(--yh-border, #e3e6eb);
+  background: #fff;
+  color: var(--yh-ink, #14181f);
+}
+
+.ok {
+  margin: 12px 0 0;
+  color: var(--yh-success, #1d7a5f);
+  font-size: var(--yh-fs-meta);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary,
+  .secondary {
+    transition: none;
+  }
+}

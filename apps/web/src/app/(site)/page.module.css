@@ -1,0 +1,60 @@
+.root {
+  display: grid;
+  gap: 0;
+  background: var(--yh-bg);
+  color: var(--yh-text);
+}
+
+.page {
+  display: grid;
+  gap: 0;
+  padding-top: 18px;
+  padding-bottom: var(--yh-section);
+}
+
+.topBand {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 320px);
+  gap: 16px 32px;
+  align-items: start;
+  min-width: 0;
+  padding-top: 4px;
+  padding-bottom: 32px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--yh-border);
+}
+
+.sideCol {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  align-content: start;
+}
+
+.pollSlot {
+  min-width: 0;
+}
+
+.railSlot {
+  min-width: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.adBand {
+  margin: 20px 0;
+  min-height: 90px;
+}
+
+.panelAbove {
+  min-width: 0;
+  padding-top: 8px;
+}
+
+@media (max-width: 1000px) {
+  .topBand {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-bottom: 20px;
+  }
+}

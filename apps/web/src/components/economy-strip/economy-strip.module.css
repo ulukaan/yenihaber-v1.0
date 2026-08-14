@@ -1,0 +1,271 @@
+/* Piyasa — sade özet (site diline uyumlu) */
+
+.wrap {
+  --eco: #b9770e;
+  --eco-up: #0b6e4f;
+  --eco-down: #c62828;
+  min-width: 0;
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--yh-border);
+  background: var(--yh-surface);
+  overflow: hidden;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--yh-border);
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--eco) 7%, var(--yh-surface)) 0%,
+    var(--yh-surface-muted) 55%,
+    var(--yh-surface) 100%
+  );
+}
+
+.headLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.bar {
+  width: 3px;
+  height: 32px;
+  flex-shrink: 0;
+  background: var(--eco);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-yh-serif), var(--yh-font-serif), Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--yh-ink);
+}
+
+.sub {
+  margin: 2px 0 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--yh-faint);
+  letter-spacing: 0.01em;
+}
+
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--eco) 28%, #ddd);
+  background: var(--yh-surface);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--eco);
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  background: var(--eco);
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 260px);
+  gap: 0;
+  align-items: stretch;
+}
+
+.markets {
+  list-style: none;
+  margin: 0;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+  background: var(--yh-surface-muted);
+  border-right: 1px solid var(--yh-border);
+}
+
+.card {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  min-width: 0;
+  padding: 10px 12px;
+  background: var(--yh-surface);
+  border: 1px solid var(--yh-border);
+  border-top: 2px solid var(--eco);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+
+.code {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--eco);
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--yh-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.value {
+  margin: 2px 0 0;
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--yh-ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.up,
+.down,
+.flat {
+  font-size: 11px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.up {
+  color: var(--eco-up);
+}
+
+.down {
+  color: var(--eco-down);
+}
+
+.flat {
+  color: #a3a3a3;
+}
+
+.fuel {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: 12px 14px;
+  background: var(--yh-surface);
+}
+
+.fuelHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--yh-border);
+}
+
+.fuelKicker {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--yh-ink);
+}
+
+.fuelPlace {
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--eco);
+}
+
+.fuelList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.fuelList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 30px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--yh-border);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--yh-muted);
+}
+
+.fuelList li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.fuelList b {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--yh-ink);
+  white-space: nowrap;
+}
+
+.fuelList small {
+  font-size: 0.72em;
+  font-weight: 650;
+  color: var(--yh-faint);
+}
+
+@media (max-width: 960px) {
+  .markets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .body {
+    grid-template-columns: 1fr;
+  }
+
+  .markets {
+    border-right: 0;
+    border-bottom: 1px solid var(--yh-border);
+  }
+}
+
+@media (max-width: 520px) {
+  .markets {
+    padding: 10px;
+    gap: 6px;
+  }
+
+  .card {
+    padding: 8px 10px;
+  }
+
+  .value {
+    font-size: 0.95rem;
+  }
+}

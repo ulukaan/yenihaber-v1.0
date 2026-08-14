@@ -1,0 +1,70 @@
+.share {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  min-width: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--yh-border, #e5e5e5);
+  border-radius: 8px;
+  background: var(--yh-surface, #fff);
+  color: var(--yh-ink, #222);
+  font-size: 0.78rem;
+  font-weight: 750;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 60ms ease;
+}
+
+.btnWa {
+  border-color: #25d366;
+  color: #128c7e;
+  background: color-mix(in srgb, #25d366 10%, white);
+}
+
+.btnWa:hover {
+  background: color-mix(in srgb, #25d366 18%, white);
+}
+
+.btnNative {
+  border-color: var(--yh-accent, #ef233c);
+  color: var(--yh-accent, #ef233c);
+  background: color-mix(in srgb, var(--yh-accent, #ef233c) 8%, white);
+  min-width: 88px;
+  font-weight: 800;
+}
+
+.btn:hover {
+  border-color: #ccc;
+  background: #f7f7f7;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--yh-accent, #e10600);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+  .btn:active {
+    transform: none;
+  }
+}

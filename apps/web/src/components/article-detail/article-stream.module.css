@@ -1,0 +1,158 @@
+.stream {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  gap: 28px;
+}
+
+.progress {
+  position: fixed;
+  top: var(--yh-scroll-bar-h, 0px);
+  left: 0;
+  right: 0;
+  z-index: 71;
+  height: 3px;
+  background: transparent;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  background: var(--yh-accent, #e10600);
+  transition: width 90ms linear;
+  box-shadow: 0 0 8px
+    color-mix(in srgb, var(--yh-accent, #e10600) 45%, transparent);
+}
+
+/* Her haber: içerik + yan panel — birlikte kayar */
+.articleRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px 28px;
+  align-items: start;
+  min-width: 0;
+}
+
+.mainCol {
+  min-width: 0;
+}
+
+.mainCol .block {
+  min-width: 0;
+  padding: 20px 24px 8px;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+}
+
+.sideCol {
+  min-width: 0;
+  width: 100%;
+  /* sticky yok — makale ile akar, sonrakinde yeniden gelir */
+}
+
+.block {
+  min-width: 0;
+}
+
+.gate {
+  margin-top: 8px;
+}
+
+.loadTrigger {
+  height: 72px;
+  width: 100%;
+  margin-top: 12px;
+  pointer-events: none;
+}
+
+.loading,
+.hint,
+.end {
+  margin: 0;
+  padding: 16px 0 32px;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: #8a8a8a;
+  letter-spacing: 0.02em;
+}
+
+.loading {
+  color: var(--yh-accent, #e10600);
+}
+
+.hint {
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.end {
+  border-top: 1px solid #eee;
+  margin-top: 12px;
+  padding-top: 28px;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1040px) {
+  .articleRow {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .articleRow {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .mainCol .block {
+    padding: 16px 14px 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress span {
+    transition: none;
+  }
+
+  .hint {
+    animation: none;
+  }
+}
+
+.moreWrap {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0 8px;
+}
+
+.moreBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid var(--yh-accent, #e10600);
+  background: var(--yh-accent, #e10600);
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.moreBtn:hover {
+  filter: brightness(1.06);
+}

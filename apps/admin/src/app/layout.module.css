@@ -1,0 +1,26 @@
+.body {
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-text-ui);
+  font-weight: var(--yh-font-weight-regular);
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--yh-surface-page);
+  color: var(--yh-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.body *,
+.body *::before,
+.body *::after {
+  box-sizing: border-box;
+}
+
+/* Admin page headings — serif (kılavuz) */
+.body :global(h1),
+.body :global(h2),
+.body :global(.yh-admin-title) {
+  font-family: var(--yh-font-serif);
+  font-weight: var(--yh-font-weight-medium);
+  letter-spacing: -0.02em;
+  color: var(--yh-ink);
+}

@@ -1,0 +1,73 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 900px;
+}
+
+.head h1 {
+  margin: 0 0 4px;
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-text-heading);
+  font-weight: var(--yh-font-weight-medium);
+}
+
+.head p {
+  margin: 0;
+  color: var(--yh-muted);
+  font-size: var(--yh-text-meta);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: var(--yh-surface);
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+  box-shadow: none;
+}
+
+.card span {
+  font-size: var(--yh-text-meta);
+  color: var(--yh-muted);
+}
+
+.card strong {
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-text-heading);
+  font-weight: var(--yh-font-weight-medium);
+  letter-spacing: -0.02em;
+  color: var(--yh-ink);
+}
+
+.note {
+  margin: 0;
+  color: var(--yh-faint);
+  font-size: var(--yh-text-meta);
+  line-height: 1.45;
+}
+
+.back {
+  font-weight: var(--yh-font-weight-medium);
+  color: var(--yh-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.back:hover {
+  color: var(--yh-accent-hover);
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

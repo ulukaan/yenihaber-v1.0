@@ -1,0 +1,396 @@
+.header {
+  /* sticky: masthead üstte tam görünür; kaydırınca header üste yapışır */
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  max-height: 560px;
+  background: var(--yh-header);
+  border-bottom: 1px solid var(--yh-border);
+  overflow: visible;
+  transition:
+    max-height 220ms ease,
+    opacity 200ms ease,
+    visibility 200ms ease,
+    border-color 200ms ease;
+}
+
+.headerHidden {
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  border-bottom-color: transparent;
+  overflow: hidden;
+}
+
+.mast {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Üst bar motif — opaklık panelden (--header-motif-opacity) */
+.mastPattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--header-motif-opacity, 0.1);
+  background-color: transparent;
+  background-repeat: repeat;
+  background-position: center;
+}
+
+.motifSeljuk {
+  background-size: 72px 72px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%232B2D42' stroke-width='1.05' stroke-linejoin='miter'%3E%3Cpath d='M36 0 L72 36 L36 72 L0 36 Z'/%3E%3Cpath d='M36 12 L60 36 L36 60 L12 36 Z' opacity='.7'/%3E%3Cpath d='M24 24 H48 V48 H24 Z'/%3E%3Cpath d='M36 14 L58 36 L36 58 L14 36 Z'/%3E%3Cpath d='M36 14 L42 24 L58 36 L42 48 L36 58 L30 48 L14 36 L30 24 Z' opacity='.85'/%3E%3Cpath d='M36 26 L46 36 L36 46 L26 36 Z'/%3E%3Cpath d='M0 0 L18 0 L0 18 Z' opacity='.45'/%3E%3Cpath d='M72 0 L54 0 L72 18 Z' opacity='.45'/%3E%3Cpath d='M0 72 L18 72 L0 54 Z' opacity='.45'/%3E%3Cpath d='M72 72 L54 72 L72 54 Z' opacity='.45'/%3E%3C/g%3E%3Ccircle cx='36' cy='36' r='2' fill='%232B2D42'/%3E%3Ccircle cx='36' cy='14' r='1.2' fill='%232B2D42' opacity='.7'/%3E%3Ccircle cx='58' cy='36' r='1.2' fill='%232B2D42' opacity='.7'/%3E%3Ccircle cx='36' cy='58' r='1.2' fill='%232B2D42' opacity='.7'/%3E%3Ccircle cx='14' cy='36' r='1.2' fill='%232B2D42' opacity='.7'/%3E%3C/svg%3E");
+}
+
+.motifBaklava {
+  background-size: 48px 48px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%232B2D42' stroke-width='1.1'%3E%3Cpath d='M24 2 L46 24 L24 46 L2 24 Z'/%3E%3Cpath d='M24 10 L38 24 L24 38 L10 24 Z'/%3E%3Cpath d='M24 2 V46 M2 24 H46' opacity='.4'/%3E%3C/g%3E%3Ccircle cx='24' cy='24' r='1.8' fill='%232B2D42'/%3E%3C/svg%3E");
+}
+
+.motifRumi {
+  background-size: 64px 64px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%232B2D42' stroke-width='1.05' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M32 6 C38 14 38 22 32 32 C26 22 26 14 32 6 Z'/%3E%3Cpath d='M58 32 C50 38 42 38 32 32 C42 26 50 26 58 32 Z'/%3E%3Cpath d='M32 58 C26 50 26 42 32 32 C38 42 38 50 32 58 Z'/%3E%3Cpath d='M6 32 C14 26 22 26 32 32 C22 38 14 38 6 32 Z'/%3E%3Cpath d='M48 10 C48 20 42 26 32 32 C42 26 52 20 54 12' opacity='.65'/%3E%3Cpath d='M54 52 C44 52 38 46 32 32 C38 42 48 48 56 50' opacity='.65'/%3E%3Cpath d='M16 54 C16 44 22 38 32 32 C22 38 12 44 10 52' opacity='.65'/%3E%3Cpath d='M10 12 C20 12 26 18 32 32 C26 22 16 16 8 14' opacity='.65'/%3E%3Ccircle cx='32' cy='32' r='4.5'/%3E%3Ccircle cx='32' cy='32' r='1.6' fill='%232B2D42' stroke='none'/%3E%3Cpath d='M0 0 Q16 8 0 16' opacity='.4'/%3E%3Cpath d='M64 0 Q48 8 64 16' opacity='.4'/%3E%3Cpath d='M0 64 Q16 56 0 48' opacity='.4'/%3E%3Cpath d='M64 64 Q48 56 64 48' opacity='.4'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.electionWrap {
+  position: relative;
+  z-index: 2;
+}
+
+.electionWrap :global(aside) {
+  margin-inline: calc(-1 * var(--yh-gutter, 12px));
+  padding-inline: var(--yh-gutter, 12px);
+}
+
+.top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 80px;
+  padding-block: 12px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  max-width: min(260px, 58vw);
+  margin-inline-end: auto;
+}
+
+.menuMobile {
+  display: none;
+  flex-shrink: 0;
+}
+
+.menuDesktop {
+  flex-shrink: 0;
+}
+
+.logo :global(img) {
+  max-height: 56px;
+  width: auto;
+}
+
+.utils {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Ara / Tema / Giriş — sabit kutu, aynı ikon + etiket ölçeği */
+.util {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--yh-text);
+  font-family: inherit;
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.util svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.util span {
+  display: block;
+  line-height: 1;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.util:hover {
+  background: var(--yh-surface-muted);
+  color: var(--yh-accent);
+}
+
+.nav {
+  border-top: 1px solid var(--yh-border);
+  overflow: visible;
+}
+
+.navInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  overflow: visible;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+  min-width: 0;
+  flex: 1;
+  /* dropdown kesilmesin */
+  padding-bottom: 0;
+}
+
+.navLinks::-webkit-scrollbar {
+  display: none;
+}
+
+.navItem,
+.navBreaking {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  white-space: nowrap;
+  font-size: 0.93rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--yh-text);
+  transition: color 160ms ease;
+}
+
+.navItem:hover {
+  color: var(--yh-accent);
+}
+
+.navBreaking {
+  color: var(--yh-accent);
+}
+
+/* —— Kaydırınca renkli bar —— */
+.scrollBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 70;
+  height: 48px;
+  background: var(--yh-accent, #e10600);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  transform: translateY(-110%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    transform 240ms ease,
+    opacity 200ms ease,
+    visibility 200ms ease;
+}
+
+.scrollBarShow {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.scrollBarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 48px;
+  min-width: 0;
+}
+
+.crumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+.crumbHome,
+.crumbCat {
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.92;
+}
+
+.crumbHome:hover,
+.crumbCat:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  opacity: 1;
+}
+
+.crumbSep {
+  opacity: 0.55;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.crumbTitle {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 800;
+  opacity: 1;
+}
+
+.scrollActions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.scrollIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 140ms ease;
+}
+
+.scrollIcon:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.scrollIcon:focus-visible,
+.util:focus-visible,
+.crumbHome:focus-visible,
+.crumbCat:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  /* Mobil: yatay üst menü yok — yalnızca hamburger */
+  .nav {
+    display: none;
+  }
+
+  .menuMobile {
+    display: inline-flex;
+  }
+
+  .menuDesktop {
+    display: none;
+  }
+
+  .top {
+    min-height: 64px;
+    padding-block: 8px;
+    gap: 10px;
+  }
+
+  .logo {
+    max-width: min(200px, 52vw);
+  }
+
+  .logo :global(img) {
+    max-height: 44px;
+  }
+
+  .util span {
+    display: none;
+  }
+
+  .util {
+    width: 44px;
+    height: 44px;
+  }
+
+  .crumb {
+    font-size: 0.75rem;
+    gap: 4px;
+  }
+
+  .crumbCat {
+    max-width: 28vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 720px) {
+  .logo {
+    max-width: min(180px, 48vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .scrollBar,
+  .headerSpacer {
+    transition: none;
+  }
+}
+
+:global(html.dark) .motifSeljuk {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23ECECEA' stroke-width='1.05' stroke-linejoin='miter'%3E%3Cpath d='M36 0 L72 36 L36 72 L0 36 Z'/%3E%3Cpath d='M36 12 L60 36 L36 60 L12 36 Z' opacity='.7'/%3E%3Cpath d='M24 24 H48 V48 H24 Z'/%3E%3Cpath d='M36 14 L58 36 L36 58 L14 36 Z'/%3E%3Cpath d='M36 14 L42 24 L58 36 L42 48 L36 58 L30 48 L14 36 L30 24 Z' opacity='.85'/%3E%3Cpath d='M36 26 L46 36 L36 46 L26 36 Z'/%3E%3Cpath d='M0 0 L18 0 L0 18 Z' opacity='.45'/%3E%3Cpath d='M72 0 L54 0 L72 18 Z' opacity='.45'/%3E%3Cpath d='M0 72 L18 72 L0 54 Z' opacity='.45'/%3E%3Cpath d='M72 72 L54 72 L72 54 Z' opacity='.45'/%3E%3C/g%3E%3Ccircle cx='36' cy='36' r='2' fill='%23ECECEA'/%3E%3Ccircle cx='36' cy='14' r='1.2' fill='%23ECECEA' opacity='.7'/%3E%3Ccircle cx='58' cy='36' r='1.2' fill='%23ECECEA' opacity='.7'/%3E%3Ccircle cx='36' cy='58' r='1.2' fill='%23ECECEA' opacity='.7'/%3E%3Ccircle cx='14' cy='36' r='1.2' fill='%23ECECEA' opacity='.7'/%3E%3C/svg%3E");
+}
+
+:global(html.dark) .motifBaklava {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23ECECEA' stroke-width='1.1'%3E%3Cpath d='M24 2 L46 24 L24 46 L2 24 Z'/%3E%3Cpath d='M24 10 L38 24 L24 38 L10 24 Z'/%3E%3Cpath d='M24 2 V46 M2 24 H46' opacity='.4'/%3E%3C/g%3E%3Ccircle cx='24' cy='24' r='1.8' fill='%23ECECEA'/%3E%3C/svg%3E");
+}
+
+:global(html.dark) .motifRumi {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23ECECEA' stroke-width='1.05' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M32 6 C38 14 38 22 32 32 C26 22 26 14 32 6 Z'/%3E%3Cpath d='M58 32 C50 38 42 38 32 32 C42 26 50 26 58 32 Z'/%3E%3Cpath d='M32 58 C26 50 26 42 32 32 C38 42 38 50 32 58 Z'/%3E%3Cpath d='M6 32 C14 26 22 26 32 32 C22 38 14 38 6 32 Z'/%3E%3Cpath d='M48 10 C48 20 42 26 32 32 C42 26 52 20 54 12' opacity='.65'/%3E%3Cpath d='M54 52 C44 52 38 46 32 32 C38 42 48 48 56 50' opacity='.65'/%3E%3Cpath d='M16 54 C16 44 22 38 32 32 C22 38 12 44 10 52' opacity='.65'/%3E%3Cpath d='M10 12 C20 12 26 18 32 32 C26 22 16 16 8 14' opacity='.65'/%3E%3Ccircle cx='32' cy='32' r='4.5'/%3E%3Ccircle cx='32' cy='32' r='1.6' fill='%23ECECEA' stroke='none'/%3E%3Cpath d='M0 0 Q16 8 0 16' opacity='.4'/%3E%3Cpath d='M64 0 Q48 8 64 16' opacity='.4'/%3E%3Cpath d='M0 64 Q16 56 0 48' opacity='.4'/%3E%3Cpath d='M64 64 Q48 56 64 48' opacity='.4'/%3E%3C/g%3E%3C/svg%3E");
+}
+

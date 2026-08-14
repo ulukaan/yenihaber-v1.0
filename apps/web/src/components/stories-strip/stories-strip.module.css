@@ -1,0 +1,242 @@
+.strip {
+  min-width: 0;
+  margin: 4px 0 28px;
+  padding: 12px 0 4px;
+}
+
+.track {
+  list-style: none;
+  margin: 0;
+  padding: 4px 2px 8px;
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.item {
+  flex: 0 0 auto;
+  width: 76px;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  scroll-snap-align: start;
+}
+
+.ring,
+.ringSeen {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 3px;
+  border-radius: 50%;
+  border: 0;
+  cursor: pointer;
+  background: conic-gradient(
+    from 210deg,
+    #ef233c,
+    #ff6b6b,
+    #f4a261,
+    #ef233c
+  );
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
+}
+
+.ringSeen {
+  background: #c5cad3;
+}
+
+.ring:hover,
+.ringSeen:hover,
+.ring:focus-visible,
+.ringSeen:focus-visible {
+  transform: scale(1.06);
+  outline: none;
+  filter: brightness(1.05);
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--yh-bg, #fff);
+  background: var(--yh-surface-muted, #f0f1f3);
+  display: block;
+}
+
+.badge {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #2b2d42;
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.label {
+  max-width: 76px;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--yh-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 10px;
+  padding: 14px 12px 20px;
+  background: rgb(15 16 24 / 96%);
+  color: #fff;
+  animation: fadeIn 200ms ease;
+}
+
+.bars {
+  display: flex;
+  gap: 4px;
+  padding: 0 4px;
+}
+
+.barTrack {
+  flex: 1;
+  height: 3px;
+  border-radius: 99px;
+  background: rgb(255 255 255 / 28%);
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: #fff;
+  border-radius: inherit;
+  transition: width 40ms linear;
+}
+
+.viewerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.viewerTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.close {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 12%);
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus-visible {
+  background: rgb(255 255 255 / 22%);
+  outline: none;
+}
+
+.stage {
+  position: relative;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0b0c12;
+}
+
+.media,
+.frame {
+  width: min(100%, 420px);
+  height: min(78vh, 760px);
+  max-height: 78vh;
+  object-fit: contain;
+  border: 0;
+  border-radius: 12px;
+  background: #000;
+}
+
+.hitLeft,
+.hitRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 42%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.hitLeft {
+  left: 0;
+}
+
+.hitRight {
+  right: 0;
+}
+
+.cta {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #ef233c;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  filter: brightness(1.08);
+  outline: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring,
+  .ringSeen,
+  .viewer,
+  .barFill {
+    transition: none;
+    animation: none;
+  }
+}

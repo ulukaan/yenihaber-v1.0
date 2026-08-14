@@ -1,0 +1,474 @@
+/* Ürün kuralları: gövde ~65–75ch, max 720px, 17/18–19px, lh 1.8 */
+
+.article {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+  min-width: 0;
+  padding: 8px 0 40px;
+  scroll-margin-top: 88px;
+}
+
+.primary {
+  padding-top: 4px;
+}
+
+.continued {
+  padding-top: 8px;
+}
+
+.continueMark {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 24px;
+  color: var(--yh-faint);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.continueMark::before,
+.continueMark::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--yh-border);
+}
+
+.continueMark span {
+  flex-shrink: 0;
+  color: var(--yh-accent, #e10600);
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--yh-faint);
+}
+
+.breadcrumb a {
+  color: var(--yh-muted);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--yh-accent, #e10600);
+}
+
+.header {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+  min-width: 0;
+}
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.cat {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  background: var(--yh-accent, #e10600);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.flagBreaking {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  background: #111;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.flagSponsored {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  background: #1d4ed8;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.pressAd {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--yh-border);
+  color: var(--yh-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+/* Haber başlığı — Newsreader h1 ölçeği */
+.title {
+  margin: 0;
+  width: 100%;
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-fs-h1);
+  font-weight: var(--fw-kalin, 600);
+  line-height: var(--yh-lh-baslik);
+  color: var(--yh-ink);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--yh-fs-spot);
+  line-height: var(--yh-lh-spot);
+  color: var(--yh-muted);
+  font-weight: var(--fw-normal, 400);
+}
+
+/* Yazar + mutlak tarih | paylaşım */
+.metaBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  margin-top: 4px;
+  padding: 12px 0;
+  border-top: 1px solid var(--yh-border);
+  border-bottom: 1px solid var(--yh-border);
+}
+
+.metaLeft {
+  min-width: 0;
+}
+
+.metaActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.authorName {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 750;
+  color: var(--yh-ink);
+  text-decoration: none;
+}
+
+a.authorName:hover {
+  color: var(--yh-accent, #e10600);
+}
+
+.dateLine {
+  margin: 4px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--yh-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.dateLine time {
+  color: var(--yh-muted);
+  font-weight: 600;
+}
+
+.cover {
+  margin: 0 0 8px;
+  overflow: hidden;
+}
+
+.cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--yh-surface-muted);
+}
+
+.cover figcaption {
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--yh-faint);
+}
+
+.transcript {
+  margin: 0 0 1rem;
+  padding: 12px 14px;
+  border: 1px solid var(--yh-border);
+  border-radius: 4px;
+  background: var(--yh-surface-muted);
+}
+
+.transcript summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.transcriptBody {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--yh-muted);
+}
+
+.transcriptBody p {
+  margin: 0 0 0.75rem;
+}
+
+.prose {
+  margin-top: 24px;
+}
+
+.content {
+  max-width: var(--yh-olcu-metin);
+  color: var(--yh-ink);
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-fs-govde);
+  line-height: var(--yh-lh-govde);
+  font-weight: var(--fw-normal, 400);
+  text-wrap: pretty;
+}
+
+.content :global(p) {
+  margin: 0 0 1.4em;
+}
+
+.content :global(p:empty) {
+  display: none;
+}
+
+.content :global(h2),
+.content :global(h3),
+.content :global(h4) {
+  margin: 1.5em 0 0.5em;
+  font-family: var(--yh-font-serif);
+  font-weight: var(--fw-kalin, 600);
+  text-wrap: balance;
+  color: var(--yh-ink);
+}
+
+.content :global(h2) {
+  font-size: var(--yh-fs-h2);
+  line-height: var(--yh-lh-ara);
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+}
+
+.content :global(h3) {
+  font-size: var(--yh-fs-h3);
+  line-height: var(--yh-lh-ara);
+  margin-top: 1.6em;
+  margin-bottom: 0.5em;
+}
+
+.content :global(h4) {
+  font-size: var(--yh-fs-h4);
+  line-height: var(--yh-lh-kisa);
+}
+
+.content :global(a) {
+  font-weight: var(--fw-orta, 500);
+  color: var(--yh-link, #1d5fa8);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.content :global(img),
+.content :global(figure) {
+  max-width: 100%;
+  height: auto;
+  margin: 1.35em 0;
+  display: block;
+}
+
+.content :global(figcaption) {
+  margin-top: 6px;
+  font-size: var(--yh-fs-meta);
+  color: var(--yh-faint);
+}
+
+.content :global(blockquote) {
+  margin: 1.6em 0;
+  padding: 2px 0 2px 1em;
+  border-left: 3px solid currentColor;
+  color: var(--yh-muted);
+  font-size: var(--yh-fs-spot);
+  line-height: var(--yh-lh-spot);
+  font-style: normal;
+}
+
+.content :global(ul),
+.content :global(ol) {
+  margin: 0 0 1.15em;
+  padding-left: 1.3em;
+}
+
+.content :global(li) {
+  margin-bottom: 0.35em;
+}
+
+.content :global(iframe),
+.content :global(video) {
+  max-width: 100%;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 1.35em 0;
+  border: 0;
+}
+
+.content :global(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.35em 0;
+  font-size: 0.92em;
+}
+
+.content :global(th),
+.content :global(td) {
+  border: 1px solid var(--yh-border);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+/* Mid-content reklam — min yükseklik CLS için rezerve */
+.adSlot {
+  display: grid;
+  place-items: center;
+  margin: 28px 0;
+  min-height: 280px;
+  width: 100%;
+  max-width: 100%;
+  background: var(--yh-surface-muted);
+  border: 1px dashed var(--yh-border);
+  color: var(--yh-faint);
+}
+
+.adLabel {
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--yh-border);
+}
+
+.tags a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--yh-border);
+  background: var(--yh-surface-muted);
+  color: var(--yh-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tags a:hover {
+  border-color: var(--yh-accent, #e10600);
+  color: var(--yh-accent, #e10600);
+}
+
+.report {
+  margin: 28px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--yh-border);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--yh-faint);
+}
+
+.report a {
+  font-weight: 750;
+  color: var(--yh-accent, #e10600);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.related {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--yh-border);
+}
+
+.related h2 {
+  margin: 0 0 14px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--yh-muted);
+}
+
+.relatedList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.relatedList li {
+  border-bottom: 1px solid var(--yh-border);
+}
+
+.relatedList a {
+  display: grid;
+  gap: 4px;
+  padding: 12px 0;
+  text-decoration: none;
+  color: inherit;
+  min-height: 44px;
+}
+
+.relatedList a:hover strong {
+  color: var(--yh-accent, #e10600);
+}
+
+.relatedCat {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--yh-accent, #e10600);
+}
+
+.relatedList strong {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--yh-ink);
+  transition: color 160ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .relatedList strong {
+    transition: none;
+  }
+}

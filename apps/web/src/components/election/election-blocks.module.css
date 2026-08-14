@@ -1,0 +1,359 @@
+.card {
+  --eb-bg: #14161c;
+  --eb-line: #2a2f3a;
+  --eb-muted: #9ca3af;
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--eb-bg);
+  border: 1px solid var(--eb-line);
+  color: #f3f4f6;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.head h2 {
+  margin: 4px 0 0;
+  font-size: 1.15rem;
+  color: #fff;
+}
+
+.sub,
+.meta {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: var(--eb-muted);
+}
+
+.live {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #fca5a5;
+  text-transform: uppercase;
+}
+
+.live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #ef4444;
+}
+
+.ballot {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--eb-muted);
+}
+
+.ballotBar {
+  height: 6px;
+  border-radius: 999px;
+  background: #232833;
+  overflow: hidden;
+}
+
+.ballotBar span {
+  display: block;
+  height: 100%;
+  background: #e5e7eb;
+}
+
+.duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.leadCard,
+.secondCard {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #191c24;
+  border: 1px solid var(--eb-line);
+}
+
+.leadCard {
+  border-width: 2px;
+}
+
+.av {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #fff;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avLogo {
+  background: #fff;
+  border: 1px solid var(--eb-border, #e5e7eb);
+}
+
+.avLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.leadCard strong,
+.secondCard strong,
+.mpCard strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.leadCard em,
+.secondCard em,
+.mpCard em,
+.cbAvatars em {
+  font-style: normal;
+  font-size: 0.75rem;
+  color: var(--eb-muted);
+}
+
+.bigPct {
+  margin: 4px 0 0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.votes {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--eb-muted);
+}
+
+.ahead {
+  display: inline-flex;
+  width: fit-content;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, #22c55e 18%, transparent);
+  color: #4ade80;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.seg {
+  position: relative;
+  display: flex;
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #232833;
+  margin: 4px 0 18px;
+}
+
+.seg span {
+  display: block;
+  height: 100%;
+}
+
+.half {
+  position: absolute;
+  left: 50%;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: #fff;
+  transform: translateX(-50%);
+}
+
+.seg b {
+  position: absolute;
+  left: 50%;
+  top: 16px;
+  transform: translateX(-50%);
+  font-size: 0.68rem;
+  color: var(--eb-muted);
+  font-weight: 700;
+}
+
+.list,
+.seatList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.list li,
+.seatList li {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1.1fr) auto minmax(0, 1.2fr) 52px;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.86rem;
+}
+
+.list li i,
+.seatList li i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.listName {
+  display: grid;
+  min-width: 0;
+}
+
+.listName em,
+.seatList em {
+  font-style: normal;
+  font-size: 0.72rem;
+  color: var(--eb-muted);
+}
+
+.listBar {
+  height: 8px;
+  border-radius: 999px;
+  background: #232833;
+  overflow: hidden;
+}
+
+.listBar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.listPct {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.seatGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.seatGrid span {
+  width: 18px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.note,
+.noteWarn,
+.noteOk {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.noteWarn {
+  background: color-mix(in srgb, #f59e0b 16%, #1a1510);
+  color: #fbbf24;
+}
+
+.noteOk {
+  background: color-mix(in srgb, #22c55e 14%, #0f1a14);
+  color: #4ade80;
+}
+
+.note {
+  background: #1c212b;
+  color: var(--eb-muted);
+}
+
+.cbAvatars {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cbAvatars div {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+}
+
+.compare {
+  display: grid;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.compareHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.86rem;
+}
+
+.compareHead span {
+  color: var(--eb-muted);
+  font-size: 0.78rem;
+}
+
+.compareNums {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--eb-muted);
+}
+
+.mpGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mpCard {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 2px solid;
+  background: #191c24;
+}
+
+.h3 {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: var(--eb-muted);
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .duo,
+  .mpGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .list li,
+  .seatList li {
+    grid-template-columns: 10px minmax(0, 1fr) 48px;
+    grid-template-areas:
+      "dot name pct"
+      "dot bar bar"
+      "dot seats seats";
+  }
+
+  .listBar {
+    grid-column: 2 / -1;
+  }
+}

@@ -1,0 +1,132 @@
+.page {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.head h1 {
+  margin: 0 0 4px;
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-text-heading);
+  font-weight: var(--yh-font-weight-medium);
+}
+
+.head p {
+  margin: 0;
+  color: var(--yh-muted);
+  font-size: var(--yh-text-meta);
+}
+
+.total {
+  font-size: var(--yh-text-meta);
+  font-weight: 600;
+  color: var(--yh-muted);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filters input,
+.filters select {
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+  background: var(--yh-surface);
+  font: inherit;
+  min-width: 200px;
+}
+
+.tableWrap {
+  overflow: auto;
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+  background: var(--yh-surface-2, #fff);
+  box-shadow: var(--yh-shadow-sm);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--yh-border);
+  vertical-align: top;
+}
+
+.table th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--yh-muted);
+  background: var(--yh-surface-muted, #f6f7f9);
+}
+
+.table code {
+  font-size: 0.82rem;
+  background: var(--yh-surface-muted, #f0f2f5);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.id {
+  color: var(--yh-faint);
+  font-size: 0.8rem;
+}
+
+.meta {
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--yh-muted);
+  font-size: 0.82rem;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pager button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+  background: var(--yh-surface);
+  cursor: pointer;
+  font: inherit;
+}
+
+.pager button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  color: var(--yh-danger);
+}
+
+.muted {
+  margin: 0;
+  color: var(--yh-muted);
+  font-size: var(--yh-text-meta);
+}

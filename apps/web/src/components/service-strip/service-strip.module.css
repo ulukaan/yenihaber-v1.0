@@ -1,0 +1,427 @@
+.wrap {
+  position: static;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--yh-surface-muted) 85%, #fff) 0%,
+      var(--yh-surface) 100%
+    );
+  border-bottom: 1px solid var(--yh-border);
+  color: var(--yh-text);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 46px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.inner::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: max-content;
+  padding: 6px 10px;
+  border-radius: 0;
+  transition: background 160ms ease;
+}
+
+.item:hover {
+  background: color-mix(in srgb, var(--yh-surface-muted) 90%, transparent);
+}
+
+.mark {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 0;
+  background: var(--yh-surface);
+  border: 1px solid var(--yh-border);
+  color: var(--yh-text-muted);
+}
+
+.mark svg {
+  display: block;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.item:hover .mark {
+  color: var(--yh-accent);
+  border-color: color-mix(in srgb, var(--yh-accent) 35%, var(--yh-border));
+}
+
+.copy {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--yh-text-muted);
+}
+
+.value {
+  font-size: 0.88rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--yh-text);
+}
+
+.chip {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--yh-text-muted);
+  padding: 2px 7px;
+  border-radius: 0;
+  background: color-mix(in srgb, var(--yh-surface-muted) 90%, #fff);
+  border: 1px solid var(--yh-border);
+}
+
+.citySelectWrap {
+  position: relative;
+  display: inline-flex;
+  min-width: 0;
+  max-width: 120px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cityChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  max-width: 120px;
+  min-height: 28px;
+  padding: 0 6px 0 8px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--yh-text-muted);
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color 140ms ease,
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+.cityChip span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cityChip:hover,
+.cityChip:focus-visible {
+  color: var(--yh-accent);
+  border-color: color-mix(in srgb, var(--yh-accent) 30%, var(--yh-border));
+  background: color-mix(in srgb, var(--yh-accent) 6%, transparent);
+  outline: none;
+}
+
+.citySelect {
+  max-width: 120px;
+  width: 100%;
+  min-height: 28px;
+  max-height: 28px;
+  padding: 2px 6px;
+  border: 1px solid color-mix(in srgb, var(--yh-accent) 40%, var(--yh-border));
+  border-radius: 0;
+  background: var(--yh-surface);
+  color: var(--yh-text);
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  appearance: auto;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.citySelect:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--yh-accent) 45%, transparent);
+  outline-offset: 1px;
+}
+
+.changeUp,
+.changeDown {
+  font-size: 0.7rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  padding: 2px 6px;
+  border-radius: 0;
+}
+
+.changeUp {
+  color: #15803d;
+  background: color-mix(in srgb, #16a34a 12%, transparent);
+}
+
+.changeDown {
+  color: #b91c1c;
+  background: color-mix(in srgb, #dc2626 12%, transparent);
+}
+
+.mobileFx {
+  display: none;
+}
+
+.desktopOnly {
+  display: inline-flex;
+}
+
+.fxRotator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  animation: fxFadeIn 320ms ease both;
+}
+
+.fxSlot {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  min-width: 0;
+  padding: 2px 4px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes fxFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slotSwap {
+  animation: slotSwapIn 280ms ease both;
+}
+
+@keyframes slotSwapIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slotSwap,
+  .fxRotator {
+    animation: none;
+  }
+}
+
+/* Mobil: tek satır, sabit değil, ekrana sığan kompakt şerit */
+@media (max-width: 900px) {
+  .wrap {
+    position: static !important;
+    height: 40px;
+    max-height: 40px;
+    overflow: hidden;
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0;
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    overflow: hidden;
+    padding-inline: 0;
+  }
+
+  .item {
+    flex: none;
+    min-width: 0;
+    max-width: 100%;
+    height: 40px;
+    padding: 0 8px;
+    gap: 5px;
+  }
+
+  .item .mark {
+    display: none;
+  }
+
+  .chip {
+    display: none;
+  }
+
+  .desktopOnly {
+    display: none !important;
+  }
+
+  .mobileFx {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    height: 40px;
+    overflow: hidden;
+    padding-inline: 4px;
+  }
+
+  .fxRotator {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    gap: 0;
+    justify-content: flex-end;
+  }
+
+  .fxSlot {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    gap: 3px;
+    padding: 0 6px;
+    border-left: 1px solid var(--yh-border);
+  }
+
+  .fxSlot .label {
+    font-size: 0.62rem;
+    flex-shrink: 0;
+  }
+
+  .fxSlot .value {
+    font-size: 0.72rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .changeUp,
+  .changeDown {
+    display: none;
+  }
+
+  .label {
+    font-size: 0.62rem;
+  }
+
+  .value {
+    font-size: 0.78rem;
+  }
+
+  .copy {
+    gap: 4px;
+  }
+
+  .prayerItem {
+    border-left: 1px solid var(--yh-border);
+  }
+
+  .citySelectWrap {
+    max-width: 72px;
+  }
+
+  .cityChip {
+    max-width: 72px;
+    min-height: 24px;
+    font-size: 0.62rem;
+    padding: 0 4px 0 6px;
+  }
+
+  .citySelect {
+    max-width: 72px;
+    min-height: 24px;
+    max-height: 24px;
+    font-size: 0.62rem;
+    padding: 0 4px;
+  }
+}
+
+@media (max-width: 420px) {
+  .wrap,
+  .inner,
+  .item,
+  .mobileFx {
+    height: 36px;
+    min-height: 36px;
+    max-height: 36px;
+  }
+
+  .wrap {
+    height: 36px;
+    max-height: 36px;
+  }
+
+  .item {
+    padding: 0 6px;
+  }
+
+  .fxSlot .value {
+    font-size: 0.68rem;
+  }
+
+  .citySelectWrap {
+    max-width: 64px;
+  }
+
+  .cityChip,
+  .citySelect {
+    max-width: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fxRotator {
+    animation: none;
+  }
+}
+
+html.dark .wrap {
+  background: linear-gradient(180deg, #151515, #121212);
+}
+
+html.dark .mark,
+html.dark .chip {
+  background: #1a1a1a;
+}
+
+html.dark .item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}

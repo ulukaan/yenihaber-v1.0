@@ -1,0 +1,874 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/**
+ * Geçiş: Article.authorId hâlâ User satırına işaret eder;
+ * migrate-author-split sonrası Author'a bağlanır.
+ * User = panel · Author = imza
+ */
+model User {
+  id             String              @id @default(cuid())
+  name           String
+  email          String              @unique
+  password       String
+  role           String              @default("MUHABIR")
+  status         String              @default("aktif")
+  twofaEnabled   Boolean             @default(false)
+  twofaSecret    String?
+  lastLoginAt    DateTime?
+  /** @deprecated → Author */
+  slug           String?             @unique
+  title          String?
+  bio            String?
+  avatarUrl      String?
+  twitterUrl     String?
+  linkedinUrl    String?
+  isColumnist    Boolean             @default(false)
+  columnistOrder Int                 @default(0)
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  authorProfile       Author?
+  sessions            UserSession[]
+  invitesSent         UserInvite[]       @relation("InviteSender")
+  passwordResets      PasswordResetToken[]
+  locksHeld           Article[]          @relation("ArticleLock")
+  layoutLocks         FrontLayout[]      @relation("FrontLayoutLock")
+  layoutUpdates       FrontLayout[]      @relation("FrontLayoutEditor")
+  layoutLogs          FrontLayoutLog[]
+  revisions           ArticleRevision[]
+  auditLogs           AuditLog[]
+  mediaUploads        MediaAsset[]
+  moderatedComments   Comment[]
+  adsCreated          Ad[]
+  listingsCreated     PaidListing[]
+  settingsUpdated     Setting[]        @relation("SettingEditor")
+
+  @@index([role])
+  @@index([status])
+  @@index([lastLoginAt])
+}
+
+model Author {
+  id             String    @id @default(cuid())
+  userId         String?   @unique
+  displayName    String
+  slug           String    @unique
+  title          String?
+  bio            String?
+  photoUrl       String?
+  twitterUrl     String?
+  linkedinUrl    String?
+  socialsJson    String?
+  status         String    @default("yayinda")
+  isColumnist    Boolean   @default(false)
+  columnistOrder Int       @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  user           User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  articles       Article[]
+
+  @@index([status])
+  @@index([isColumnist, columnistOrder])
+}
+
+model UserInvite {
+  id          String    @id @default(cuid())
+  email       String
+  role        String
+  tokenHash   String    @unique
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  invitedById String?
+  createdAt   DateTime  @default(now())
+  invitedBy   User?     @relation("InviteSender", fields: [invitedById], references: [id], onDelete: SetNull)
+
+  @@index([email])
+  @@index([expiresAt])
+}
+
+model UserSession {
+  id         String    @id @default(cuid())
+  userId     String
+  tokenHash  String    @unique
+  userAgent  String?
+  ipHash     String?
+  createdAt  DateTime  @default(now())
+  lastSeenAt DateTime  @default(now())
+  revokedAt  DateTime?
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, revokedAt])
+}
+
+/** Kullanıcı unuttu / admin "sıfırlama linki gönder" — tek kullanımlık */
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Category {
+  id                  String     @id @default(cuid())
+  name                String
+  slug                String     @unique
+  /** Menü sırası (kök) / kardeş sırası */
+  sortOrder           Int        @default(0)
+  description         String?
+  /** @deprecated → commentsEnabled tersi ile senkron */
+  disableQuickComment Boolean    @default(false)
+  /** Yorumlara açık */
+  commentsEnabled     Boolean    @default(true)
+  parentId            String?
+  parent              Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: Restrict)
+  children            Category[] @relation("CategoryTree")
+  inMenu              Boolean    @default(true)
+  menuOrder           Int        @default(0)
+  onHome              Boolean    @default(false)
+  homeOrder           Int        @default(0)
+  defaultCover        String?
+  /** aktif | pasif */
+  status              String     @default("aktif")
+  /**
+   * Haber alt grubu: bolge | haber | parti | kurum
+   * (panel: Kategoriler → Haber → …)
+   */
+  bucket              String     @default("haber")
+  /**
+   * WordPress sayfa şablonu: magazine | list | sport | economy | chips
+   * Site /kategori/[slug] tek route; görünüm bu alandan gelir.
+   */
+  pageTemplate        String     @default("magazine")
+  /** Parti kategorileri — zorunlu hex */
+  color               String?
+  logoUrl             String?
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  articles            Article[]
+
+  @@index([parentId])
+  @@index([onHome, homeOrder])
+  @@index([inMenu, menuOrder])
+  @@index([status])
+  @@index([bucket])
+}
+
+/** Kalıcı yönlendirme — slug değişimi aynı transaction'da yazar */
+model Redirect {
+  fromPath  String   @id
+  toPath    String
+  code      Int      @default(301)
+  createdAt DateTime @default(now())
+
+  @@index([toPath])
+}
+
+/**
+ * BİK / İLANBİS günlük özet — içerik sayısı kesin;
+ * pageviews site içi sayaç; uniqueVisitors elle veya GA ile doldurulur.
+ */
+model BikDailyStat {
+  date           String   @id
+  publishedCount Int      @default(0)
+  pageviews      Int      @default(0)
+  uniqueVisitors Int?
+  note           String?
+  updatedAt      DateTime @updatedAt
+}
+
+model Article {
+  id               String       @id @default(cuid())
+  title            String
+  /** Manşette kısa başlık — boşsa title kullanılır */
+  headlineTitle    String?
+  slug             String       @unique
+  excerpt          String?
+  content          String
+  /** haber | video | galeri — ayrı CMS değil, aynı onay/arşiv */
+  contentType      String       @default("haber")
+  coverImage       String?
+  coverAlt         String?
+  coverCredit      String?
+  coverImage169    String?
+  coverImage43     String?
+  coverImage11     String?
+  status           String       @default("TASLAK")
+  isBreaking       Boolean      @default(false)
+  breakingUntil    DateTime?
+  isFeatured       Boolean      @default(false)
+  mansetOrder      Int          @default(0)
+  isSideManset     Boolean      @default(false)
+  sideOrder        Int          @default(0)
+  /** Ana sayfa seçki / öne çıkan listesi (ÖÇ) */
+  isSpotlight      Boolean      @default(false)
+  /** Sponsorlu içerik — sitede rozet + şeritlerde işaret */
+  isSponsored      Boolean      @default(false)
+  sourceAgency     String?
+  publishedAt      DateTime?
+  scheduledAt      DateTime?
+  /** Haber bazlı yorum kapalı */
+  commentsClosed   Boolean      @default(false)
+  /** Basın ilan numarası */
+  pressAdNo        String?
+  /** İlişkili haber ID */
+  relatedArticleId String?
+  /** Harici yönlendirme URL (max 250 istemci) */
+  redirectUrl      String?
+  updateNote       String?
+  metaTitle        String?
+  metaDescription  String?
+  viewCount        Int          @default(0)
+  /** Kelime÷190 — kayıtta hesaplanır */
+  readingMinutes   Int          @default(1)
+  /** Kapak altı galeri JSON: [{url,alt?}] — ilk eleman kapakla senkron */
+  galleryImages    String?
+  lockedById       String?
+  lockedAt         DateTime?
+  lastAutosavedAt  DateTime?
+  /** youtube | vimeo | bunny */
+  videoProvider    String?
+  videoId          String?
+  /** saniye */
+  videoDuration    Int?
+  videoPoster      String?
+  /** yatay | dikey */
+  videoOrientation String       @default("yatay")
+  videoTranscript  String?
+  /** kaynak / telif — yayın öncesi zorunlu */
+  videoSource      String?
+  videoIsLive      Boolean      @default(false)
+  videoLiveEndsAt  DateTime?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  categoryId       String
+  authorId         String
+  category         Category     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  author           Author       @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  lockedBy         User?        @relation("ArticleLock", fields: [lockedById], references: [id], onDelete: SetNull)
+  tags             ArticleTag[]
+  comments         Comment[]
+  reactionCounts   ArticleReactionCount[]
+  reactionVotes    ReactionVote[]
+  revisions        ArticleRevision[]
+  polls            Poll[]
+
+  @@index([status, publishedAt])
+  @@index([status, scheduledAt])
+  @@index([categoryId])
+  @@index([authorId])
+  @@index([isBreaking, breakingUntil])
+  @@index([isFeatured, mansetOrder])
+  @@index([isSideManset, sideOrder])
+  @@index([categoryId, status, publishedAt])
+  @@index([lockedById])
+  @@index([contentType, status, publishedAt])
+  @@index([videoIsLive, videoLiveEndsAt])
+  @@index([videoProvider, videoId])
+}
+
+model ArticleRevision {
+  id        String   @id @default(cuid())
+  articleId String
+  editorId  String
+  snapshot  String
+  note      String?
+  createdAt DateTime @default(now())
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  editor    User     @relation(fields: [editorId], references: [id], onDelete: Restrict)
+
+  @@index([articleId, createdAt])
+  @@index([editorId])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String?
+  meta       String?
+  ipHash     String?
+  createdAt  DateTime @default(now())
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId, createdAt])
+  @@index([actorId, createdAt])
+  @@index([action, createdAt])
+}
+
+model Tag {
+  id            String       @id @default(cuid())
+  /** Görünen ad (normalize edilmiş boşluk, tr küçük harf önerisi) */
+  name          String
+  slug          String       @unique
+  /** Dosya takibi — manşet altı gündemdekiler */
+  isFeatured    Boolean      @default(false)
+  featuredOrder Int          @default(0)
+  /** Son haber ilişkisi — temizlik rutini */
+  lastUsedAt    DateTime?
+  /** aktif | pasif */
+  status        String       @default("aktif")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  articles      ArticleTag[]
+
+  @@index([isFeatured, featuredOrder])
+  @@index([lastUsedAt])
+  @@index([status])
+  @@index([slug])
+}
+
+model ArticleTag {
+  articleId String
+  tagId     String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, tagId])
+}
+
+/** status: BEKLEMEDE | ONAYLI | ARSIV | COP — silinmez, durum değişir */
+model Comment {
+  id            String    @id @default(cuid())
+  name          String
+  /** Yazar e-posta (opsiyonel, sitede gizli) */
+  authorEmail   String?
+  content       String
+  /** BEKLEMEDE | ONAYLI | ARSIV | COP */
+  status        String    @default("BEKLEMEDE")
+  isQuick       Boolean   @default(false)
+  ipHash        String?
+  userAgent     String?
+  parentId      String?
+  parent        Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies       Comment[] @relation("CommentReplies")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  moderatedAt   DateTime?
+  moderatedById String?
+  moderatedBy   User?     @relation(fields: [moderatedById], references: [id], onDelete: SetNull)
+  articleId     String
+  article       Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([articleId, status])
+  @@index([parentId])
+  @@index([status, createdAt])
+  @@index([status, moderatedAt])
+  @@index([ipHash, createdAt])
+  @@index([isQuick, status, createdAt])
+  @@index([articleId, ipHash, isQuick])
+  @@index([moderatedById])
+}
+
+model CommentBlock {
+  id        String   @id @default(cuid())
+  kind      String
+  value     String
+  reason    String?
+  createdAt DateTime @default(now())
+
+  @@unique([kind, value])
+  @@index([kind])
+}
+
+model ArticleReactionCount {
+  id        String  @id @default(cuid())
+  articleId String
+  type      String
+  count     Int     @default(0)
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, type])
+  @@index([articleId])
+}
+
+model ReactionVote {
+  id        String   @id @default(cuid())
+  articleId String
+  type      String
+  /** IP+UA hash — haber başına tek oy (toggle/switch) */
+  ipHash    String
+  createdAt DateTime @default(now())
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, ipHash])
+  @@index([articleId, createdAt])
+  @@index([type, createdAt])
+}
+
+model MediaAsset {
+  id           String   @id @default(cuid())
+  /** Disk göreli yolu: 2026/08/file.jpg veya marka/logo.png */
+  originalPath String   @unique
+  /** Public URL (API /media/file/… veya site /brand/…) */
+  url          String
+  fileName     String
+  /** haber | marka | genel */
+  kind         String   @default("genel")
+  path169      String?
+  path43       String?
+  path11       String?
+  altText      String   @default("")
+  credit       String   @default("")
+  mime         String?
+  width        Int?
+  height       Int?
+  bytes        Int?
+  uploadedById String?
+  uploadedBy   User?    @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  uploadedAt   DateTime @default(now())
+
+  @@index([uploadedAt])
+  @@index([uploadedById])
+  @@index([kind])
+}
+
+model Media {
+  id         String   @id @default(cuid())
+  filePath   String
+  altText    String?
+  uploadedAt DateTime @default(now())
+}
+
+model Setting {
+  key         String   @id
+  value       String
+  /** site | appearance | seo | integrations | social | content | email | legal */
+  groupName   String   @default("site")
+  updatedAt   DateTime @default(now()) @updatedAt
+  updatedById String?
+  updatedBy   User?    @relation("SettingEditor", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  @@index([groupName])
+  @@index([updatedAt])
+}
+
+model NewsletterSubscriber {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  status      String    @default("BEKLEMEDE")
+  token       String    @unique
+  consentAt   DateTime
+  confirmedAt DateTime?
+  ipHash      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([status])
+}
+
+model FrontLayout {
+  id           String    @id @default(cuid())
+  kind         String
+  status       String
+  slotsJson    String
+  breakingJson String?
+  lockedById   String?
+  lockedAt     DateTime?
+  updatedById  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  lockedBy     User?     @relation("FrontLayoutLock", fields: [lockedById], references: [id], onDelete: SetNull)
+  updatedBy    User?     @relation("FrontLayoutEditor", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  @@unique([kind, status])
+  @@index([status])
+  @@index([lockedById])
+  @@index([updatedById])
+}
+
+model FrontLayoutLog {
+  id        String   @id @default(cuid())
+  kind      String
+  actorId   String?
+  action    String
+  summary   String
+  snapshot  String?
+  createdAt DateTime @default(now())
+  actor     User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([kind, createdAt])
+  @@index([actorId, createdAt])
+}
+
+/**
+ * Reklam — slotCode sabit listeden (packages/shared ad-slots)
+ * status: active | paused | archived
+ * type: image | html | adsense | video
+ * device: all | desktop | mobile
+ */
+model Ad {
+  id             String    @id @default(cuid())
+  slotCode       String
+  name           String
+  advertiser     String?
+  type           String    @default("image")
+  imageUrl       String?
+  imageUrlMobile String?
+  targetUrl      String?
+  htmlCode       String?
+  adsenseSlotId  String?
+  device         String    @default("all")
+  startAt        DateTime?
+  endAt          DateTime?
+  weight         Int       @default(1)
+  status         String    @default("active")
+  impressions    Int       @default(0)
+  clicks         Int       @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  createdById    String?
+  createdBy      User?     @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([slotCode, status])
+  @@index([status, endAt])
+  @@index([createdById])
+}
+
+/** Site iletişim formu — panelde mesajlar */
+model ContactMessage {
+  id        String    @id @default(cuid())
+  name      String    @default("")
+  email     String    @default("")
+  topic     String    @default("genel")
+  subject   String    @default("")
+  body      String
+  /** new | read | archived */
+  status    String    @default("new")
+  ipHash    String?
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+
+  @@index([status, createdAt])
+  @@index([createdAt])
+}
+
+/** Anket — articleId null = site geneli (sağ kolon) */
+model Poll {
+  id         String       @id @default(cuid())
+  question   String
+  articleId  String?
+  /** single | multi */
+  type       String       @default("single")
+  /** draft | active | closed */
+  status     String       @default("draft")
+  startAt    DateTime?
+  endAt      DateTime?
+  totalVotes Int          @default(0)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  article    Article?     @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  options    PollOption[]
+  votes      PollVote[]
+
+  @@index([status, articleId])
+  @@index([articleId, status])
+  @@index([endAt])
+}
+
+model PollOption {
+  id        String     @id @default(cuid())
+  pollId    String
+  label     String
+  sortOrder Int        @default(0)
+  voteCount Int        @default(0)
+  poll      Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  votes     PollVote[]
+
+  @@index([pollId, sortOrder])
+}
+
+/** UNIQUE(poll_id, voter_hash) — mükerrer oy engeli */
+model PollVote {
+  id         String     @id @default(cuid())
+  pollId     String
+  optionId   String
+  userId     String?
+  voterHash  String
+  createdAt  DateTime   @default(now())
+  poll       Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  option     PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@unique([pollId, voterHash])
+  @@index([pollId])
+  @@index([userId])
+  @@index([optionId])
+}
+
+/* ───────────── Seçim gecesi ───────────── */
+
+model Election {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  /** yerel | genel */
+  kind        String   @default("yerel")
+  /** draft | live | closed */
+  status      String   @default("draft")
+  electionAt  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  regions     ElectionRegion[]
+  alliances   ElectionAlliance[]
+  parties     ElectionParty[]
+  races       ElectionRace[]
+}
+
+/** ulke > il > ilce > belde */
+model ElectionRegion {
+  id         String   @id @default(cuid())
+  electionId String
+  parentId   String?
+  /** ulke | il | ilce | belde */
+  level      String
+  name       String
+  slug       String
+  ballotTotal Int     @default(0)
+  ballotOpen  Int     @default(0)
+  /** ajans | manuel */
+  source     String   @default("manuel")
+  sourceUpdatedAt DateTime?
+  sortOrder  Int      @default(0)
+  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  parent     ElectionRegion?  @relation("RegionTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children   ElectionRegion[] @relation("RegionTree")
+  races      ElectionRace[]
+  results    ElectionResult[]
+
+  @@unique([electionId, slug])
+  @@index([electionId, level])
+  @@index([parentId])
+}
+
+model ElectionAlliance {
+  id         String   @id @default(cuid())
+  electionId String
+  name       String
+  color      String   @default("#6B7280")
+  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  parties    ElectionParty[]
+
+  @@index([electionId])
+}
+
+model ElectionParty {
+  id          String   @id @default(cuid())
+  electionId  String
+  allianceId  String?
+  categoryId  String?
+  name        String
+  shortName   String   @default("")
+  color       String
+  logoUrl     String?
+  sortOrder   Int      @default(0)
+  election    Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  alliance    ElectionAlliance? @relation(fields: [allianceId], references: [id], onDelete: SetNull)
+  candidates  ElectionCandidate[]
+  seats       ElectionSeat[]
+
+  @@index([electionId])
+  @@index([allianceId])
+  @@index([categoryId])
+}
+
+model ElectionRace {
+  id          String   @id @default(cuid())
+  electionId  String
+  regionId    String
+  /** baskanlik | meclis | il_genel | muhtarlik | milletvekili | cumhurbaskanligi */
+  type        String
+  name        String
+  seatCount   Int?
+  /** 1 | 2 */
+  round       Int      @default(1)
+  /** live | closed | second_round */
+  status      String   @default("live")
+  /** Editör notu / sarı-yeşil banner */
+  note        String?
+  noteTone    String   @default("info")
+  sortOrder   Int      @default(0)
+  /** Şerit için ana yarış */
+  isFeatured  Boolean  @default(false)
+  election    Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  region      ElectionRegion @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  candidates  ElectionCandidate[]
+  results     ElectionResult[]
+  seats       ElectionSeat[]
+
+  @@index([electionId, type])
+  @@index([regionId])
+  @@index([isFeatured])
+}
+
+model ElectionCandidate {
+  id          String   @id @default(cuid())
+  raceId      String
+  partyId     String?
+  name        String
+  initials    String   @default("")
+  photoUrl    String?
+  listOrder   Int      @default(0)
+  /** Şeritte göster (sabit) */
+  showInStrip Boolean  @default(false)
+  /** Şerit önceliği — null ise oy oranına göre */
+  stripPin    Int?
+  race        ElectionRace @relation(fields: [raceId], references: [id], onDelete: Cascade)
+  party       ElectionParty? @relation(fields: [partyId], references: [id], onDelete: SetNull)
+  results     ElectionResult[]
+
+  @@index([raceId, listOrder])
+  @@index([partyId])
+}
+
+model ElectionResult {
+  id           String   @id @default(cuid())
+  raceId       String
+  regionId     String
+  candidateId  String
+  votes        Int      @default(0)
+  /** ajans | manuel */
+  source       String   @default("manuel")
+  updatedAt    DateTime @updatedAt
+  race         ElectionRace @relation(fields: [raceId], references: [id], onDelete: Cascade)
+  region       ElectionRegion @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  candidate    ElectionCandidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@unique([raceId, regionId, candidateId])
+  @@index([raceId])
+  @@index([regionId])
+}
+
+/** Meclis / MV koltuk dağılımı (D'Hondt çıktısı) */
+model ElectionSeat {
+  id         String   @id @default(cuid())
+  raceId     String
+  partyId    String
+  seatCount  Int      @default(0)
+  voteShare  Float    @default(0)
+  confirmed  Boolean  @default(false)
+  race       ElectionRace @relation(fields: [raceId], references: [id], onDelete: Cascade)
+  party      ElectionParty @relation(fields: [partyId], references: [id], onDelete: Cascade)
+
+  @@unique([raceId, partyId])
+  @@index([raceId])
+}
+
+/** Menü lokasyonları: header | footer | sidebar | icons */
+model Menu {
+  id        String     @id @default(cuid())
+  location  String     @unique
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     MenuItem[]
+}
+
+/**
+ * type: category | page | tag | link | heading | icon
+ * dropdownType: simple | mega
+ * device: all | desktop | mobile
+ */
+model MenuItem {
+  id           String    @id @default(cuid())
+  menuId       String
+  parentId     String?
+  sortOrder    Int       @default(0)
+  type         String
+  refId        String?
+  label        String?
+  url          String?
+  icon         String?
+  badgeText    String?
+  badgeColor   String?
+  dropdownType String    @default("simple")
+  targetBlank  Boolean   @default(false)
+  device       String    @default("all")
+  isActive     Boolean   @default(true)
+  startAt      DateTime?
+  endAt        DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  menu         Menu      @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  parent       MenuItem? @relation("MenuTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children     MenuItem[] @relation("MenuTree")
+
+  @@index([menuId, sortOrder])
+  @@index([parentId, sortOrder])
+  @@index([isActive, startAt, endAt])
+}
+
+/** Instagram / WhatsApp tarzı durum & short — ana sayfa şeridi */
+model Story {
+  id            String    @id @default(cuid())
+  title         String
+  /** durum = görsel, short = dikey video */
+  kind          String    @default("durum")
+  mediaUrl      String
+  posterUrl     String?
+  linkUrl       String?
+  videoProvider String?
+  videoId       String?
+  /** draft | active | archived */
+  status        String    @default("draft")
+  sortOrder     Int       @default(0)
+  expiresAt     DateTime?
+  publishedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([status, sortOrder])
+  @@index([expiresAt])
+  @@index([kind])
+}
+
+/**
+ * Ücretli ilan — vefat / taziye / tebrik / duyuru vb.
+ * status: draft | active | expired | archived
+ */
+model PaidListing {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  /** vefat | taziye | tesekkur | tebrik | anma | duyuru | is | emlak | diger */
+  kind          String    @default("duyuru")
+  title         String
+  body          String    @default("")
+  /** Vefat vb. için kişi adı */
+  personName    String?
+  imageUrl      String?
+  contactName   String?
+  contactPhone  String?
+  customerNote  String?
+  /** TL — bilgilendirme / fatura notu */
+  priceTry      Int       @default(0)
+  durationDays  Int       @default(7)
+  /** draft | active | expired | archived */
+  status        String    @default("draft")
+  featured      Boolean   @default(false)
+  startAt       DateTime?
+  endAt         DateTime?
+  publishedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  createdById   String?
+  createdBy     User?     @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([status, kind, startAt])
+  @@index([status, endAt])
+  @@index([kind, status])
+  @@index([featured, status])
+  @@index([createdById])
+}
+

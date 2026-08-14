@@ -1,0 +1,151 @@
+.wrap {
+  background: var(--yh-breaking, #e10600);
+  color: #fff;
+  overflow: hidden;
+  border-bottom: 1px solid color-mix(in srgb, #000 12%, transparent);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  min-height: 42px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: rgba(0, 0, 0, 0.16);
+  white-space: nowrap;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.label:hover {
+  background: rgba(0, 0, 0, 0.24);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.trackWrap {
+  overflow: hidden;
+  min-width: 0;
+  mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 18px;
+  font-size: 0.9rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.item::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.55);
+  flex-shrink: 0;
+}
+
+.item a {
+  color: #fff;
+}
+
+.item a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.all {
+  font-weight: 800;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  padding-right: 2px;
+  color: #fff;
+  flex-shrink: 0;
+  opacity: 0.95;
+}
+
+.all:hover {
+  text-decoration: underline;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .list {
+    animation: none;
+    overflow-x: auto;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .dot {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .inner {
+    grid-template-columns: auto 1fr;
+    min-height: 38px;
+  }
+
+  .label {
+    min-height: 38px;
+    padding: 0 10px;
+    font-size: 0.68rem;
+  }
+
+  .item {
+    font-size: 0.84rem;
+    padding: 0 12px;
+  }
+
+  .all {
+    display: none;
+  }
+}

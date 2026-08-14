@@ -1,0 +1,15 @@
+.pickerHint {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius-sm);
+  background: var(--yh-surface);
+  font-size: 0.82rem;
+  color: var(--yh-muted);
+  line-height: 1.45;
+}
+
+.pickerHint strong {
+  color: var(--yh-ink);
+  font-weight: 700;
+}

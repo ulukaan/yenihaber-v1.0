@@ -1,0 +1,18 @@
+.meta {
+  margin: 0;
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-text-meta);
+  font-weight: var(--yh-font-weight-regular);
+  line-height: 1.35;
+  color: var(--yh-faint);
+}
+
+.meta :global(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.meta :global(a):hover {
+  color: var(--yh-accent);
+  text-decoration: underline;
+}

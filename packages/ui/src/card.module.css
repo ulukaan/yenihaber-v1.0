@@ -1,0 +1,29 @@
+/* Kart: varsayılan çerçevesiz, gölgesiz — haber kartları için */
+.card {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* Panel / tablo kapsayıcısı istisnası */
+.framed {
+  background: var(--yh-surface);
+  border: 1px solid var(--yh-border);
+  border-radius: var(--yh-radius);
+}
+
+.interactive:hover {
+  color: var(--yh-accent);
+}
+
+.interactive:active {
+  opacity: 0.92;
+}
+
+.interactive[aria-disabled="true"],
+.interactive:disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}

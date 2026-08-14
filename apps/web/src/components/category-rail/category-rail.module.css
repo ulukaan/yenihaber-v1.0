@@ -1,0 +1,66 @@
+.rail {
+  min-width: 0;
+  display: grid;
+  gap: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+  align-items: start;
+}
+
+.side {
+  min-width: 0;
+  display: grid;
+  gap: 0;
+  align-content: start;
+  padding-left: 12px;
+  border-left: 1px solid var(--yh-border);
+}
+
+/* Çift kenarlığı ez — tek ince ızgara gibi */
+.side > * {
+  border-radius: 0;
+}
+
+.side > * + * {
+  margin-top: -1px;
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 4px;
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-fs-meta);
+  font-weight: var(--fw-orta, 500);
+  color: var(--yh-faint);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.more:hover,
+.more:focus-visible {
+  color: var(--yh-accent);
+  outline: none;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .side {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--yh-border);
+    padding-top: 10px;
+  }
+}

@@ -1,0 +1,76 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  color: inherit;
+}
+
+.wrap :global(svg) {
+  display: block;
+  transition:
+    transform 220ms cubic-bezier(0.25, 0.1, 0.25, 1),
+    opacity 180ms ease;
+  transform-origin: center;
+}
+
+.boxed {
+  width: 40px;
+  height: 40px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.m_pop:hover :global(svg),
+:global(a:hover) .m_pop :global(svg),
+:global(button:hover) .m_pop :global(svg) {
+  transform: scale(1.12);
+}
+
+.m_pulse :global(svg) {
+  animation: yhIconPulse 2.4s ease-in-out infinite;
+}
+
+.m_float :global(svg) {
+  animation: yhIconFloat 2.8s ease-in-out infinite;
+}
+
+@keyframes yhIconPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+
+@keyframes yhIconFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrap :global(svg),
+  .m_pulse :global(svg),
+  .m_float :global(svg) {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .m_pop:hover :global(svg),
+  :global(a:hover) .m_pop :global(svg),
+  :global(button:hover) .m_pop :global(svg) {
+    transform: none;
+  }
+}

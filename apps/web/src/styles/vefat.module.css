@@ -1,0 +1,170 @@
+/* Vefat listesi — servis kartları */
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 20px;
+}
+
+.stat {
+  padding: 14px 16px;
+  border: 1px solid var(--yh-border);
+  background: var(--yh-surface);
+}
+
+.stat strong {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 750;
+  color: var(--yh-ink);
+  line-height: 1.1;
+}
+
+.stat span {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--yh-faint);
+}
+
+.error {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--yh-warning, #b77a0b) 40%, var(--yh-border));
+  background: color-mix(in srgb, var(--yh-warning, #b77a0b) 8%, var(--yh-surface));
+  color: var(--yh-ink);
+  font-size: 0.92rem;
+}
+
+.empty {
+  margin: 0;
+  padding: 28px 16px;
+  text-align: center;
+  border: 1px dashed var(--yh-border);
+  color: var(--yh-muted);
+  font-size: 0.95rem;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  border: 1px solid var(--yh-border);
+  border-left: 3px solid var(--yh-ink);
+  background: var(--yh-surface);
+  padding: 16px 18px 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--yh-font-serif);
+  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  font-weight: 600;
+  color: var(--yh-ink);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--yh-muted);
+}
+
+.meta strong {
+  color: var(--yh-ink);
+  font-weight: 650;
+}
+
+.announcement {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--yh-text);
+}
+
+.address {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--yh-muted);
+}
+
+.cemetery {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  min-height: 28px;
+  padding: 0 10px;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--yh-ink);
+  border: 1px solid var(--yh-border);
+  background: var(--yh-surface-muted);
+}
+
+.source {
+  margin: 20px 0 0;
+  font-size: 0.85rem;
+  color: var(--yh-faint);
+}
+
+.source a {
+  color: var(--yh-accent);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.paid {
+  margin: 0 0 28px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--yh-border);
+}
+
+.paidTitle {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: var(--yh-ink);
+}
+
+.paidKind {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--yh-accent);
+}
+
+.card[data-paid] {
+  border-color: color-mix(in srgb, var(--yh-accent) 35%, var(--yh-border));
+}
+
+.card[data-paid] .name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card[data-paid] .name a:hover {
+  color: var(--yh-accent);
+}
+
+@media (max-width: 640px) {
+  .summary {
+    grid-template-columns: 1fr;
+  }
+}

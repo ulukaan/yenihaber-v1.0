@@ -1,0 +1,581 @@
+/* Footer — bülten/ihbar · servisler · marka+menü+sosyal · telif */
+
+.footer {
+  margin-top: 48px;
+  background: var(--yh-dark, #101826);
+  color: color-mix(in srgb, #fff 78%, transparent);
+  border-top: 1px solid color-mix(in srgb, #fff 8%, transparent);
+}
+
+.accent {
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--yh-accent),
+    color-mix(in srgb, var(--yh-accent) 35%, transparent)
+  );
+}
+
+/* ——— 1. Bülten + ihbar ——— */
+.layerAction {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(
+      120% 80% at 0% 0%,
+      color-mix(in srgb, var(--yh-accent) 12%, transparent),
+      transparent 55%
+    ),
+    #141414;
+}
+
+.actionGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr;
+  gap: 28px 40px;
+  padding: 32px 0;
+  align-items: start;
+}
+
+.kicker {
+  margin: 0 0 6px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--yh-accent) 85%, #fff);
+}
+
+.newsletter h2,
+.tip h2 {
+  margin: 0 0 8px;
+  font-family: var(--font-yh-serif), var(--yh-font-serif), Georgia, serif;
+  font-size: 1.28rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-transform: none;
+}
+
+.promise,
+.tip p {
+  margin: 0 0 14px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.55);
+  max-width: 48ch;
+}
+
+.flash {
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--yh-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--yh-accent) 14%, transparent);
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: #fff;
+}
+
+.form {
+  display: grid;
+  gap: 10px;
+  max-width: 420px;
+}
+
+.formRow {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+}
+
+.form input[type="email"] {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.form input[type="email"]::placeholder {
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.form input[type="email"]:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--yh-accent) 65%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--yh-accent) 28%, transparent);
+}
+
+.form button {
+  flex-shrink: 0;
+  min-height: 44px;
+  min-width: 96px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 0;
+  background: var(--yh-accent);
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 160ms ease, transform 60ms ease;
+}
+
+.form button:hover {
+  filter: brightness(1.06);
+}
+
+.form button:active {
+  transform: scale(0.98);
+}
+
+.form button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.48);
+  cursor: pointer;
+}
+
+.consent input {
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  accent-color: var(--yh-accent);
+}
+
+.consentLink {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.consentLink:hover {
+  color: #fff;
+}
+
+.tipActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.wa,
+.phone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0;
+  transition: filter 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.wa {
+  background: #128c7e;
+  color: #fff;
+  border: 1px solid #128c7e;
+}
+
+.wa:hover {
+  filter: brightness(1.08);
+}
+
+.phone {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.phone:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.mailLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 0.84rem;
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
+
+.mailLink:hover {
+  color: #fff;
+}
+
+/* ——— 2. Hızlı erişim ——— */
+.layerServices {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #101010;
+}
+
+.servicesInner {
+  padding: 20px 0;
+  display: grid;
+  gap: 12px;
+}
+
+.layerLabel {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.serviceGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.serviceCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.serviceIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  border: 1px solid color-mix(in srgb, var(--yh-accent) 40%, transparent);
+  color: var(--yh-accent);
+  background: color-mix(in srgb, var(--yh-accent) 10%, transparent);
+  transition:
+    transform 200ms ease,
+    background 160ms ease;
+}
+
+.serviceCard:hover .serviceIcon {
+  transform: scale(1.08);
+  background: color-mix(in srgb, var(--yh-accent) 18%, transparent);
+}
+
+.serviceText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.serviceCard strong {
+  font-size: 0.88rem;
+  font-weight: 750;
+  color: #fff;
+}
+
+.serviceText span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.serviceCard:hover {
+  border-color: color-mix(in srgb, var(--yh-accent) 50%, transparent);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+.serviceCard:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ——— 3. Link alanı ——— */
+.layerLinks {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, #121212 0%, #0f0f0f 100%);
+}
+
+.linksGrid {
+  display: grid;
+  grid-template-columns: minmax(200px, 1.35fr) repeat(
+      var(--footer-cols, 3),
+      minmax(0, 1fr)
+    );
+  gap: 28px 32px;
+  padding: 32px 0;
+  align-items: start;
+}
+
+.brand {
+  display: grid;
+  gap: 10px;
+  max-width: 36ch;
+}
+
+.logo {
+  max-width: 200px;
+}
+
+.brandName {
+  margin: 0;
+  font-family: var(--font-yh-serif), var(--yh-font-serif), Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.tagline {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.social {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.socialBtn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.04);
+  text-decoration: none;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.socialBtn:hover {
+  color: #fff;
+  border-color: color-mix(in srgb, var(--yh-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--yh-accent) 16%, transparent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+}
+
+.socialBtn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.col h2 {
+  margin: 0 0 12px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.col a {
+  font-size: 0.9rem;
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.col a:hover {
+  color: #fff;
+}
+
+.col a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ——— 4. Telif ——— */
+.layerLegal {
+  background: #0d0d0d;
+}
+
+.legalInner {
+  padding: 16px 0 22px;
+  display: grid;
+  gap: 12px;
+}
+
+.citation {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.45);
+  max-width: 62ch;
+}
+
+.legalRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+
+.copy {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+
+.legal a {
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.48);
+  text-decoration: none;
+}
+
+.legal a:hover {
+  color: #fff;
+}
+
+.toTop {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.toTop:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-color: color-mix(in srgb, var(--yh-accent) 40%, transparent);
+}
+
+.toTop:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  .actionGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px 0;
+  }
+
+  .serviceGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .linksGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+    max-width: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .formRow {
+    flex-direction: column;
+  }
+
+  .form button {
+    width: 100%;
+  }
+
+  .serviceGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .linksGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 16px;
+    padding: 24px 0;
+  }
+
+  .legalRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .serviceCard,
+  .toTop,
+  .form button,
+  .form input[type="email"],
+  .socialBtn,
+  .wa,
+  .phone {
+    transition: none;
+  }
+
+  .serviceCard:hover,
+  .form button:active {
+    transform: none;
+  }
+}

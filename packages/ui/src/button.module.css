@@ -1,0 +1,147 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  min-width: 44px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--yh-radius);
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-text-ui);
+  font-weight: var(--yh-font-weight-medium);
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow: none;
+  transition:
+    transform var(--yh-duration) var(--yh-ease),
+    background-color var(--yh-duration) var(--yh-ease),
+    border-color var(--yh-duration) var(--yh-ease),
+    color var(--yh-duration) var(--yh-ease),
+    opacity var(--yh-duration) var(--yh-ease);
+}
+
+.root:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.root:active:not(:disabled) {
+  transform: scale(0.98);
+  transition-duration: 60ms;
+}
+
+/* Birincil = aksan (kural 2) */
+.primary {
+  background: var(--yh-accent);
+  color: var(--yh-accent-fg);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--yh-accent-hover);
+}
+
+.secondary {
+  background: var(--yh-surface-muted);
+  color: var(--yh-text);
+  border-color: var(--yh-border);
+}
+
+.secondary:hover:not(:disabled) {
+  border-color: var(--yh-muted);
+}
+
+.success {
+  background: var(--yh-success);
+  color: #fff;
+}
+
+.danger {
+  background: var(--yh-danger);
+  color: #fff;
+}
+
+.warning {
+  background: var(--yh-warning);
+  color: #fff;
+}
+
+/* Outline — stil kılavuzu: ince çizgi, 4px */
+.outline {
+  background: transparent;
+  color: var(--yh-text);
+  border-color: var(--yh-border);
+}
+
+.outline:hover:not(:disabled) {
+  border-color: var(--yh-accent);
+  color: var(--yh-accent);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--yh-text);
+}
+
+.ghost:hover:not(:disabled) {
+  color: var(--yh-accent);
+}
+
+/* Bağlantı butonu — aksan + alt çizgi */
+.link {
+  background: transparent;
+  color: var(--yh-accent);
+  min-height: auto;
+  min-width: auto;
+  padding: 0;
+  border-radius: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.link:hover:not(:disabled) {
+  color: var(--yh-accent-hover);
+}
+
+.sm {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: var(--yh-text-meta);
+}
+
+.md {
+  padding: 0 18px;
+  font-size: var(--yh-text-ui);
+}
+
+.lg {
+  min-height: 48px;
+  padding: 0 22px;
+  font-size: var(--yh-text-ui);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--yh-radius);
+  animation: spin 0.7s linear infinite;
+}
+
+.labelHidden {
+  opacity: 0.85;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}

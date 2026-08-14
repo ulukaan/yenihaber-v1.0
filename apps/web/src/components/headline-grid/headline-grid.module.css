@@ -1,0 +1,237 @@
+.wrap {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 0 28px;
+  align-items: start;
+  padding-top: 6px;
+}
+
+.lead {
+  margin: 0;
+  min-width: 0;
+}
+
+.leadLink {
+  display: grid;
+  gap: 14px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.leadLink:hover .leadTitle {
+  color: var(--yh-accent, #ef233c);
+}
+
+.leadMedia {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: var(--yh-surface-muted);
+  box-shadow: 0 8px 28px rgba(16, 24, 40, 0.08);
+}
+
+.leadLink:hover .leadMedia {
+  box-shadow: 0 10px 32px rgba(16, 24, 40, 0.12);
+}
+
+.leadMedia img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 320ms ease;
+}
+
+.leadLink:hover .leadMedia img {
+  transform: scale(1.03);
+}
+
+.ph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 64px;
+  background: linear-gradient(135deg, #dfe3ea, #c8ced8);
+}
+
+.leadBody {
+  display: grid;
+  gap: 8px;
+}
+
+.kicker {
+  color: var(--yh-accent, #ef233c);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.leadTitle {
+  margin: 0;
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-fs-h2);
+  font-weight: var(--fw-kalin, 600);
+  line-height: var(--yh-lh-ara);
+  text-wrap: balance;
+  color: var(--yh-ink);
+  transition: color 160ms ease;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.excerpt {
+  margin: 0;
+  color: var(--yh-muted);
+  font-size: var(--yh-fs-liste);
+  line-height: var(--yh-lh-kisa);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 48ch;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: var(--yh-faint, #8d99ae);
+  font-size: 0.78rem;
+}
+
+.stack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--yh-border);
+  min-width: 0;
+}
+
+.stack > li {
+  border-bottom: 1px solid var(--yh-border);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 10px 6px;
+  margin: 0 -6px;
+  color: inherit;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.row:hover {
+  background: color-mix(in srgb, var(--yh-accent, #ef233c) 4%, var(--yh-surface, #fff));
+  border-left-color: var(--yh-accent, #ef233c);
+}
+
+.row:hover .rowTitle {
+  color: var(--yh-accent, #ef233c);
+}
+
+.rowMedia {
+  display: block;
+  width: 96px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--yh-surface-muted);
+  border-radius: 2px;
+}
+
+.rowMedia img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 280ms ease;
+}
+
+.row:hover .rowMedia img {
+  transform: scale(1.04);
+}
+
+.rowBody {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.rowTitle {
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-fs-kart);
+  font-weight: var(--fw-kalin, 600);
+  line-height: var(--yh-lh-ara);
+  text-wrap: balance;
+  color: var(--yh-ink);
+  transition: color 160ms ease;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.leadLink:focus-visible,
+.row:focus-visible {
+  outline: 3px solid var(--yh-accent, #ef233c);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .stack {
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 12px;
+    padding: 14px 0;
+  }
+
+  .rowMedia {
+    width: 88px;
+  }
+
+  .leadTitle {
+    font-size: 1.35rem;
+  }
+
+  .rowTitle {
+    font-size: 0.98rem;
+    -webkit-line-clamp: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leadMedia img,
+  .rowMedia img {
+    transition: none;
+  }
+
+  .leadLink:hover .leadMedia img,
+  .row:hover .rowMedia img {
+    transform: none;
+  }
+}

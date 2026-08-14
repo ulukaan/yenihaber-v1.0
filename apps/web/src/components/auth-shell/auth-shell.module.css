@@ -1,0 +1,153 @@
+/* Full-bleed split: sol açıklama, sağ form — Düzce Radikal üye girişi */
+
+.page {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #fff;
+}
+
+.intro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(28px, 5vw, 64px) clamp(24px, 4vw, 56px);
+  background: #ececec;
+  color: #111;
+}
+
+.homeBtn {
+  position: absolute;
+  top: clamp(20px, 3vw, 32px);
+  left: clamp(20px, 3vw, 40px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px 0 14px;
+  background: var(--yh-accent, #e10600);
+  color: #fff !important;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  border: 0;
+  transition:
+    transform 160ms ease,
+    filter 160ms ease;
+}
+
+.homeBtn:hover {
+  filter: brightness(0.94);
+  color: #fff !important;
+}
+
+.homeBtn:active {
+  transform: scale(0.97);
+}
+
+.homeBtn:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 3px;
+}
+
+.homeArrow {
+  font-size: 1rem;
+  line-height: 1;
+  translate: 0 -1px;
+}
+
+.introBody {
+  max-width: 22ch;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2rem, 3.6vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #0a0a0a;
+}
+
+.subtitle {
+  margin: 14px 0 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #6b6b6b;
+  max-width: 28ch;
+}
+
+.formSide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(28px, 5vw, 56px) clamp(20px, 4vw, 48px);
+  background: #fff;
+}
+
+.formInner {
+  width: min(420px, 100%);
+  display: grid;
+  gap: 22px;
+}
+
+.footer {
+  margin: 0;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.5;
+}
+
+.footer a {
+  color: var(--yh-accent, #e10600);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 860px) {
+  .page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .intro {
+    min-height: auto;
+    padding: 88px 24px 36px;
+    justify-content: flex-start;
+  }
+
+  .introBody {
+    max-width: none;
+  }
+
+  .title {
+    font-size: 1.85rem;
+  }
+
+  .formSide {
+    padding: 32px 20px 48px;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeBtn {
+    transition: none;
+  }
+
+  .homeBtn:active {
+    transform: none;
+  }
+}

@@ -1,0 +1,117 @@
+.wrap {
+  display: block;
+  text-align: center;
+  min-height: 1px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--yh-faint, #999);
+}
+
+.desktopOnly {
+  display: none;
+}
+
+@media (min-width: 1100px) {
+  .desktopOnly {
+    display: block;
+  }
+}
+
+.mobileOnly {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .mobileOnly {
+    display: none;
+  }
+}
+
+.link {
+  display: block;
+}
+
+.img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.video {
+  width: 100%;
+  max-height: 360px;
+  background: #000;
+}
+
+.sticky {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 60;
+  padding: 4px;
+  border-top: 1px solid var(--yh-border, #e5e5e5);
+  background: color-mix(in srgb, #fff 95%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+@media (min-width: 1024px) {
+  .sticky {
+    display: none;
+  }
+}
+
+.stickyClose {
+  position: absolute;
+  top: -28px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid var(--yh-border, #ddd);
+  background: #fff;
+  color: #444;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 8%);
+}
+
+.railsLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  width: 100%;
+}
+
+@media (min-width: 1400px) {
+  .railsLayout {
+    grid-template-columns: 160px minmax(0, 1fr) 160px;
+    gap: 16px;
+    align-items: start;
+    max-width: 1480px;
+    margin-inline: auto;
+    padding-inline: 12px;
+  }
+
+  .railSticky {
+    position: sticky;
+    top: 80px;
+  }
+}
+
+.railHide {
+  display: none;
+}
+
+@media (min-width: 1400px) {
+  .railHide {
+    display: block;
+  }
+}

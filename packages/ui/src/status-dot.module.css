@@ -1,0 +1,63 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-text-meta);
+  font-weight: var(--yh-font-weight-medium);
+  color: var(--yh-text-muted);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--yh-radius);
+  background: var(--yh-faint);
+  flex-shrink: 0;
+}
+
+.label {
+  line-height: 1.2;
+}
+
+.ok .dot {
+  background: var(--yh-success);
+}
+
+.ok .label {
+  color: var(--yh-success);
+}
+
+.warn .dot {
+  background: var(--yh-warning);
+}
+
+.warn .label {
+  color: var(--yh-warning);
+}
+
+.danger .dot {
+  background: var(--yh-danger);
+}
+
+.danger .label {
+  color: var(--yh-danger);
+}
+
+.muted .dot {
+  background: var(--yh-faint);
+}
+
+.muted .label {
+  color: var(--yh-faint);
+}
+
+.info .dot {
+  background: var(--yh-accent);
+}
+
+.info .label {
+  color: var(--yh-accent);
+}

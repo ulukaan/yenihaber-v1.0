@@ -1,0 +1,39 @@
+/* Etiket — stil kılavuzu: ince çerçeve, 4px, uppercase değil sade "etiket" */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: var(--yh-radius);
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-text-meta);
+  font-weight: var(--yh-font-weight-medium);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  box-shadow: none;
+}
+
+.muted {
+  background: transparent;
+  color: var(--yh-muted);
+  border: 1px solid var(--yh-border);
+}
+
+.outline {
+  background: transparent;
+  color: var(--yh-muted);
+  border: 1px solid var(--yh-border);
+}
+
+.accent {
+  background: color-mix(
+    in srgb,
+    var(--tag-accent, var(--yh-accent)) 10%,
+    transparent
+  );
+  color: var(--tag-accent, var(--yh-accent));
+  border: 1px solid
+    color-mix(in srgb, var(--tag-accent, var(--yh-accent)) 40%, var(--yh-border));
+  font-weight: var(--fw-orta, 500);
+}

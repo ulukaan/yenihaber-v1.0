@@ -1,0 +1,70 @@
+.wrap {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 8px 12px 6px;
+}
+
+.open {
+  padding-bottom: 6px;
+}
+
+.panel {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  text-align: center;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-height: 24px;
+}
+
+.lockBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 28px;
+  min-width: 44px;
+  padding: 0 8px;
+  border: 1px solid var(--yh-border, #e2e2e2);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--yh-surface, #fff) 92%, transparent);
+  color: var(--yh-text-muted, #666);
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    color 140ms ease,
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+.lockBtn:hover,
+.lockBtn:focus-visible {
+  color: var(--yh-accent, #ef233c);
+  border-color: color-mix(in srgb, var(--yh-accent, #ef233c) 40%, var(--yh-border, #e2e2e2));
+  background: color-mix(in srgb, var(--yh-accent, #ef233c) 6%, transparent);
+  outline: none;
+}
+
+.lockBtn:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lockBtn {
+    transition: none;
+  }
+
+  .lockBtn:active {
+    transform: none;
+  }
+}

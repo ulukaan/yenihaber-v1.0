@@ -1,0 +1,27 @@
+.main {
+  min-height: calc(100vh - 200px);
+  min-width: 0;
+}
+
+/* /secim — kenardan kenara, site chrome yok */
+.secimMain {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.adMasthead {
+  /* padding MastheadAdReveal içinde */
+  padding: 0;
+  max-width: none;
+}
+
+.adFooter {
+  margin: 24px auto 8px;
+  padding: 0 12px;
+  max-width: 1200px;
+}
+

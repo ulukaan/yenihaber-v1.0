@@ -1,0 +1,81 @@
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--yh-border);
+}
+
+.title {
+  margin: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  min-width: 0;
+  line-height: 1;
+}
+
+/* Aksan — sadece 3px çubuk */
+.bar {
+  display: block;
+  width: 3px;
+  flex-shrink: 0;
+  align-self: stretch;
+  min-height: 1em;
+  margin-right: 12px;
+  background: var(--yh-accent);
+  border-radius: 0;
+}
+
+.titleLink {
+  display: inline-block;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.titleText {
+  font-family: var(--yh-font-serif);
+  font-size: var(--yh-fs-h3);
+  font-weight: var(--fw-kalin, 600);
+  line-height: var(--yh-lh-ara);
+  text-wrap: balance;
+  color: var(--yh-ink);
+}
+
+.titleUnderline .titleText {
+  display: inline-block;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--yh-accent);
+}
+
+.titleLink:hover .titleText,
+.titleLink:focus-visible .titleText {
+  color: var(--yh-accent);
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 2px;
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-fs-meta);
+  font-weight: var(--fw-orta, 500);
+  color: var(--yh-faint);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.more:hover,
+.more:focus-visible {
+  color: var(--yh-accent);
+  outline: none;
+}
+
+.moreArrow {
+  letter-spacing: 0;
+  font-size: 0.9em;
+}

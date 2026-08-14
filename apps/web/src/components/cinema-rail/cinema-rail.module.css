@@ -1,0 +1,214 @@
+.wrap {
+  --cinema-bg: #1a1a1a;
+  --cinema-ink: #ffffff;
+  --cinema-muted: rgba(255, 255, 255, 0.72);
+  min-width: 0;
+  margin: 0 0 28px;
+  padding: 18px 0 20px;
+  background: var(--cinema-bg);
+  color: var(--cinema-ink);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 18px 14px;
+}
+
+.title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cinema-ink);
+}
+
+.more {
+  flex-shrink: 0;
+  color: var(--cinema-ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.92;
+  transition: opacity 160ms ease;
+}
+
+.more:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.track {
+  position: relative;
+  min-width: 0;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 52px 8px;
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+}
+
+.list::-webkit-scrollbar {
+  height: 6px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+}
+
+.item {
+  flex: 0 0 auto;
+  width: 148px;
+  scroll-snap-align: start;
+}
+
+.card {
+  display: grid;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.poster {
+  display: block;
+  aspect-ratio: 310 / 420;
+  overflow: hidden;
+  background: #0f0f0f;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 280ms ease;
+}
+
+.card:hover .poster img {
+  transform: scale(1.04);
+}
+
+.ph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #2a2a2a, #111);
+}
+
+.name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.4em;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--cinema-ink);
+  text-wrap: pretty;
+}
+
+.nav {
+  position: absolute;
+  top: 42%;
+  z-index: 2;
+  translate: 0 -50%;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 60ms ease,
+    background-color 160ms ease;
+}
+
+.nav:hover {
+  background: #f2f2f2;
+}
+
+.nav:active {
+  transform: scale(0.96);
+}
+
+.nav:focus-visible {
+  outline: 2px solid var(--yh-accent, #ef233c);
+  outline-offset: 2px;
+}
+
+.navPrev {
+  left: 8px;
+}
+
+.navNext {
+  right: 8px;
+}
+
+@media (max-width: 720px) {
+  .head {
+    padding: 0 14px 12px;
+  }
+
+  .list {
+    padding: 4px 44px 8px;
+    gap: 14px;
+  }
+
+  .item {
+    width: 120px;
+  }
+
+  .nav {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    font-size: 1.15rem;
+  }
+
+  .title {
+    font-size: 0.82rem;
+  }
+
+  .more {
+    font-size: 0.68rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .list {
+    scroll-behavior: auto;
+  }
+
+  .poster img,
+  .nav,
+  .more {
+    transition: none;
+  }
+
+  .card:hover .poster img {
+    transform: none;
+  }
+}

@@ -1,0 +1,7 @@
+.main {
+  min-height: 100dvh;
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+}

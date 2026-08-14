@@ -1,0 +1,29 @@
+{
+  "name": "yenihaber",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Haber sitesi monorepo — web, admin ve API ayrı uygulamalar; ortak paketler",
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "dev:web": "pnpm --filter @yenihaber/web dev",
+    "dev:admin": "pnpm --filter @yenihaber/admin dev",
+    "dev:api": "pnpm --filter @yenihaber/api dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "db:generate": "pnpm --filter @yenihaber/database generate",
+    "db:push": "pnpm --filter @yenihaber/database push",
+    "db:seed": "pnpm --filter @yenihaber/database seed",
+    "db:studio": "pnpm --filter @yenihaber/database studio",
+    "setup": "pnpm install && pnpm db:generate && pnpm db:push && pnpm db:seed",
+    "check:tokens": "node scripts/check-tokens.mjs"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  }
+}

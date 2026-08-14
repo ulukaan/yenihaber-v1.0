@@ -1,0 +1,185 @@
+/**
+ * Düzce Radikal design tokens — tek kaynak.
+ * Ham hex yalnızca bu dosyada. Bileşenler var(--yh-*) kullanır.
+ *
+ * Aksan kuralı (#1F5FA8 yalnız):
+ * 1) kategori başlığı 3px çubuk
+ * 2) birincil buton
+ * 3) bağlantı / hover
+ */
+
+:root {
+  /* Canonical adlar (design brief) */
+  --color-ink: #14181f;
+  --color-muted: #5a6472;
+  --color-faint: #8a94a3;
+  --color-line: #e3e6eb;
+  --color-surface: #f6f7f9;
+  --color-dark: #101826;
+  --color-accent: #1f5fa8;
+  --color-accent-h: #17497f;
+  --color-ok: #1d7a5f;
+  --color-warn: #b77a0b;
+  --color-danger: #b3402a;
+
+  --font-serif: var(--font-yh-serif), "Newsreader", Georgia, serif;
+  --font-sans: var(--font-yh-sans), "Inter", -apple-system, "Segoe UI", sans-serif;
+
+  --radius-base: 4px;
+  --spacing-section: 44px;
+
+  /*
+   * Tipografi ölçeği — clamp(mobil ≈360px → masaüstü ≈1280px)
+   * Gövde asla 17px altına inmez.
+   */
+  --fs-manset: clamp(1.625rem, 1.05rem + 2.55vw, 2.25rem); /* 26 → 36 */
+  --fs-h1: clamp(1.625rem, 1.17rem + 2.04vw, 2.125rem); /* 26 → 34 */
+  --fs-h2: clamp(1.3125rem, 1.11rem + 0.92vw, 1.5625rem); /* 21 → 25 */
+  --fs-h3: clamp(1.125rem, 1.04rem + 0.36vw, 1.25rem); /* 18 → 20 */
+  --fs-h4: clamp(1.0625rem, 1.03rem + 0.15vw, 1.125rem); /* 17 → 18 */
+  --fs-h5: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem); /* 15 → 16 */
+  --fs-h6: clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem); /* 13 → 14 */
+
+  --fs-spot: clamp(1.0625rem, 0.96rem + 0.46vw, 1.1875rem); /* 17 → 19 */
+  --fs-govde: clamp(1.0625rem, 1.03rem + 0.15vw, 1.125rem); /* 17 → 18 */
+  --fs-kart: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem); /* 15 → 16 */
+  --fs-liste: clamp(0.875rem, 0.84rem + 0.15vw, 0.9375rem); /* 14 → 15 */
+  --fs-buton: 0.9375rem; /* 15 sabit */
+  --fs-meta: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem); /* 12 → 13 */
+  --fs-rozet: clamp(0.6875rem, 0.66rem + 0.15vw, 0.75rem); /* 11 → 12 */
+
+  --lh-manset: 1.18;
+  --lh-baslik: 1.25;
+  --lh-ara: 1.35;
+  --lh-govde: 1.75;
+  --lh-spot: 1.6;
+  --lh-kisa: 1.4;
+
+  --fw-normal: 400;
+  --fw-orta: 500;
+  --fw-kalin: 600;
+
+  --olcu-metin: 68ch;
+
+  /* Eski adlar → yeni ölçek (bileşen uyumu) */
+  --text-display: var(--fs-manset);
+  --text-heading: var(--fs-h3);
+  --text-body: var(--fs-govde);
+  --text-ui: var(--fs-kart);
+  --text-meta: var(--fs-meta);
+
+  /* —— Geri uyumlu --yh-* takma adlar —— */
+  --yh-font-sans: var(--font-sans);
+  --yh-font-display: var(--font-serif);
+  --yh-font-serif: var(--font-serif);
+
+  --yh-fs-manset: var(--fs-manset);
+  --yh-fs-h1: var(--fs-h1);
+  --yh-fs-h2: var(--fs-h2);
+  --yh-fs-h3: var(--fs-h3);
+  --yh-fs-h4: var(--fs-h4);
+  --yh-fs-h5: var(--fs-h5);
+  --yh-fs-h6: var(--fs-h6);
+  --yh-fs-spot: var(--fs-spot);
+  --yh-fs-govde: var(--fs-govde);
+  --yh-fs-kart: var(--fs-kart);
+  --yh-fs-liste: var(--fs-liste);
+  --yh-fs-buton: var(--fs-buton);
+  --yh-fs-meta: var(--fs-meta);
+  --yh-fs-rozet: var(--fs-rozet);
+
+  --yh-lh-manset: var(--lh-manset);
+  --yh-lh-baslik: var(--lh-baslik);
+  --yh-lh-ara: var(--lh-ara);
+  --yh-lh-govde: var(--lh-govde);
+  --yh-lh-spot: var(--lh-spot);
+  --yh-lh-kisa: var(--lh-kisa);
+
+  --yh-text-display: var(--text-display);
+  --yh-text-heading: var(--text-heading);
+  --yh-text-body: var(--text-body);
+  --yh-text-ui: var(--text-ui);
+  --yh-text-meta: var(--text-meta);
+  --yh-olcu-metin: var(--olcu-metin);
+
+  --yh-ink: var(--color-ink);
+  --yh-muted: var(--color-muted);
+  --yh-faint: var(--color-faint);
+  --yh-line: var(--color-line);
+  --yh-surface-page: var(--color-surface);
+  --yh-dark: var(--color-dark);
+
+  --yh-accent: var(--site-accent, var(--color-accent));
+  --yh-accent-hover: color-mix(
+    in srgb,
+    var(--site-accent, var(--color-accent)) 82%,
+    #000
+  );
+  --yh-accent-fg: #ffffff;
+
+  --yh-primary: var(--site-accent, var(--color-accent));
+  --yh-link: var(--site-link, #1d4ed8);
+  --yh-breaking: var(--site-breaking, #e10600);
+  --yh-primary-fg: #ffffff;
+  --yh-secondary: var(--color-muted);
+  --yh-success: var(--color-ok);
+  --yh-warning: var(--color-warn);
+  --yh-danger: var(--color-danger);
+
+  --yh-bg: #ffffff;
+  --yh-surface: #ffffff;
+  --yh-surface-muted: var(--color-surface);
+  --yh-border: var(--color-line);
+  --yh-text: var(--color-ink);
+  --yh-text-muted: var(--color-muted);
+
+  --yh-header: #ffffff;
+  --yh-header-fg: var(--color-ink);
+  /* --yh-breaking site inject (--site-breaking) üzerinden gelir; burada ezme */
+
+  --yh-radius: var(--radius-base);
+  --yh-radius-sm: var(--radius-base);
+  --yh-radius-md: var(--radius-base);
+  --yh-radius-lg: var(--radius-base);
+  --yh-radius-xl: var(--radius-base);
+  --yh-radius-full: 999px;
+
+  /* Gölge yok — çizgi + boşluk */
+  --yh-shadow: none;
+  --yh-shadow-lg: none;
+
+  --yh-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --yh-duration: 180ms;
+  --yh-space: 8px;
+  --yh-section: var(--spacing-section);
+
+  --yh-font-weight-regular: 400;
+  --yh-font-weight-medium: 500;
+  --yh-font-weight-semibold: 600;
+}
+
+html.dark {
+  --yh-bg: #101014;
+  --yh-surface: #191920;
+  --yh-surface-muted: #1a2230;
+  --yh-border: #2a2a32;
+  --yh-text: #ececea;
+  --yh-text-muted: #a6a6a0;
+  --yh-ink: #ececea;
+  --yh-muted: #a6a6a0;
+  --yh-faint: #757570;
+  --yh-header: #0e1420;
+  --yh-header-fg: #ececea;
+  --color-ink: #ececea;
+  --color-muted: #a6a6a0;
+  --color-faint: #757570;
+  --color-line: #2a2a32;
+  --color-surface: #191920;
+  --color-dark: #101014;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --yh-duration: 0ms;
+  }
+}

@@ -1,0 +1,140 @@
+.banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--yh-ink, #14181f) 94%, transparent);
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.28);
+}
+
+.inner {
+  max-width: var(--yh-container, 1200px);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 24px;
+}
+
+.copy {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.title {
+  margin: 0 0 6px;
+  font-family: var(--yh-font-sans);
+  font-size: var(--yh-fs-h5, 0.95rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.text {
+  margin: 0;
+  font-size: var(--yh-fs-meta, 0.8125rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 68ch;
+}
+
+.link {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.link:hover {
+  color: var(--yh-accent, #1f5fa8);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  flex: 0 1 auto;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 16px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: var(--yh-fs-buton, 0.9375rem);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 60ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.primary:active,
+.secondary:active {
+  transform: scale(0.97);
+}
+
+.primary {
+  border: 1px solid var(--yh-accent, #1f5fa8);
+  background: var(--yh-accent, #1f5fa8);
+  color: #fff;
+}
+
+.primary:hover {
+  background: var(--yh-accent-hover, #17497f);
+  border-color: var(--yh-accent-hover, #17497f);
+}
+
+.primary:focus-visible,
+.secondary:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.secondary {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #fff;
+}
+
+.secondary:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary,
+  .secondary {
+    transition: none;
+  }
+
+  .primary:active,
+  .secondary:active {
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .actions {
+    width: 100%;
+  }
+
+  .primary,
+  .secondary {
+    flex: 1 1 auto;
+  }
+}
