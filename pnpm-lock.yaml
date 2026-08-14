@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@hono/node-server':
+        specifier: ^1.14.3
+        version: 1.19.17(hono@4.13.1)
+      hono:
+        specifier: ^4.7.10
+        version: 4.13.1
       tsx:
         specifier: ^4.19.4
         version: 4.23.12

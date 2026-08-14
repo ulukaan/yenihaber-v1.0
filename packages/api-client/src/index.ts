@@ -129,11 +129,13 @@ export function createApiClient(options: ApiClientOptions) {
       try {
         data = JSON.parse(text) as unknown;
       } catch {
-        const snippet = text.replace(/\s+/g, " ").trim().slice(0, 120);
+        const looksHtml = /^\s*</.test(text) || text.includes("<!DOCTYPE");
         throw new ApiError(
           res.ok
-            ? `Geçersiz API yanıtı: ${snippet || "(boş)"}`
-            : `İstek başarısız (${res.status}): ${snippet || res.statusText}`,
+            ? "Geçersiz API yanıtı"
+            : looksHtml
+              ? "API yanıt vermiyor. Girişi biraz sonra tekrar deneyin."
+              : `İstek başarısız (${res.status})`,
           res.status,
           text,
         );
