@@ -64,7 +64,7 @@ export function resolveApiBaseUrl(
     }
     return "/api/v1";
   }
-  return "http://127.0.0.1:4000/api/v1";
+  return "/api/v1";
 }
 
 /** Site origin. Canlıda localhost:3000 yok. */

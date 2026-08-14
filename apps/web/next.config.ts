@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 
+/** Canlı JS'e 127.0.0.1:4000 gömülmesin */
+process.env.NEXT_PUBLIC_API_URL = "/api/v1";
+
 const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,

@@ -1,14 +1,11 @@
 "use client";
 
-import { API_BASE } from "@/lib/public-env";
-
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import type { ApiElectionStrip } from "@yenihaber/shared";
 import styles from "./election-strip.module.css";
 
-const API =
-  API_BASE;
+const API = "/api/v1";
 
 const ROTATE_MS = 5000;
 

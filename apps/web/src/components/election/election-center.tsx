@@ -1,7 +1,5 @@
 "use client";
 
-import { API_BASE } from "@/lib/public-env";
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { ApiElectionBundle, ApiElectionRace } from "@yenihaber/shared";
@@ -11,8 +9,7 @@ import {
 } from "./election-center-card";
 import styles from "./election-center.module.css";
 
-const API =
-  API_BASE;
+const API = "/api/v1";
 const REFRESH_SEC = 30;
 
 function fmtPct(n: number) {
