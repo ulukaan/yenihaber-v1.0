@@ -1,11 +1,13 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import { FormEvent, useId, useState } from "react";
 import { Send } from "lucide-react";
 import styles from "./ihbar.module.css";
 
 const API =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+  API_BASE;
 
 export type IhbarFormProps = {
   toEmail: string;

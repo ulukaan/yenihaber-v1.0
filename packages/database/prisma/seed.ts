@@ -507,8 +507,7 @@ async function main() {
   console.log(`${allArticles.length} haber yüklendi.`);
   console.log(`${columnists.length} köşe yazarı eklendi.`);
   console.log(`Ana manşet: ${featuredCounter}, Yan manşet: ${sideCounter}`);
-  console.log("Admin: admin@yenihaber.local / Admin123!");
-  console.log(`Admin id: ${admin.id}`);
+  console.log(`Admin e-posta: ${admin.email}`);
 }
 
 main()

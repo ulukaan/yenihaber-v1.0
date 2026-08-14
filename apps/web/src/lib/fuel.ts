@@ -1,7 +1,4 @@
-import {
-  fuelPrices as fuelPricesFallback,
-  type FuelPrice,
-} from "@/lib/live-data";
+import { type FuelPrice } from "@/lib/live-data";
 
 export type { FuelPrice };
 
@@ -93,9 +90,9 @@ export async function getFuelPrices(): Promise<FuelSnapshot> {
     };
   } catch {
     return {
-      items: fuelPricesFallback,
+      items: [],
       place: "Ulusal",
-      source: "demo",
+      source: "",
       updatedAt: null,
     };
   }

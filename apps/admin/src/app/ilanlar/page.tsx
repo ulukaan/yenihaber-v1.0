@@ -15,6 +15,7 @@ import { AdminPage } from "@/components/admin-page/admin-page";
 import { AdminButton } from "@/components/admin-page/admin-button";
 import { AdminEmpty } from "@/components/admin-page/admin-empty";
 import { adminApi } from "@/lib/api";
+import { siteHref } from "@/lib/public-env";
 import { ImageFileField } from "@/components/image-file-field/image-file-field";
 import styles from "./ilanlar.module.css";
 
@@ -489,7 +490,7 @@ export default function IlanlarAdminPage() {
                     </button>
                     <a
                       className={styles.link}
-                      href={`http://localhost:3000/ilanlar/${row.slug}`}
+                      href={siteHref(`/ilanlar/${row.slug}`)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

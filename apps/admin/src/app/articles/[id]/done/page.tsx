@@ -1,5 +1,7 @@
 "use client";
 
+import { SITE_ORIGIN } from "@/lib/public-env";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
@@ -20,7 +22,7 @@ import { adminApi } from "@/lib/api";
 import styles from "./page.module.css";
 
 const WEB_URL = (
-  process.env.NEXT_PUBLIC_WEB_URL ?? "http://localhost:3000"
+  SITE_ORIGIN
 ).replace(/\/$/, "");
 
 function stripHtml(html: string): string {

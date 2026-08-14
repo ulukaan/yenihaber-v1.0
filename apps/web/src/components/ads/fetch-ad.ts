@@ -1,7 +1,8 @@
+import { API_BASE } from "@/lib/public-env";
 import type { AdPublic, AdSlotCode } from "@yenihaber/shared";
 
 const baseUrl = (
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1"
+  API_BASE
 ).replace(/\/$/, "");
 
 export async function fetchAdForSlot(

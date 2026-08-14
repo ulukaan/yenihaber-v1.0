@@ -1,5 +1,7 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import { useEffect, useState } from "react";
 import {
   AD_SLOTS,
@@ -10,7 +12,7 @@ import { AdRenderer } from "./ad-renderer";
 import styles from "./ad-slot.module.css";
 
 const API = (
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1"
+  API_BASE
 ).replace(/\/$/, "");
 
 type Props = {

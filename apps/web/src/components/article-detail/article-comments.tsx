@@ -1,5 +1,7 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import Link from "next/link";
 import {
   FormEvent,
@@ -15,7 +17,7 @@ import { ArticleQuickComment } from "./article-quick-comment";
 import styles from "./article-comments.module.css";
 
 const client = createApiClient({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1",
+  baseUrl: API_BASE,
 });
 
 const NAME_KEY = "yh-comment-name";

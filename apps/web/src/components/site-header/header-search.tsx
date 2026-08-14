@@ -1,5 +1,7 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createApiClient } from "@yenihaber/api-client";
@@ -7,7 +9,7 @@ import type { ApiArticle, ApiAuthor } from "@yenihaber/shared";
 import styles from "./header-search.module.css";
 
 const client = createApiClient({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1",
+  baseUrl: API_BASE,
 });
 
 /** Açılış/kapanış animasyon süresi (CSS ile senkron) */

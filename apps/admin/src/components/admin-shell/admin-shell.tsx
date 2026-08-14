@@ -1,5 +1,7 @@
 "use client";
 
+import { SITE_ORIGIN } from "@/lib/public-env";
+
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
@@ -293,7 +295,7 @@ const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
-const WEB_URL = process.env.NEXT_PUBLIC_WEB_URL ?? "http://localhost:3000";
+const WEB_URL = SITE_ORIGIN;
 const LS_COLLAPSED = "yh_admin_sidebar_collapsed";
 
 function pathActive(

@@ -19,6 +19,7 @@ import {
 import { AdminShell } from "@/components/admin-shell/admin-shell";
 import { AdminPage } from "@/components/admin-page/admin-page";
 import { adminApi } from "@/lib/api";
+import { SITE_ORIGIN } from "@/lib/public-env";
 import { CandidateList, SlotBoard } from "./slot-board";
 import { LayoutPicker } from "./manset-preview";
 import { SlotDetailEditor } from "./slot-detail";
@@ -26,8 +27,7 @@ import styles from "./manset.module.css";
 
 type Tab = "ana" | "kategori" | "sondakika" | "log";
 
-const WEB_URL =
-  process.env.NEXT_PUBLIC_WEB_URL?.replace(/\/$/, "") || "http://localhost:3000";
+const WEB_URL = SITE_ORIGIN;
 
 export default function MansetPage() {
   const [tab, setTab] = useState<Tab>("ana");

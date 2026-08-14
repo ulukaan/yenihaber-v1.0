@@ -1038,8 +1038,8 @@ export const KUNYE_SETTING_KEY = "kunye";
 export const DEFAULT_KUNYE: KunyeSettings = {
   publisherName: "Düzce Radikal",
   responsibleManager: "Sorumlu Müdür",
-  kepAddress: "info@duzceradikal.example",
-  hostingProvider: "Yer sağlayıcı bilgisi",
+  kepAddress: "belirtilmedi",
+  hostingProvider: "belirtilmedi",
   address: null,
   phone: null,
   email: null,

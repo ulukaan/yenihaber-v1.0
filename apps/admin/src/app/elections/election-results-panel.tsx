@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Radio, Save, Star } from "lucide-react";
 import type { ApiElectionRace } from "@yenihaber/shared";
 import { adminApi } from "@/lib/api";
+import { SITE_ORIGIN } from "@/lib/public-env";
 import {
   ElectionPreviewChrome,
   formatPct,
@@ -126,9 +127,7 @@ export function ElectionResultsPanel({
     totalVotes,
   ]);
 
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "http://localhost:3000";
+  const siteUrl = SITE_ORIGIN;
 
   async function setFeatured(raceId: string) {
     onBusy(true);

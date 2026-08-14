@@ -1,12 +1,14 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import { useEffect, useState } from "react";
 import type { ApiArticleNeighbor } from "@yenihaber/shared";
 import { createApiClient } from "@yenihaber/api-client";
 import styles from "./article-next.module.css";
 
 const client = createApiClient({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1",
+  baseUrl: API_BASE,
 });
 
 export type ArticleNextGateProps = {

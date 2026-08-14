@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@yenihaber/database";
+import { isLoopbackUrl, resolveApiBaseUrl } from "@yenihaber/config";
 import {
   StoryCreateSchema,
   StoryReorderSchema,
@@ -44,16 +45,16 @@ function uploadsRoot() {
 
 /** PUBLIC_API_URL veya istek host + API_PREFIX */
 function publicBaseFromRequest(c: { req: { url: string } }): string {
-  const envBase =
-    process.env.PUBLIC_API_URL?.replace(/\/$/, "") ||
-    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
-  if (envBase) return envBase;
+  const fromEnv = resolveApiBaseUrl();
+  if (fromEnv && !fromEnv.startsWith("/") && !isLoopbackUrl(fromEnv)) {
+    return fromEnv;
+  }
   try {
     const u = new URL(c.req.url);
     const prefix = (process.env.API_PREFIX || "api/v1").replace(/^\//, "");
     return `${u.protocol}//${u.host}/${prefix}`;
   } catch {
-    return "http://127.0.0.1:4000/api/v1";
+    return fromEnv || "";
   }
 }
 

@@ -3,6 +3,7 @@ import { HTTPException } from "hono/http-exception";
 import { randomBytes, createHash } from "node:crypto";
 import { z } from "zod";
 import { prisma } from "@yenihaber/database";
+import { resolveSiteOrigin } from "@yenihaber/config";
 
 export const newsletterRoutes = new Hono();
 
@@ -17,11 +18,7 @@ function hashIp(ip: string | undefined): string | null {
 }
 
 function siteOrigin(): string {
-  return (
-    process.env.PUBLIC_SITE_URL ||
-    process.env.CORS_ORIGIN?.split(",")[0]?.trim() ||
-    "http://localhost:3000"
-  ).replace(/\/$/, "");
+  return resolveSiteOrigin();
 }
 
 /**

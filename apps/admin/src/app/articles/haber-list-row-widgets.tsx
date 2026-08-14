@@ -1,5 +1,7 @@
 "use client";
 
+import { SITE_ORIGIN } from "@/lib/public-env";
+
 import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import Link from "next/link";
 import type { ApiArticle, Role } from "@yenihaber/shared";
@@ -46,7 +48,7 @@ export function FlagToggle({
 }
 
 const WEB_URL = (
-  process.env.NEXT_PUBLIC_WEB_URL ?? "http://localhost:3000"
+  SITE_ORIGIN
 ).replace(/\/$/, "");
 
 /** Resmi marka SVG logoları (paylaş satırı) */

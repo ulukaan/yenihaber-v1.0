@@ -1,10 +1,8 @@
 import { unstable_cache } from "next/cache";
+import { resolveApiBaseUrl } from "@yenihaber/config";
 import { themeStyleFromSettings } from "./theme-css";
 
-const API =
-  process.env.API_INTERNAL_URL?.replace(/\/$/, "") ||
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ||
-  "http://127.0.0.1:4000/api/v1";
+const API = resolveApiBaseUrl();
 
 export type SiteSettings = Record<string, string>;
 

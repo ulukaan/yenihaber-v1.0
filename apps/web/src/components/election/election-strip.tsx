@@ -1,12 +1,14 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import type { ApiElectionStrip } from "@yenihaber/shared";
 import styles from "./election-strip.module.css";
 
 const API =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+  API_BASE;
 
 const ROTATE_MS = 5000;
 

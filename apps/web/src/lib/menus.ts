@@ -1,8 +1,9 @@
+import { API_BASE } from "@/lib/public-env";
 import { unstable_cache } from "next/cache";
 import type { ApiMenu, ApiMenuItem, MainNav, MenuLocation } from "@yenihaber/shared";
 
 const API =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+  API_BASE;
 
 async function fetchMenu(location: MenuLocation): Promise<ApiMenu | null> {
   try {

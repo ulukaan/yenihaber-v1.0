@@ -1,7 +1,8 @@
+import { API_BASE } from "@/lib/public-env";
 import { NextResponse } from "next/server";
 
 const API =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+  API_BASE;
 
 /**
  * Footer bülten formu — KVKK rızası + API double opt-in.

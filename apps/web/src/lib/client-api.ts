@@ -1,9 +1,11 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import { createApiClient } from "@yenihaber/api-client";
 
 const baseUrl =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+  API_BASE;
 
 const TOKEN_KEY = "yh-web-token";
 const USER_KEY = "yh-web-user";

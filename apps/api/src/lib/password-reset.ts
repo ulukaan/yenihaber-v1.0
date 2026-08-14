@@ -1,24 +1,17 @@
 import { hash } from "bcryptjs";
 import { prisma } from "@yenihaber/database";
+import { resolveAdminOrigin, resolveSiteOrigin } from "@yenihaber/config";
 import { sendPasswordResetMail } from "./mail.js";
 import { hashToken, newOpaqueToken } from "./authors-util.js";
 
 const RESET_TTL_MS = 60 * 60 * 1000; // 1 saat
 
 function adminBase() {
-  return (
-    process.env.ADMIN_PUBLIC_URL ||
-    process.env.NEXT_PUBLIC_ADMIN_URL ||
-    "http://localhost:3001"
-  ).replace(/\/$/, "");
+  return resolveAdminOrigin();
 }
 
 function siteBase() {
-  return (
-    process.env.PUBLIC_SITE_URL ||
-    process.env.CORS_ORIGIN?.split(",")[0]?.trim() ||
-    "http://localhost:3000"
-  ).replace(/\/$/, "");
+  return resolveSiteOrigin();
 }
 
 /**
@@ -50,9 +43,18 @@ export async function issuePasswordReset(opts: {
   });
 
   const isStaff = opts.role !== "UYE";
-  const resetUrl = isStaff
-    ? `${adminBase()}/login?reset=${encodeURIComponent(raw)}`
-    : `${siteBase()}/sifre-sifirla?token=${encodeURIComponent(raw)}`;
+  const admin = adminBase();
+  const site = siteBase();
+  const resetUrl =
+    isStaff && admin
+      ? `${admin}/login?reset=${encodeURIComponent(raw)}`
+      : site
+        ? `${site}/sifre-sifirla?token=${encodeURIComponent(raw)}`
+        : "";
+  if (!resetUrl) {
+    console.warn("[password-reset] PUBLIC_SITE_URL / ADMIN_PUBLIC_URL yok");
+    return { ok: true as const };
+  }
 
   await sendPasswordResetMail({
     to: opts.email,

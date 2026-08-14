@@ -68,9 +68,9 @@ export const marketGold: MarketItem[] = [
 ];
 
 export const marketBorsa: MarketItem[] = [
-  { label: "BİST 100", value: "9.842", change: "+1,14%", up: true },
-  { label: "BİST 30", value: "10.624", change: "+0,92%", up: true },
-  { label: "USD/TRY", value: "34,12", change: "+0,18%", up: true },
+  { label: "BİST 100", value: "—", change: "—", up: true },
+  { label: "BİST 30", value: "—", change: "—", up: true },
+  { label: "USD/TRY", value: "—", change: "—", up: true },
 ];
 
 /** Eski market şeridi uyumu */

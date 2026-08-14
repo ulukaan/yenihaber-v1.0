@@ -1,3 +1,4 @@
+import { API_BASE } from "@/lib/public-env";
 import { createApiClient } from "@yenihaber/api-client";
 
 const TOKEN_KEY = "yh_admin_token";
@@ -15,6 +16,6 @@ export function setToken(token: string | null) {
 
 /** Admin paneli API istemcisi (token inject) */
 export const adminApi = createApiClient({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1",
+  baseUrl: API_BASE,
   getToken,
 });

@@ -1,22 +1,21 @@
 import { expandCacheTags } from "@yenihaber/shared";
+import { isLoopbackUrl, resolveRevalidateOrigin } from "@yenihaber/config";
 
 /**
  * Next.js web'e on-demand revalidation sinyali.
  * WEB_REVALIDATE_URL + REVALIDATE_SECRET yoksa no-op.
  */
 export async function revalidateWeb(paths: string[], tags: string[] = []) {
-  const base =
-    process.env.WEB_REVALIDATE_URL ??
-    process.env.NEXT_PUBLIC_WEB_URL ??
-    process.env.PUBLIC_SITE_URL ??
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    "http://localhost:3000";
+  const base = resolveRevalidateOrigin();
   const secret = process.env.REVALIDATE_SECRET;
   if (!secret) {
     console.warn(
       "[revalidate] REVALIDATE_SECRET yok — site önbelleği temizlenmedi",
     );
     return { ok: false as const, reason: "no-secret" };
+  }
+  if (!base || isLoopbackUrl(base)) {
+    return { ok: false as const, reason: "no-public-url" };
   }
 
   const expandedTags = expandCacheTags(tags);

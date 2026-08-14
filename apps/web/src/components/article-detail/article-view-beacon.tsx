@@ -1,10 +1,12 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import { useEffect, useRef } from "react";
 import { createApiClient } from "@yenihaber/api-client";
 
 const client = createApiClient({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1",
+  baseUrl: API_BASE,
 });
 
 const SESSION_MS = 30 * 60 * 1000;

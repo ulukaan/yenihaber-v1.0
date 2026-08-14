@@ -1,3 +1,4 @@
+import { API_BASE } from "@/lib/public-env";
 import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "../../yasal.module.css";
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default async function NewsletterConfirmPage({ searchParams }: Props) {
   const { token } = await searchParams;
   const API =
-    process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+    API_BASE;
 
   let state: "missing" | "ok" | "error" | "already" = "missing";
 

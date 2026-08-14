@@ -7,6 +7,8 @@
  * veya MAIL_WEBHOOK_URL (POST JSON {to,subject,text,html})
  */
 
+import { resolveSiteOrigin } from "@yenihaber/config";
+
 export type MailMessage = {
   to: string;
   subject: string;
@@ -23,11 +25,7 @@ function siteName() {
 }
 
 export function siteOrigin(): string {
-  return (
-    process.env.PUBLIC_SITE_URL ||
-    process.env.CORS_ORIGIN?.split(",")[0]?.trim() ||
-    "http://localhost:3000"
-  ).replace(/\/$/, "");
+  return resolveSiteOrigin();
 }
 
 /** SMTP / webhook / log */

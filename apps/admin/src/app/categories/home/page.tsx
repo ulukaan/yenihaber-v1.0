@@ -33,6 +33,7 @@ import {
   HOME_RAIL_MIN_ARTICLES,
   colorDistance,
 } from "@yenihaber/shared";
+import { SITE_ORIGIN } from "@/lib/public-env";
 import { AdminShell } from "@/components/admin-shell/admin-shell";
 import { AdminPage } from "@/components/admin-page/admin-page";
 import { adminApi } from "@/lib/api";
@@ -208,9 +209,7 @@ export default function HomeRailsPage() {
     [all, rows],
   );
 
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "http://localhost:3000";
+  const siteUrl = SITE_ORIGIN;
 
   return (
     <AdminShell>

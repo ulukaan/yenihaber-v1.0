@@ -1,5 +1,7 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import { FormEvent, useEffect, useId, useState } from "react";
 import styles from "./contact-form.module.css";
 
@@ -8,7 +10,7 @@ type Props = {
 };
 
 const API =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+  API_BASE;
 
 /** İletişim formu — panele mesaj kaydeder */
 export function ContactForm({ toEmail }: Props) {

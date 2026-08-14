@@ -1,22 +1,22 @@
 import type { Role } from "@yenihaber/shared";
 import { STAFF_ROLES } from "@yenihaber/shared";
-
-const DEFAULT_ADMIN =
-  process.env.NEXT_PUBLIC_ADMIN_URL?.replace(/\/$/, "") ||
-  "http://localhost:3001";
+import { resolveAdminOrigin } from "@yenihaber/config";
 
 /**
  * Giriş sonrası hedef — personel panele (token handoff), üye hesabına.
+ * Canlıda localhost:3001 üretilmez.
  */
 export function resolvePostAuthDestination(
   role: Role,
   token?: string,
 ): string {
   if (STAFF_ROLES.includes(role)) {
+    const admin = resolveAdminOrigin();
+    if (!admin) return "/hesabim";
     if (token) {
-      return `${DEFAULT_ADMIN}/auth/handoff#t=${encodeURIComponent(token)}`;
+      return `${admin}/auth/handoff#t=${encodeURIComponent(token)}`;
     }
-    return DEFAULT_ADMIN;
+    return admin;
   }
   return "/hesabim";
 }

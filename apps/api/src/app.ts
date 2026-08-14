@@ -35,12 +35,21 @@ const env = loadApiEnv(process.env);
 
 export const apiApp = new Hono().basePath(`/${env.API_PREFIX}`);
 
-const origins = env.CORS_ORIGIN.split(",").map((o) => o.trim());
+const origins = env.CORS_ORIGIN.split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
 
 apiApp.use(
   "*",
   cors({
-    origin: origins,
+    origin: origins.length
+      ? origins
+      : (origin) =>
+          origin &&
+          origin.startsWith("https://") &&
+          !/localhost|127\.0\.0\.1/i.test(origin)
+            ? origin
+            : "",
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
   }),

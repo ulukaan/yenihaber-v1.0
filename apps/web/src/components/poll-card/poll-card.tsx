@@ -1,5 +1,7 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import Link from "next/link";
 import type { ApiPoll } from "@yenihaber/shared";
@@ -7,7 +9,7 @@ import { createApiClient } from "@yenihaber/api-client";
 import styles from "./poll-card.module.css";
 
 const client = createApiClient({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1",
+  baseUrl: API_BASE,
   getToken: () =>
     typeof window !== "undefined"
       ? localStorage.getItem("yh_token") ||

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { resolveCorsOrigins } from "./urls";
 
 /**
  * Marka renkleri (kurumsal palet + haber sitesi kırmızı aksan — birhaber theme_color referansı).
@@ -30,13 +31,15 @@ const apiEnvSchema = z.object({
   API_PREFIX: z.string().default("api/v1"),
   DATABASE_URL: z.string().min(1),
   JWT_SECRET: z.string().min(16),
-  CORS_ORIGIN: z.string().default("http://localhost:3000,http://localhost:3001"),
+  CORS_ORIGIN: z.string().optional(),
   NODE_ENV: z
     .enum(["development", "test", "production"])
     .default("development"),
 });
 
-export type ApiEnv = z.infer<typeof apiEnvSchema>;
+export type ApiEnv = Omit<z.infer<typeof apiEnvSchema>, "CORS_ORIGIN"> & {
+  CORS_ORIGIN: string;
+};
 
 export function loadApiEnv(source: NodeJS.ProcessEnv = process.env): ApiEnv {
   const parsed = apiEnvSchema.safeParse(source);
@@ -46,7 +49,10 @@ export function loadApiEnv(source: NodeJS.ProcessEnv = process.env): ApiEnv {
       .join("; ");
     throw new Error(`Geçersiz API ortamı: ${details}`);
   }
-  return parsed.data;
+  return {
+    ...parsed.data,
+    CORS_ORIGIN: resolveCorsOrigins(parsed.data.CORS_ORIGIN, source).join(","),
+  };
 }
 
 export const navCategories = [
@@ -57,3 +63,14 @@ export const navCategories = [
   { name: "Teknoloji", slug: "teknoloji" },
   { name: "Sağlık", slug: "saglik" },
 ] as const;
+
+export {
+  isLoopbackUrl,
+  firstPublicUrl,
+  resolveApiBaseUrl,
+  resolveSiteOrigin,
+  resolveAdminOrigin,
+  resolveRevalidateOrigin,
+  resolveCorsOrigins,
+  siteHref,
+} from "./urls";

@@ -326,7 +326,7 @@ export async function LiveWidgets({
 
       {!hideDisclaimer ? (
         <p className={styles.disclaimer}>
-          * Döviz ve altın: canlidoviz / TCMB. Borsa satırı örnek veri olabilir.
+          * Piyasa verisi bağlanamazsa alan boş kalır; sahte rakam gösterilmez.
         </p>
       ) : null}
     </div>

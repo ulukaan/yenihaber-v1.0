@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@yenihaber/database";
+import { resolveAdminOrigin } from "@yenihaber/config";
 import {
   AdminUserDeleteSchema,
   AdminUserUpdateSchema,
@@ -119,11 +120,7 @@ async function countActiveAdmins(excludeId?: string) {
 }
 
 function adminPanelBase() {
-  return (
-    process.env.ADMIN_PUBLIC_URL ||
-    process.env.NEXT_PUBLIC_ADMIN_URL ||
-    "http://localhost:3001"
-  ).replace(/\/$/, "");
+  return resolveAdminOrigin();
 }
 
 function acceptUrlForToken(raw: string) {

@@ -1,5 +1,7 @@
 "use client";
 
+import { SITE_ORIGIN } from "@/lib/public-env";
+
 import Link from "next/link";
 import type { ApiArticle, ApiCategory, Role } from "@yenihaber/shared";
 import type { HaberInlineUpdate } from "@yenihaber/shared";
@@ -22,7 +24,7 @@ import {
 } from "./haber-list-row-widgets";
 
 const WEB_URL = (
-  process.env.NEXT_PUBLIC_WEB_URL ?? "http://localhost:3000"
+  SITE_ORIGIN
 ).replace(/\/$/, "");
 
 type Props = {

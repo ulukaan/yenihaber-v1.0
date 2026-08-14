@@ -1,5 +1,7 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ApiArticle } from "@yenihaber/shared";
 import { createApiClient } from "@yenihaber/api-client";
@@ -12,7 +14,7 @@ import {
 import styles from "./article-stream.module.css";
 
 const client = createApiClient({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1",
+  baseUrl: API_BASE,
 });
 
 export type ArticleStreamProps = {

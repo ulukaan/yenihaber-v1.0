@@ -18,14 +18,13 @@ import {
 import { AdminShell } from "@/components/admin-shell/admin-shell";
 import { AdminPage } from "@/components/admin-page/admin-page";
 import { adminApi } from "@/lib/api";
+import { SITE_ORIGIN } from "@/lib/public-env";
 import { applyAppearanceToDocument } from "@/lib/apply-theme";
 import styles from "./settings.module.css";
 
 type Tab = SettingsGroup;
 
-const WEB_URL = (
-  process.env.NEXT_PUBLIC_WEB_URL || "http://localhost:3000"
-).replace(/\/$/, "");
+const WEB_URL = SITE_ORIGIN;
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "site", label: "Site kimliği" },

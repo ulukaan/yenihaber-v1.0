@@ -10,12 +10,9 @@ import {
   type FollowedAuthor,
   type SavedArticle,
 } from "@/lib/member-prefs";
+import { resolveAdminOrigin } from "@yenihaber/config";
 import { memberDisplayRole } from "./member-shell";
 import styles from "./member-shell.module.css";
-
-const ADMIN_URL =
-  process.env.NEXT_PUBLIC_ADMIN_URL?.replace(/\/$/, "") ||
-  "http://localhost:3001";
 
 /** Üye özet panosu */
 export function MemberHome() {
@@ -54,7 +51,7 @@ export function MemberHome() {
         </div>
       </div>
 
-      {isStaffRole(user.role) ? (
+      {isStaffRole(user.role) && resolveAdminOrigin() ? (
         <div className={styles.staffBox}>
           <p>
             Personel hesabısınız. Yayın ve yönetim için editör paneline gidin.
@@ -64,17 +61,26 @@ export function MemberHome() {
             href="#"
             onClick={(e) => {
               e.preventDefault();
+              const admin = resolveAdminOrigin();
+              if (!admin) return;
               const token =
                 localStorage.getItem("yh-web-token") ??
                 sessionStorage.getItem("yh-web-token");
               const dest = token
-                ? `${ADMIN_URL}/auth/handoff#t=${encodeURIComponent(token)}`
-                : ADMIN_URL;
+                ? `${admin}/auth/handoff#t=${encodeURIComponent(token)}`
+                : admin;
               window.location.assign(dest);
             }}
           >
             Editör paneline git
           </a>
+        </div>
+      ) : isStaffRole(user.role) ? (
+        <div className={styles.staffBox}>
+          <p>
+            Personel hesabısınız. Panel adresi tanımlı değil; üye hesabınızdan
+            devam edin.
+          </p>
         </div>
       ) : (
         <div className={styles.staffBox}>

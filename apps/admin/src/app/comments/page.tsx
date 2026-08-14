@@ -1,5 +1,7 @@
 "use client";
 
+import { SITE_ORIGIN } from "@/lib/public-env";
+
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ApiComment, CommentStatus } from "@yenihaber/shared";
 import {
@@ -28,7 +30,7 @@ const TABS: { id: Tab; label: string; hint: string }[] = [
 ];
 
 const WEB_URL = (
-  process.env.NEXT_PUBLIC_WEB_URL ?? "http://localhost:3000"
+  SITE_ORIGIN
 ).replace(/\/$/, "");
 
 function formatDate(iso: string) {

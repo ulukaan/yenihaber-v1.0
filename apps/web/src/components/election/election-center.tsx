@@ -1,5 +1,7 @@
 "use client";
 
+import { API_BASE } from "@/lib/public-env";
+
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { ApiElectionBundle, ApiElectionRace } from "@yenihaber/shared";
@@ -10,7 +12,7 @@ import {
 import styles from "./election-center.module.css";
 
 const API =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+  API_BASE;
 const REFRESH_SEC = 30;
 
 function fmtPct(n: number) {

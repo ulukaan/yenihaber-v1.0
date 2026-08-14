@@ -1,24 +1,29 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { isLoopbackUrl, resolveApiBaseUrl } from "@yenihaber/config";
+
+function apiBase(request: NextRequest): string {
+  const fromEnv = resolveApiBaseUrl();
+  if (fromEnv && !fromEnv.startsWith("/") && !isLoopbackUrl(fromEnv)) {
+    return fromEnv;
+  }
+  return `${request.nextUrl.origin}/api/v1`;
+}
 
 /**
  * Redirect + bakım modu
  */
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const api = apiBase(request);
 
-  // bakım kontrolü (API public settings)
   if (
     !pathname.startsWith("/_next") &&
     !pathname.startsWith("/api") &&
     !pathname.startsWith("/brand")
   ) {
     try {
-      const apiBase =
-        process.env.API_INTERNAL_URL?.replace(/\/$/, "") ||
-        process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ||
-        "http://127.0.0.1:4000/api/v1";
-      const res = await fetch(`${apiBase}/settings`, {
+      const res = await fetch(`${api}/settings`, {
         next: { revalidate: 15 },
       });
       if (res.ok) {
@@ -54,14 +59,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const apiBase =
-    process.env.API_INTERNAL_URL?.replace(/\/$/, "") ||
-    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ||
-    "http://127.0.0.1:4000/api/v1";
-
   try {
     const res = await fetch(
-      `${apiBase}/redirects/lookup?path=${encodeURIComponent(pathname)}`,
+      `${api}/redirects/lookup?path=${encodeURIComponent(pathname)}`,
       { next: { revalidate: 30 } },
     );
     if (!res.ok) return NextResponse.next();
@@ -86,7 +86,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico).*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

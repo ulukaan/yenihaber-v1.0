@@ -72,7 +72,7 @@ export function LoginForm() {
   return (
     <AuthShell
       title="Üye Giriş"
-      subtitle="Üye Giriş Sayfası Açıklaması"
+      subtitle="Hesabınıza giriş yapın."
       footer={
         <>
           Üye kaydınız yok mu?{" "}

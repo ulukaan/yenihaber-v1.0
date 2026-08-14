@@ -156,7 +156,7 @@ function fallbackSnapshot(error?: string): WeatherSnapshot {
         precipProb: i > 7 ? 30 : 10,
       };
     }),
-    source: error ? "demo (yedek)" : "demo",
+    source: error ? "yedek" : "",
     updatedAt: today.toISOString(),
     error,
   };
@@ -251,7 +251,7 @@ export async function getWeather(): Promise<WeatherSnapshot> {
       updatedAt: new Date().toISOString(),
     };
   } catch {
-    return fallbackSnapshot("Canlı hava kaynağına ulaşılamadı; örnek veri.");
+    return fallbackSnapshot("Canlı hava kaynağına ulaşılamadı.");
   }
 }
 
