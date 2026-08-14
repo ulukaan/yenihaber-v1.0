@@ -67,16 +67,26 @@ function formatChange(n: number | null | undefined): {
 
 function asNumber(v: unknown): number | null {
   if (typeof v === "number" && Number.isFinite(v)) return v;
-  if (typeof v === "string") {
-    const cleaned = v
-      .replace(/%/g, "")
-      .replace(/\s/g, "")
-      .replace(/\./g, "")
-      .replace(",", ".");
-    const n = Number(cleaned);
+  if (typeof v !== "string") return null;
+  const s = v.replace(/%/g, "").replace(/\s/g, "");
+  if (!s) return null;
+  if (/^\d+\.\d+$/.test(s)) {
+    const n = Number(s);
     return Number.isFinite(n) ? n : null;
   }
-  return null;
+  if (s.includes(",") && s.includes(".")) {
+    const n =
+      s.lastIndexOf(",") > s.lastIndexOf(".")
+        ? Number(s.replace(/\./g, "").replace(",", "."))
+        : Number(s.replace(/,/g, ""));
+    return Number.isFinite(n) ? n : null;
+  }
+  if (s.includes(",")) {
+    const n = Number(s.replace(",", "."));
+    return Number.isFinite(n) ? n : null;
+  }
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
 }
 
 function pick(obj: Record<string, unknown>, keys: string[]): unknown {
@@ -181,10 +191,20 @@ function extractList(payload: unknown): unknown[] {
   return [];
 }
 
-async function fetchJson(url: string): Promise<unknown | null> {
+const PLAIN_HEADERS: HeadersInit = {
+  Accept: "application/json, application/xml, text/plain, */*",
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+  "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+};
+
+async function fetchJson(
+  url: string,
+  headers: HeadersInit = HEADERS,
+): Promise<unknown | null> {
   try {
     const res = await fetch(url, {
-      headers: HEADERS,
+      headers,
       signal: AbortSignal.timeout(12_000),
       cache: "no-store",
     });
@@ -239,12 +259,12 @@ async function scrapeCanlidovizHtml(): Promise<{
 
     for (const { code, label } of fxCodes) {
       const re = new RegExp(
-        `currency" content="${code}"[\\s\\S]{0,900}?dt="bA"[^>]*>\\s*([0-9.,]+)`,
+        `content="${code}"[\\s\\S]{0,5000}?dt="(?:amount|sA|bA)"[^>]*>\\s*([0-9][0-9.,]*)`,
         "i",
       );
       const m = html.match(re);
-      const n = m?.[1] ? Number(m[1].replace(",", ".")) : null;
-      if (n && Number.isFinite(n)) {
+      const n = m?.[1] ? asNumber(m[1]) : null;
+      if (n && Number.isFinite(n) && n > 1) {
         fx.push({
           code,
           label,
@@ -404,9 +424,89 @@ async function scrapeCanlidovizCrypto(): Promise<MarketItem[]> {
   }
 }
 
+async function fetchTcmbXml(): Promise<MarketItem[]> {
+  try {
+    const res = await fetch("https://www.tcmb.gov.tr/kurlar/today.xml", {
+      headers: PLAIN_HEADERS,
+      signal: AbortSignal.timeout(12_000),
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    const xml = await res.text();
+    const want: Record<string, string> = {
+      USD: "Dolar",
+      EUR: "Euro",
+      GBP: "Sterlin",
+    };
+    const out: MarketItem[] = [];
+    for (const [code, label] of Object.entries(want)) {
+      const block = xml.match(
+        new RegExp(`Kod="${code}"[\\s\\S]{0,1500}?</Currency>`, "i"),
+      )?.[0];
+      if (!block) continue;
+      const sell = asNumber(block.match(/<ForexSelling>([0-9.]+)/i)?.[1] ?? "");
+      const buy = asNumber(block.match(/<ForexBuying>([0-9.]+)/i)?.[1] ?? "");
+      if (sell == null || sell < 1) continue;
+      out.push({
+        code,
+        label,
+        value: formatTr(sell, 4),
+        change: "—",
+        up: true,
+        buy: buy != null ? formatTr(buy, 4) : null,
+        sell: formatTr(sell, 4),
+      });
+    }
+    return out;
+  } catch {
+    return [];
+  }
+}
+
+function mergeMarketItems(
+  primary: MarketItem[],
+  backup: MarketItem[],
+): MarketItem[] {
+  const out = primary.filter(hasMarketValue);
+  const seen = new Set(out.map((i) => i.code.toUpperCase()));
+  for (const row of backup) {
+    const key = row.code.toUpperCase();
+    if (seen.has(key) || !hasMarketValue(row)) continue;
+    out.push(row);
+    seen.add(key);
+  }
+  return out;
+}
+
+function hasFxTrio(items: MarketItem[]): boolean {
+  const blob = items
+    .filter(hasMarketValue)
+    .map((i) => `${i.code} ${i.label}`.toUpperCase())
+    .join(" ");
+  return (
+    (blob.includes("USD") || blob.includes("DOLAR")) &&
+    (blob.includes("EUR") || blob.includes("EURO"))
+  );
+}
+
+function summarizeSources(parts: string[]): string {
+  const text = parts.join(" ");
+  if (/tcmb/i.test(text) && /canlidoviz/i.test(text)) {
+    return "TCMB ve canlidoviz.com";
+  }
+  if (/tcmb/i.test(text)) return "TCMB";
+  if (/canlidoviz/i.test(text)) return "canlidoviz.com";
+  if (/binance/i.test(text)) return "Binance";
+  if (/coingecko/i.test(text)) return "CoinGecko";
+  return parts[0] || "Piyasa";
+}
+
 async function fetchTcmbFx(): Promise<MarketItem[]> {
   try {
-    const json = await fetchJson("https://hasanadiguzel.com.tr/api/kurgetir");
+    const json = await fetchJson(
+      "https://hasanadiguzel.com.tr/api/kurgetir",
+      PLAIN_HEADERS,
+    );
     if (!json || typeof json !== "object") return [];
     const list = (json as { TCMB_AnlikKurBilgileri?: unknown[] })
       .TCMB_AnlikKurBilgileri;
@@ -596,7 +696,7 @@ function pickPreferred(
       selected.push(rest);
     }
   }
-  if (selected.length >= Math.min(3, limit)) return selected.slice(0, limit);
+  if (selected.length) return selected.slice(0, limit);
   return items.slice(0, limit);
 }
 
@@ -644,10 +744,10 @@ export async function getMarketsSnapshot(
   if (goldRaw.length) sources.push("canlidoviz-gold");
   if (cryptoRaw.length) sources.push("canlidoviz-crypto");
 
-  if (!fxRaw.length || !goldRaw.length) {
+  if (!hasFxTrio(fxRaw) || !goldRaw.length) {
     const scraped = await scrapeCanlidovizHtml();
-    if (!fxRaw.length && scraped.fx.length) {
-      fxRaw = scraped.fx;
+    if (!hasFxTrio(fxRaw) && scraped.fx.length) {
+      fxRaw = mergeMarketItems(fxRaw, scraped.fx);
       sources.push("canlidoviz-html-fx");
     }
     if (!goldRaw.length && scraped.gold.length) {
@@ -665,10 +765,11 @@ export async function getMarketsSnapshot(
     }
   }
 
-  if (!fxRaw.length) {
-    const tcmb = await fetchTcmbFx();
+  if (!hasFxTrio(fxRaw)) {
+    const [xml, api] = await Promise.all([fetchTcmbXml(), fetchTcmbFx()]);
+    const tcmb = mergeMarketItems(xml, api);
     if (tcmb.length) {
-      fxRaw = tcmb;
+      fxRaw = mergeMarketItems(fxRaw, tcmb);
       sources.push("tcmb");
     }
   }
@@ -683,7 +784,7 @@ export async function getMarketsSnapshot(
   }
 
   const data: MarketsSnapshot = {
-    fx: pickPreferred(fxRaw, ["USD", "EUR", "GBP"], 6),
+    fx: pickPreferred(fxRaw, ["USD", "EUR", "GBP"], 6).filter(hasMarketValue),
     gold: pickPreferred(
       goldRaw,
       ["GA", "C", "Y", "T", "ATA", "XAU/USD", "GAG", "GRAM", "CEYREK", "YARIM", "TAM", "ONS", "XAU"],
@@ -694,7 +795,7 @@ export async function getMarketsSnapshot(
       ["BTC", "ETH", "USDT", "BNB", "XRP", "SOL", "DOGE"],
       7,
     ),
-    source: sources.join("+") || FALLBACK.source,
+    source: summarizeSources(sources) || FALLBACK.source,
     updatedAt: new Date().toISOString(),
   };
 
