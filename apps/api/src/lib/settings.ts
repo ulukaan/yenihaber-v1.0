@@ -45,7 +45,7 @@ export async function loadSettingsFlat(): Promise<SettingsMap> {
   // legacy → new
   for (const [legacy, modern] of Object.entries(LEGACY_MAP)) {
     if (rows.some((r) => r.key === legacy) && !rows.some((r) => r.key === modern)) {
-      flat[modern] = flat[legacy] ?? flat[modern];
+      flat[modern] = flat[legacy] ?? flat[modern] ?? "";
     }
   }
   // new → legacy mirrors for old pages

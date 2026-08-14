@@ -6,7 +6,7 @@ import { apiApp } from "./app.js";
 const env = loadApiEnv(process.env);
 const port = Number(process.env.PORT || env.API_PORT);
 
-serve({ fetch: (req, e, ctx) => apiApp.fetch(req, e, ctx), port }, (info) => {
+serve({ fetch: apiApp.fetch, port }, (info) => {
   console.log(
     `API hazır → http://localhost:${info.port}/${env.API_PREFIX}/health`,
   );

@@ -297,7 +297,7 @@ export const CategoryInputSchema = z
       });
     }
   });
-export type CategoryInput = z.infer<typeof CategoryInputSchema>;
+export type CategoryInput = z.input<typeof CategoryInputSchema>;
 
 /** PATCH — description gönderilirse yine 60–100 */
 export const CategoryPatchSchema = z
@@ -876,7 +876,7 @@ export const ArticleInputSchema = z
     tagNameRefine(data.tagNames ?? [], ctx);
     videoPublishRefine(data, ctx, "create");
   });
-export type ArticleInput = z.infer<typeof ArticleInputSchema>;
+export type ArticleInput = z.input<typeof ArticleInputSchema>;
 
 /**
  * Site üyesi haber gönderimi — admin onayı (ONAYDA) zorunlu, yayın yok.
@@ -1338,7 +1338,7 @@ export function parseGalleryImages(raw: string | null | undefined): GalleryImage
         }
         return null;
       })
-      .filter((x): x is GalleryImage => Boolean(x));
+      .filter((x): x is { url: string; alt: string | null } => x !== null);
   } catch {
     return [];
   }
@@ -2471,6 +2471,8 @@ export function slugify(input: string): string {
     .replace(/^-+|-+$/g, "")
     .slice(0, 220);
 }
+
+import type { AdDevice } from "./ad-slots";
 
 export {
   AD_SLOTS,

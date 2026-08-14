@@ -177,6 +177,7 @@ export function CategoriesPanel({ bucket }: CategoriesPanelProps) {
           sortOrder: flat.length + 1,
           menuOrder: flat.length + 1,
           bucket,
+          status: "aktif",
           pageTemplate: form.pageTemplate,
           ...colorPayload,
         });

@@ -71,7 +71,7 @@ settingsRoutes.put(
   requireAuth,
   requireRole("ADMIN"),
   async (c) => {
-    const groupParam = c.req.param("group");
+    const groupParam = c.req.param("group")!;
     if (!isSettingsGroup(groupParam)) {
       throw new HTTPException(400, { message: "Geçersiz sekme" });
     }

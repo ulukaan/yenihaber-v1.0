@@ -462,7 +462,7 @@ dashboardRoutes.patch("/bik/:date", requireAuth, async (c) => {
   if (user.role !== "ADMIN" && user.role !== "EDITOR") {
     return c.json({ message: "Yetkisiz" }, 403);
   }
-  const date = c.req.param("date");
+  const date = c.req.param("date")!;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     return c.json({ message: "Geçersiz tarih" }, 400);
   }
