@@ -1,6 +1,19 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
 
+const configDir = path.dirname(fileURLToPath(import.meta.url));
+/** Windows'ta standalone symlink EPERM; Hostinger Linux'ta açılır */
+const standalone =
+  process.platform !== "win32" || process.env.FORCE_STANDALONE === "1";
+
 const nextConfig: NextConfig = {
+  ...(standalone
+    ? {
+        output: "standalone" as const,
+        outputFileTracingRoot: path.join(configDir, "../.."),
+      }
+    : {}),
   typescript: {
     ignoreBuildErrors: true,
   },

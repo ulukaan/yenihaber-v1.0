@@ -1,13 +1,9 @@
-import { authJson, authOptions } from "@/lib/member-auth";
+import { apiHealthPayload } from "@yenihaber/api/health";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export function OPTIONS(req: Request) {
-  return authOptions(req);
-}
-
-/** Hono yüklenmese de sağlık kontrolü Next’ten döner */
-export function GET(req: Request) {
-  return authJson(req, { ok: true, service: "yenihaber-api" });
+export async function GET() {
+  const body = await apiHealthPayload();
+  return Response.json(body, { status: body.ok ? 200 : 503 });
 }

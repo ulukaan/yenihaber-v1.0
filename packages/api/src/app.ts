@@ -30,6 +30,7 @@ import { electionRoutes } from "./routes/elections";
 import { menuRoutes } from "./routes/menus";
 import { storyRoutes } from "./routes/stories";
 import { listingRoutes } from "./routes/listings";
+import { apiHealthPayload } from "./health";
 
 type ApiHono = Hono;
 
@@ -69,7 +70,10 @@ export function getApiApp(): ApiHono {
     }),
   );
 
-  apiApp.get("/health", (c) => c.json({ ok: true, service: "yenihaber-api" }));
+  apiApp.get("/health", async (c) => {
+    const body = await apiHealthPayload();
+    return c.json(body, body.ok ? 200 : 503);
+  });
 
   apiApp.route("/auth", authRoutes);
   apiApp.route("/articles", articleRoutes);

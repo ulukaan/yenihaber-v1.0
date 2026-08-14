@@ -15,6 +15,11 @@
       "types": "./dist/app.d.ts",
       "import": "./dist/app.js",
       "default": "./dist/app.js"
+    },
+    "./health": {
+      "types": "./dist/health.d.ts",
+      "import": "./dist/health.js",
+      "default": "./dist/health.js"
     }
   },
   "files": ["dist"],

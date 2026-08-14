@@ -5,30 +5,41 @@ import { getApiApp } from "@yenihaber/api/app";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/**
- * Hono API — aynı Node süreci. Dinamik import Hostinger’da paketi
- * çözemeyince 503 “API yüklenemedi” dönüyordu.
- */
-async function handle(req: NextRequest) {
-  try {
-    return await getApiApp().fetch(req);
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "API yüklenemedi";
-    console.error("API route", error);
-    const origin = req.headers.get("origin") ?? "*";
-    return Response.json(
-      { message },
-      {
-        status: 503,
-        headers: {
-          "Access-Control-Allow-Origin": origin,
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-          "Access-Control-Allow-Methods":
-            "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-        },
+function failJson(stage: string, error: unknown, origin: string) {
+  return Response.json(
+    {
+      ok: false,
+      stage,
+      error: error instanceof Error ? error.message : String(error),
+      node: process.version,
+      hasDbUrl: Boolean(process.env.DATABASE_URL?.trim()),
+    },
+    {
+      status: 503,
+      headers: {
+        "Access-Control-Allow-Origin": origin,
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Methods":
+          "GET, POST, PATCH, PUT, DELETE, OPTIONS",
       },
-    );
+    },
+  );
+}
+
+async function handle(req: NextRequest) {
+  const origin = req.headers.get("origin") ?? "*";
+  try {
+    const app = getApiApp();
+    return await app.fetch(req);
+  } catch (error) {
+    console.error("API route", error);
+    const msg = error instanceof Error ? error.message : String(error);
+    const stage = /prisma|datasource|P1001|P1017|engine/i.test(msg)
+      ? "prisma-connect"
+      : /ortam|JWT|DATABASE_URL/i.test(msg)
+        ? "load-env"
+        : "load-api";
+    return failJson(stage, error, origin);
   }
 }
 
