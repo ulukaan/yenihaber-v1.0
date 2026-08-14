@@ -7,6 +7,7 @@ build
 .env.local
 .env.*
 !.env.example
+!.env.hostinger.example
 *.db
 *.db-journal
 .DS_Store
