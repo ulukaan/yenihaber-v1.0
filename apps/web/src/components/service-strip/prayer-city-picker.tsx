@@ -1,21 +1,23 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Moon } from "lucide-react";
-import type { ApiPrayer, ApiPrayerCity } from "@yenihaber/shared";
+import type { ApiPrayer } from "@yenihaber/shared";
+import { listCities } from "@yenihaber/shared/prayer";
 import styles from "./service-strip.module.css";
 
 const STORAGE_KEY = "yh-prayer-city";
-const API =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+const ALL_CITIES = listCities();
 
 export type PrayerCityPickerProps = {
   initial?: ApiPrayer | null;
 };
 
-/** İl seçen namaz vakti — select yalnız tıklanınca açılır */
+/**
+ * İl seçen namaz vakti — 81 il pakette; vakit Next `/api/live/prayer` üzerinden.
+ */
 export function PrayerCityPicker({ initial }: PrayerCityPickerProps) {
-  const [cities, setCities] = useState<ApiPrayerCity[]>([]);
+  const cities = useMemo(() => ALL_CITIES, []);
   const [city, setCity] = useState(initial?.city.slug ?? "duzce");
   const [data, setData] = useState<ApiPrayer | null>(initial ?? null);
   const [loading, setLoading] = useState(false);
@@ -26,7 +28,7 @@ export function PrayerCityPicker({ initial }: PrayerCityPickerProps) {
     setLoading(true);
     try {
       const res = await fetch(
-        `${API}/prayer?city=${encodeURIComponent(slug)}`,
+        `/api/live/prayer?city=${encodeURIComponent(slug)}`,
         { cache: "no-store" },
       );
       if (!res.ok) throw new Error("prayer");
@@ -37,28 +39,6 @@ export function PrayerCityPicker({ initial }: PrayerCityPickerProps) {
     } finally {
       setLoading(false);
     }
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch(`${API}/prayer/cities`, {
-          cache: "force-cache",
-        });
-        if (!res.ok) return;
-        const json = (await res.json()) as {
-          cities: ApiPrayerCity[];
-          defaultCity: string;
-        };
-        if (!cancelled) setCities(json.cities);
-      } catch {
-        // ignore
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
   }, []);
 
   useEffect(() => {
@@ -79,7 +59,6 @@ export function PrayerCityPicker({ initial }: PrayerCityPickerProps) {
     const el = selectRef.current;
     if (!el) return;
     el.focus();
-    // Bazı tarayıcılarda native listeyi aç
     try {
       el.showPicker?.();
     } catch {
@@ -101,7 +80,10 @@ export function PrayerCityPicker({ initial }: PrayerCityPickerProps) {
 
   const label = data?.next.label ?? "Akşam";
   const time = data?.next.time ?? data?.times.aksam ?? "—";
-  const cityName = data?.city.name ?? "İl";
+  const cityName =
+    data?.city.name ??
+    cities.find((c) => c.slug === city)?.name ??
+    "Düzce";
 
   return (
     <div className={`${styles.item} ${styles.prayerItem}`}>
@@ -113,7 +95,9 @@ export function PrayerCityPicker({ initial }: PrayerCityPickerProps) {
         <strong className={styles.value}>{time}</strong>
       </div>
 
-      <div className={styles.citySelectWrap}>
+      <div
+        className={`${styles.citySelectWrap}${picking ? ` ${styles.citySelectOpen}` : ""}`}
+      >
         {!picking ? (
           <button
             type="button"
@@ -133,12 +117,8 @@ export function PrayerCityPicker({ initial }: PrayerCityPickerProps) {
             onBlur={() => setPicking(false)}
             aria-label="Namaz vakti ili seçin"
             title={cityName}
-            size={1}
           >
-            {(cities.length
-              ? cities
-              : [{ slug: city, name: cityName }]
-            ).map((c) => (
+            {cities.map((c) => (
               <option key={c.slug} value={c.slug}>
                 {c.name}
               </option>

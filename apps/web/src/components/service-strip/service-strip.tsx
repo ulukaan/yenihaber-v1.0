@@ -1,7 +1,7 @@
 import { CloudSun } from "lucide-react";
 import { weather } from "@/lib/live-data";
 import { getMarkets } from "@/lib/markets";
-import { publicApi } from "@/lib/api";
+import { getPrayerTimes } from "@/lib/prayer";
 import { PrayerCityPicker } from "./prayer-city-picker";
 import { FxRotator } from "./fx-rotator";
 import { MarketsDesktopSlots } from "./markets-desktop-slots";
@@ -20,7 +20,7 @@ const iconProps = {
 export async function ServiceStrip() {
   const [markets, prayer] = await Promise.all([
     getMarkets(),
-    publicApi.prayer.get("duzce").catch(() => null),
+    getPrayerTimes("duzce").catch(() => null),
   ]);
 
   return (

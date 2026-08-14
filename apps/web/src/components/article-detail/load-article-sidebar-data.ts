@@ -1,6 +1,7 @@
 import type { ApiArticle, ApiCategory } from "@yenihaber/shared";
 import { publicApi } from "@/lib/api";
 import { getMarkets } from "@/lib/markets";
+import { getPrayerTimes } from "@/lib/prayer";
 import { getFuelPrices } from "@/lib/fuel";
 import { weather as weatherFallback } from "@/lib/live-data";
 import type { ArticleSidebarData } from "./article-sidebar";
@@ -17,7 +18,7 @@ export async function loadArticleSidebarData(
       publicApi.categories.list().catch(() => [] as ApiCategory[]),
       getMarkets(),
       getFuelPrices(),
-      publicApi.prayer.get("duzce").catch(() => null),
+      getPrayerTimes("duzce").catch(() => null),
       publicApi.polls.active().catch(() => ({ poll: null })),
     ]);
 

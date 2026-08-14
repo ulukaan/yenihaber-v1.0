@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { publicApi } from "@/lib/api";
+import { getPrayerTimes, listCities, DEFAULT_CITY_SLUG } from "@/lib/prayer";
 import {
   ServiceShell,
 } from "@/components/service-page/service-shell";
@@ -38,27 +38,15 @@ const FAQS = [
 /** Namaz vakitleri — il seçimi, zaman çizelgesi, bölge karşılaştırması */
 export default async function PrayerServicePage({ searchParams }: Props) {
   const sp = await searchParams;
-  let cities: { slug: string; name: string }[] = [];
-  let defaultCity = "duzce";
-  try {
-    const list = await publicApi.prayer.cities();
-    cities = list.cities;
-    defaultCity = list.defaultCity || "duzce";
-  } catch {
-    cities = [{ slug: "duzce", name: "Düzce" }];
-  }
+  const cities = listCities();
+  const defaultCity = DEFAULT_CITY_SLUG;
 
   const citySlug = (sp.il?.trim() || defaultCity).toLowerCase();
   const validSlug = cities.some((c) => c.slug === citySlug)
     ? citySlug
     : defaultCity;
 
-  let prayer: Awaited<ReturnType<typeof publicApi.prayer.get>> | null = null;
-  try {
-    prayer = await publicApi.prayer.get(validSlug);
-  } catch {
-    prayer = null;
-  }
+  const prayer = await getPrayerTimes(validSlug).catch(() => null);
 
   const regionSlugs = REGION.filter((slug) =>
     cities.some((c) => c.slug === slug),
@@ -67,7 +55,7 @@ export default async function PrayerServicePage({ searchParams }: Props) {
   const regionTimes = await Promise.all(
     regionSlugs.map(async (slug) => {
       try {
-        const p = await publicApi.prayer.get(slug);
+        const p = await getPrayerTimes(slug);
         return {
           slug,
           name: p.city.name,

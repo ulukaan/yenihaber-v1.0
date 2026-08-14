@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ServiceShell, SERVICE_NAV } from "@/components/service-page/service-shell";
 import s from "@/components/service-page/service-shell.module.css";
-import { publicApi } from "@/lib/api";
 import { getMarkets } from "@/lib/markets";
+import { getPrayerTimes } from "@/lib/prayer";
 import { getDutyPharmacies } from "@/lib/pharmacy";
 import { getVefatNotices } from "@/lib/vefat";
 import { getWeather } from "@/lib/weather";
@@ -35,7 +35,7 @@ const DESCS: Record<string, string> = {
 /** Servisler ana dizin — özet kartlar + canlı parçalar */
 export default async function ServicesIndexPage() {
   const [prayer, weather, markets, pharmacy, vefat, cinema] = await Promise.all([
-    publicApi.prayer.get("duzce").catch(() => null),
+    getPrayerTimes("duzce").catch(() => null),
     getWeather(),
     getMarkets(),
     getDutyPharmacies(null),
