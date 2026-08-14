@@ -17,13 +17,14 @@
     "db:studio": "pnpm --filter @yenihaber/database studio",
     "setup": "pnpm install && pnpm db:generate && pnpm db:push && pnpm db:seed",
     "check:tokens": "node scripts/check-tokens.mjs",
-    "build:hosting": "node scripts/hostinger-prep.mjs && pnpm --filter @yenihaber/database generate && pnpm --filter @yenihaber/web build",
+    "build:hosting": "node scripts/hostinger-prep.mjs && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/database generate && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/web build",
     "start": "node server.mjs"
   },
   "dependencies": {
     "tsx": "^4.19.4"
   },
   "devDependencies": {
+    "pnpm": "11.21.0",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3"
   },
