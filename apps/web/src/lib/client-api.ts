@@ -1,11 +1,9 @@
 "use client";
 
-import { API_BASE } from "@/lib/public-env";
-
 import { createApiClient } from "@yenihaber/api-client";
 
-const baseUrl =
-  API_BASE;
+/** Tarayıcı — her zaman aynı origin, Hostinger http/https karışması olmaz */
+const baseUrl = "/api/v1";
 
 const TOKEN_KEY = "yh-web-token";
 const USER_KEY = "yh-web-user";

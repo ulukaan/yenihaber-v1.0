@@ -30,18 +30,25 @@ function isProd(env: NodeJS.ProcessEnv = process.env): boolean {
 }
 
 /**
- * API kökü. Canlıda localhost:4000 asla dönmez — göreli /api/v1 veya site origin.
+ * API kökü. Tarayıcıda her zaman aynı origin `/api/v1` (http/https ve CORS kırılmaz).
  */
 export function resolveApiBaseUrl(
   env: NodeJS.ProcessEnv = process.env,
   originHint?: string,
 ): string {
+  if (typeof window !== "undefined") return "/api/v1";
+
   const explicit = firstPublicUrl(
     env.API_INTERNAL_URL,
     env.NEXT_PUBLIC_API_URL,
     env.API_PUBLIC_URL,
   );
-  if (explicit) return explicit;
+  if (explicit) {
+    if (isProd(env) && explicit.startsWith("http://")) {
+      return `https://${explicit.slice("http://".length)}`;
+    }
+    return explicit;
+  }
   if (isProd(env)) {
     const site = firstPublicUrl(
       originHint,
@@ -49,7 +56,12 @@ export function resolveApiBaseUrl(
       env.NEXT_PUBLIC_SITE_URL,
       env.NEXT_PUBLIC_WEB_URL,
     );
-    if (site) return `${site}/api/v1`;
+    if (site) {
+      const httpsSite = site.startsWith("http://")
+        ? `https://${site.slice("http://".length)}`
+        : site;
+      return `${httpsSite}/api/v1`;
+    }
     return "/api/v1";
   }
   return "http://127.0.0.1:4000/api/v1";
@@ -64,7 +76,12 @@ export function resolveSiteOrigin(
     env.NEXT_PUBLIC_SITE_URL,
     env.NEXT_PUBLIC_WEB_URL,
   );
-  if (explicit) return explicit;
+  if (explicit) {
+    if (isProd(env) && explicit.startsWith("http://")) {
+      return `https://${explicit.slice("http://".length)}`;
+    }
+    return explicit;
+  }
   if (isProd(env)) return "";
   return "http://localhost:3000";
 }
@@ -105,9 +122,14 @@ export function resolveCorsOrigins(
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
-  const cleaned = isProd(env)
+  const cleaned = (isProd(env)
     ? parts.filter((p) => !isLoopbackUrl(p))
-    : parts;
+    : parts
+  ).map((p) =>
+    isProd(env) && p.startsWith("http://")
+      ? `https://${p.slice("http://".length)}`
+      : p,
+  );
   const site = resolveSiteOrigin(env);
   if (site && !cleaned.includes(site)) cleaned.push(site);
   if (!cleaned.length && !isProd(env)) {

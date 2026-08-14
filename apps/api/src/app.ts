@@ -49,14 +49,21 @@ export function getApiApp(): ApiHono {
   apiApp.use(
     "*",
     cors({
-      origin: origins.length
-        ? origins
-        : (origin) =>
-            origin &&
-            origin.startsWith("https://") &&
-            !/localhost|127\.0\.0\.1/i.test(origin)
-              ? origin
-              : "",
+      origin: (origin) => {
+        if (!origin) return origins[0] || "";
+        if (origins.includes(origin)) return origin;
+        const https = origin.startsWith("http://")
+          ? `https://${origin.slice("http://".length)}`
+          : origin;
+        if (origins.includes(https)) return origin;
+        if (
+          origin.startsWith("https://") &&
+          !/localhost|127\.0\.0\.1/i.test(origin)
+        ) {
+          return origin;
+        }
+        return "";
+      },
       allowHeaders: ["Content-Type", "Authorization"],
       allowMethods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
     }),

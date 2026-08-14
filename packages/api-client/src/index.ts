@@ -117,11 +117,21 @@ export function createApiClient(options: ApiClientOptions) {
       headers.set("Authorization", `Bearer ${token}`);
     }
 
-    const res = await fetch(`${baseUrl}${path}`, {
-      ...init,
-      headers,
-      cache: "no-store",
-    });
+    let res: Response;
+    try {
+      res = await fetch(`${baseUrl}${path}`, {
+        ...init,
+        headers,
+        cache: "no-store",
+        credentials: "same-origin",
+      });
+    } catch {
+      throw new ApiError(
+        "Sunucuya bağlanılamadı. Sayfayı yenileyip tekrar deneyin.",
+        0,
+        null,
+      );
+    }
 
     const text = await res.text();
     let data: unknown = null;
