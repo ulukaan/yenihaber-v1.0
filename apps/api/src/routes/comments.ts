@@ -11,17 +11,17 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { clientIp, hashIp } from "../lib/ip.js";
+} from "../lib/auth";
+import { clientIp, hashIp } from "../lib/ip";
 import {
   applyCommentStatus,
   purgeTrashedComments,
-} from "../lib/comment-moderation.js";
+} from "../lib/comment-moderation";
 import {
   isHassasKategori,
   normalizeDisplayName,
   triyaj,
-} from "../lib/comment-triage.js";
+} from "../lib/comment-triage";
 import { z } from "zod";
 
 export const commentRoutes = new Hono<{ Variables: AuthVariables }>();

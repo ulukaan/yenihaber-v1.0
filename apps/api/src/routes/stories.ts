@@ -19,8 +19,8 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { revalidateWeb } from "../lib/revalidate.js";
+} from "../lib/auth";
+import { revalidateWeb } from "../lib/revalidate";
 
 export const storyRoutes = new Hono<{ Variables: AuthVariables }>();
 

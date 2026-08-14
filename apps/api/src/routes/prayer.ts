@@ -3,7 +3,7 @@ import {
   DEFAULT_CITY_SLUG,
   getPrayerTimes,
   listCities,
-} from "../lib/prayer.js";
+} from "../lib/prayer";
 
 export const prayerRoutes = new Hono();
 

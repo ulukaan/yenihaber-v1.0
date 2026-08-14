@@ -2,7 +2,7 @@ import { chmodSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 /**
- * Hostinger'da esbuild ikilisi EACCES alır; +x verir.
+ * Hostinger: esbuild ve Prisma motorları EACCES almasın diye +x.
  * @param {string} dir
  */
 function walk(dir) {
@@ -24,17 +24,29 @@ function walk(dir) {
       walk(full);
       continue;
     }
-    const isEsbuildBin =
-      (name === "esbuild" || name === "esbuild.exe") &&
-      (full.includes(`${join("esbuild", "bin")}`) || full.includes(`${join(".bin")}`));
-    if (isEsbuildBin) {
+    if (needsExec(name, full)) {
       try {
         chmodSync(full, 0o755);
       } catch {
-        /* izin yoksa Next derlemesi düşer */
+        /* izin yoksa derleme düşebilir */
       }
     }
   }
+}
+
+/**
+ * @param {string} name
+ * @param {string} full
+ */
+function needsExec(name, full) {
+  const n = name.toLowerCase();
+  if (n === "esbuild" || n === "esbuild.exe") return true;
+  if (n.includes("query-engine") || n.includes("schema-engine")) return true;
+  if (n.startsWith("libquery_engine")) return true;
+  if (full.includes(`${join(".bin")}`) && !n.endsWith(".cmd") && !n.endsWith(".ps1")) {
+    return !n.includes(".");
+  }
+  return false;
 }
 
 walk(join(process.cwd(), "node_modules"));

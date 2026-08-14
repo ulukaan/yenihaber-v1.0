@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getCinemaSnapshot } from "../lib/cinema.js";
+import { getCinemaSnapshot } from "../lib/cinema";
 
 export const cinemaRoutes = new Hono();
 

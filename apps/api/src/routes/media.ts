@@ -11,7 +11,7 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
+} from "../lib/auth";
 
 export const mediaRoutes = new Hono<{ Variables: AuthVariables }>();
 

@@ -1,5 +1,9 @@
 # Sürüm geçmişi
 
+## 1.1.1 — 2026-08-14
+
+Hostinger derlemesi: API `.js` importları Next ile çözülsün; Prisma motorlarına +x.
+
 ## 1.1.0 — 2026-08-14
 
 Mobil asıl iskelet ve panel sadeleştirmesi.

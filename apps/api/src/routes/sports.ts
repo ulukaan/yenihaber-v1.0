@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getSportsSnapshot } from "../lib/sports.js";
+import { getSportsSnapshot } from "../lib/sports";
 
 export const sportRoutes = new Hono();
 

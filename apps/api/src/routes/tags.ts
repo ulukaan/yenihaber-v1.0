@@ -16,14 +16,14 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
+} from "../lib/auth";
 import {
   mapTag,
   pathForTagSlug,
   prepareTagName,
   type TagRow,
-} from "../lib/tags.js";
-import { revalidateWeb } from "../lib/revalidate.js";
+} from "../lib/tags";
+import { revalidateWeb } from "../lib/revalidate";
 
 export const tagRoutes = new Hono<{ Variables: AuthVariables }>();
 

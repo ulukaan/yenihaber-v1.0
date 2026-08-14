@@ -19,10 +19,10 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { hashToken, newOpaqueToken } from "../lib/authors-util.js";
-import { sendInviteMail } from "../lib/mail.js";
-import { issuePasswordReset } from "../lib/password-reset.js";
+} from "../lib/auth";
+import { hashToken, newOpaqueToken } from "../lib/authors-util";
+import { sendInviteMail } from "../lib/mail";
+import { issuePasswordReset } from "../lib/password-reset";
 
 export const userRoutes = new Hono<{ Variables: AuthVariables }>();
 

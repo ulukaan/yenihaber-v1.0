@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@yenihaber/database";
 import { PaginationSchema } from "@yenihaber/shared";
-import { articleInclude, mapArticle, mapAuthor } from "../lib/mappers.js";
+import { articleInclude, mapArticle, mapAuthor } from "../lib/mappers";
 
 export const authorRoutes = new Hono();
 

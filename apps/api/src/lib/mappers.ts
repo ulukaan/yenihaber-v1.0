@@ -12,7 +12,7 @@ import {
   type VideoOrientation,
   type VideoProvider,
 } from "@yenihaber/shared";
-import { peekDefaultCoverUrl } from "./settings.js";
+import { peekDefaultCoverUrl } from "./settings";
 
 const SITE_DEFAULT_COVER = "/brand/default-cover.svg";
 

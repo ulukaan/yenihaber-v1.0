@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { prisma } from "@yenihaber/database";
-import { requireAuth, type AuthVariables } from "../lib/auth.js";
-import { peekDefaultCoverUrl } from "../lib/settings.js";
+import { requireAuth, type AuthVariables } from "../lib/auth";
+import { peekDefaultCoverUrl } from "../lib/settings";
 
 export const dashboardRoutes = new Hono<{ Variables: AuthVariables }>();
 
@@ -417,7 +417,7 @@ dashboardRoutes.get("/bik", requireAuth, async (c) => {
     );
   }
 
-  const { reconcileBikPublished } = await import("../lib/bik-stats.js");
+  const { reconcileBikPublished } = await import("../lib/bik-stats");
   // Bugün + dünün yayın sayısını DB ile hizala
   await reconcileBikPublished(keys[keys.length - 1]!);
   if (keys.length > 1) await reconcileBikPublished(keys[keys.length - 2]!);

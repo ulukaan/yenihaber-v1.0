@@ -12,13 +12,13 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { revalidateWeb } from "../lib/revalidate.js";
+} from "../lib/auth";
+import { revalidateWeb } from "../lib/revalidate";
 import {
   copyHeaderToSidebar,
   ensureMenus,
   getMenuByLocation,
-} from "../lib/menus.js";
+} from "../lib/menus";
 
 export const menuRoutes = new Hono<{ Variables: AuthVariables }>();
 

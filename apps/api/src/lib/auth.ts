@@ -4,7 +4,7 @@ import { HTTPException } from "hono/http-exception";
 import { prisma } from "@yenihaber/database";
 import type { ApiUser, Role } from "@yenihaber/shared";
 import { requiresTwoFactor } from "@yenihaber/shared";
-import { hashToken } from "./authors-util.js";
+import { hashToken } from "./authors-util";
 
 export type AuthVariables = {
   user: ApiUser;

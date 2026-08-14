@@ -10,7 +10,7 @@ import {
   type ApiMenuItem,
   type MenuLocation,
 } from "@yenihaber/shared";
-import { peekDefaultCoverUrl } from "./settings.js";
+import { peekDefaultCoverUrl } from "./settings";
 
 type ItemRow = {
   id: string;

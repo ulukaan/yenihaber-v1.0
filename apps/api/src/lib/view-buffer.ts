@@ -35,7 +35,7 @@ export async function flushViewBuffer() {
   );
   const total = snapshot.reduce((s, [, n]) => s + n, 0);
   try {
-    const { bumpBikPageviews } = await import("./bik-stats.js");
+    const { bumpBikPageviews } = await import("./bik-stats");
     await bumpBikPageviews(total);
   } catch {
     /* tablo yoksa sessiz */

@@ -28,25 +28,25 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { articleInclude, mapArticle } from "../lib/mappers.js";
+} from "../lib/auth";
+import { articleInclude, mapArticle } from "../lib/mappers";
 import {
   ensureAuthorForUser,
-} from "../lib/authors-util.js";
+} from "../lib/authors-util";
 import {
   enforcePublishRole,
   recordArticleChange,
   resolvePublishTimestamps,
-} from "../lib/publish.js";
-import { notifyAuthorIfPublished } from "../lib/notify-publish.js";
+} from "../lib/publish";
+import { notifyAuthorIfPublished } from "../lib/notify-publish";
 import {
   articleRevalidateTargets,
   revalidateWeb,
-} from "../lib/revalidate.js";
+} from "../lib/revalidate";
 import {
   expireEndedLiveVideos,
   fetchVideoOembed,
-} from "../lib/video-oembed.js";
+} from "../lib/video-oembed";
 
 export const articleRoutes = new Hono<{ Variables: AuthVariables }>();
 
@@ -85,7 +85,7 @@ function paragraphsToHtml(text: string): string {
 }
 
 async function upsertTags(names: string[]) {
-  const { prepareTagName } = await import("../lib/tags.js");
+  const { prepareTagName } = await import("../lib/tags");
   const tags = [];
   const seen = new Set<string>();
   for (const raw of names) {
@@ -544,7 +544,7 @@ articleRoutes.post(
       });
       if (targetStatus === "ARSIV") {
         const { clearArticleFromLayouts } = await import(
-          "../lib/front-layout.js"
+          "../lib/front-layout"
         );
         await clearArticleFromLayouts(id);
       }
@@ -656,17 +656,17 @@ articleRoutes.patch(
       body.isSideManset !== undefined
     ) {
       const { syncHomeSlotsFromArticleFlags } = await import(
-        "../lib/front-layout.js"
+        "../lib/front-layout"
       );
       await syncHomeSlotsFromArticleFlags({
         articleId: id,
         isFeatured: body.isFeatured ?? article.isFeatured,
         isSideManset: body.isSideManset ?? article.isSideManset,
       });
-      const { revalidateWeb } = await import("../lib/revalidate.js");
+      const { revalidateWeb } = await import("../lib/revalidate");
       void revalidateWeb(["/", "/son-dakika"], ["manset", "anasayfa", "articles"]);
     } else if (body.isSpotlight !== undefined || body.isBreaking !== undefined) {
-      const { revalidateWeb } = await import("../lib/revalidate.js");
+      const { revalidateWeb } = await import("../lib/revalidate");
       void revalidateWeb(["/", "/son-dakika"], ["anasayfa", "articles"]);
     }
 
@@ -714,7 +714,7 @@ articleRoutes.get("/slug/:slug", async (c) => {
 articleRoutes.post("/:id/view", async (c) => {
   const id = c.req.param("id");
   const ua = c.req.header("user-agent") || "";
-  const { isBotUserAgent } = await import("../lib/ip.js");
+  const { isBotUserAgent } = await import("../lib/ip");
   if (isBotUserAgent(ua)) {
     return c.json({ ok: true as const, skipped: "bot" });
   }
@@ -723,7 +723,7 @@ articleRoutes.post("/:id/view", async (c) => {
     select: { id: true },
   });
   if (!article) throw new HTTPException(404, { message: "Haber bulunamadı" });
-  const { bumpViewBuffer } = await import("../lib/view-buffer.js");
+  const { bumpViewBuffer } = await import("../lib/view-buffer");
   bumpViewBuffer(article.id);
   return c.json({ ok: true as const });
 });
@@ -963,7 +963,7 @@ articleRoutes.post("/", requireAuth, requireRole(...WRITE_ROLES), async (c) => {
   if (article.status === "YAYINDA") {
     if (article.isFeatured || article.isSideManset) {
       const { syncHomeSlotsFromArticleFlags } = await import(
-        "../lib/front-layout.js"
+        "../lib/front-layout"
       );
       await syncHomeSlotsFromArticleFlags({
         articleId: article.id,
@@ -976,7 +976,7 @@ articleRoutes.post("/", requireAuth, requireRole(...WRITE_ROLES), async (c) => {
       previousStatus: "TASLAK",
       nextStatus: "YAYINDA",
     });
-    void import("../lib/bik-stats.js").then((m) => m.bumpBikPublished(1));
+    void import("../lib/bik-stats").then((m) => m.bumpBikPublished(1));
     const t = articleRevalidateTargets(article.slug, article.category.slug);
     void revalidateWeb(t.paths, [...t.tags, "manset", "anasayfa"]);
   }
@@ -1231,7 +1231,7 @@ articleRoutes.patch(
     });
 
     if (article.status === "ARSIV") {
-      const { clearArticleFromLayouts } = await import("../lib/front-layout.js");
+      const { clearArticleFromLayouts } = await import("../lib/front-layout");
       await clearArticleFromLayouts(article.id);
     }
 
@@ -1242,14 +1242,14 @@ articleRoutes.patch(
         nextStatus: "YAYINDA",
       });
       if (existing.status !== "YAYINDA") {
-        void import("../lib/bik-stats.js").then((m) => m.bumpBikPublished(1));
+        void import("../lib/bik-stats").then((m) => m.bumpBikPublished(1));
       }
       if (
         body.isFeatured !== undefined ||
         body.isSideManset !== undefined
       ) {
         const { syncHomeSlotsFromArticleFlags } = await import(
-          "../lib/front-layout.js"
+          "../lib/front-layout"
         );
         await syncHomeSlotsFromArticleFlags({
           articleId: article.id,

@@ -14,7 +14,7 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
+} from "../lib/auth";
 import {
   archiveExpiredAds,
   getActiveAds,
@@ -23,8 +23,8 @@ import {
   toPublic,
   trackAdEvent,
   type AdRow,
-} from "../lib/ads.js";
-import { revalidateWeb } from "../lib/revalidate.js";
+} from "../lib/ads";
+import { revalidateWeb } from "../lib/revalidate";
 
 export const adRoutes = new Hono<{ Variables: AuthVariables }>();
 

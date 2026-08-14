@@ -1,8 +1,8 @@
 import { hash } from "bcryptjs";
 import { prisma } from "@yenihaber/database";
 import { resolveAdminOrigin, resolveSiteOrigin } from "@yenihaber/config";
-import { sendPasswordResetMail } from "./mail.js";
-import { hashToken, newOpaqueToken } from "./authors-util.js";
+import { sendPasswordResetMail } from "./mail";
+import { hashToken, newOpaqueToken } from "./authors-util";
 
 const RESET_TTL_MS = 60 * 60 * 1000; // 1 saat
 

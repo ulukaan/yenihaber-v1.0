@@ -11,9 +11,9 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { clientIp, hashIpUa } from "../lib/ip.js";
-import { peekDefaultCoverUrl, loadSettingsFlat } from "../lib/settings.js";
+} from "../lib/auth";
+import { clientIp, hashIpUa } from "../lib/ip";
+import { peekDefaultCoverUrl, loadSettingsFlat } from "../lib/settings";
 
 export const reactionRoutes = new Hono<{ Variables: AuthVariables }>();
 

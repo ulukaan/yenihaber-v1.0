@@ -12,17 +12,17 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { clientIp } from "../lib/ip.js";
-import { sendMail } from "../lib/mail.js";
+} from "../lib/auth";
+import { clientIp } from "../lib/ip";
+import { sendMail } from "../lib/mail";
 import {
   buildBundle,
   getPublicSettings,
   loadSettingsFlat,
   resolveMailConfig,
   saveGroup,
-} from "../lib/settings.js";
-import { revalidateWeb } from "../lib/revalidate.js";
+} from "../lib/settings";
+import { revalidateWeb } from "../lib/revalidate";
 
 export const settingsRoutes = new Hono<{ Variables: AuthVariables }>();
 
@@ -106,7 +106,7 @@ settingsRoutes.put(
           24,
           Math.max(1, Math.round(Number(body["content.homeMansetCount"]) || 12)),
         );
-        const { saveMansetSettings } = await import("../lib/front-layout.js");
+        const { saveMansetSettings } = await import("../lib/front-layout");
         await saveMansetSettings({ desktopLimit: n, mainLimit: n });
         void revalidateWeb(["/"], ["anasayfa", "manset"]);
       }

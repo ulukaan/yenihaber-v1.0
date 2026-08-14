@@ -17,10 +17,10 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { articleHasEffectiveCover } from "../lib/cover.js";
-import { articleInclude, mapArticle } from "../lib/mappers.js";
-import { revalidateWeb } from "../lib/revalidate.js";
+} from "../lib/auth";
+import { articleHasEffectiveCover } from "../lib/cover";
+import { articleInclude, mapArticle } from "../lib/mappers";
+import { revalidateWeb } from "../lib/revalidate";
 import {
   clearArticleFromLayouts,
   defaultsSettings,
@@ -41,7 +41,7 @@ import {
   serializeSlots,
   syncArticleFlagsFromHomeLive,
   effectiveMansetLayout,
-} from "../lib/front-layout.js";
+} from "../lib/front-layout";
 
 export const mansetRoutes = new Hono<{ Variables: AuthVariables }>();
 

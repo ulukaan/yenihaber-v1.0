@@ -13,14 +13,14 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
+} from "../lib/auth";
 import {
   buildStrip,
   mapRace,
   readStripCache,
   recomputeSeats,
   refreshStripCache,
-} from "../lib/elections.js";
+} from "../lib/elections";
 
 export const electionRoutes = new Hono<{ Variables: AuthVariables }>();
 

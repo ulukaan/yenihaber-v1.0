@@ -16,9 +16,9 @@ import {
   type MansetSlot,
   type ApiArticle,
 } from "@yenihaber/shared";
-import { articleHasEffectiveCover } from "./cover.js";
-import { articleInclude, mapArticle } from "./mappers.js";
-import { peekDefaultCoverUrl } from "./settings.js";
+import { articleHasEffectiveCover } from "./cover";
+import { articleInclude, mapArticle } from "./mappers";
+import { peekDefaultCoverUrl } from "./settings";
 
 export function parseSlots(raw: string, count: number): MansetSlot[] {
   try {

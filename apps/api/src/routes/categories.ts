@@ -16,9 +16,9 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { mapCategory } from "../lib/mappers.js";
-import { revalidateWeb } from "../lib/revalidate.js";
+} from "../lib/auth";
+import { mapCategory } from "../lib/mappers";
+import { revalidateWeb } from "../lib/revalidate";
 
 function revalidateHomeRails() {
   void revalidateWeb(["/"], [CacheTags.anasayfa, CacheTags.seritler]);

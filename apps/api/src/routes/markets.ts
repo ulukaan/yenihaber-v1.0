@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getMarketsSnapshot } from "../lib/markets.js";
+import { getMarketsSnapshot } from "../lib/markets";
 
 export const marketRoutes = new Hono();
 

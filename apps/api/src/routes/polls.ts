@@ -12,14 +12,14 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { clientIp } from "../lib/ip.js";
+} from "../lib/auth";
+import { clientIp } from "../lib/ip";
 import {
   buildVoterHash,
   isPollWindowOpen,
   mapPoll,
   type PollRow,
-} from "../lib/polls.js";
+} from "../lib/polls";
 
 export const pollRoutes = new Hono<{ Variables: AuthVariables }>();
 

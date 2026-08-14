@@ -6,8 +6,8 @@ import {
   requireAuth,
   requireRole,
   type AuthVariables,
-} from "../lib/auth.js";
-import { clientIp, hashIp } from "../lib/ip.js";
+} from "../lib/auth";
+import { clientIp, hashIp } from "../lib/ip";
 
 export const contactRoutes = new Hono<{ Variables: AuthVariables }>();
 

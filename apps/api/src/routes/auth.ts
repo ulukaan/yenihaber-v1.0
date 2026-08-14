@@ -16,7 +16,7 @@ import {
   requireAuth,
   signToken,
   type AuthVariables,
-} from "../lib/auth.js";
+} from "../lib/auth";
 import {
   ensureAuthorForUser,
   generateTotpSecret,
@@ -24,11 +24,11 @@ import {
   newOpaqueToken,
   totpUri,
   verifyTotp,
-} from "../lib/authors-util.js";
+} from "../lib/authors-util";
 import {
   consumePasswordReset,
   issuePasswordReset,
-} from "../lib/password-reset.js";
+} from "../lib/password-reset";
 
 export const authRoutes = new Hono<{ Variables: AuthVariables }>();
 

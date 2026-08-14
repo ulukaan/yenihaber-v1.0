@@ -1,5 +1,5 @@
 import { articleHasMansetCover, isUsableArticleCover } from "@yenihaber/shared";
-import { peekDefaultCoverUrl } from "./settings.js";
+import { peekDefaultCoverUrl } from "./settings";
 
 /** Habere gerçek kapak varsa manşete uygundur — logo / varsayılan SVG yetmez */
 export function articleHasEffectiveCover(a: {

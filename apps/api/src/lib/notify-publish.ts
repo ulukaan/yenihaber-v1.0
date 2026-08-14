@@ -1,5 +1,5 @@
 import { prisma } from "@yenihaber/database";
-import { sendArticlePublishedMail } from "./mail.js";
+import { sendArticlePublishedMail } from "./mail";
 
 /**
  * status YAYINDA'ya ilk geçişte yazarın e-postasına bildirim
