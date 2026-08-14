@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
+    ".": "./src/app.ts",
     "./app": "./src/app.ts"
   },
   "scripts": {
@@ -22,11 +22,13 @@
     "dotenv": "^16.5.0",
     "hono": "^4.7.10",
     "jose": "^6.0.11",
+    "nodemailer": "^9.0.5",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.15.29",
+    "@types/nodemailer": "^8.0.1",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }

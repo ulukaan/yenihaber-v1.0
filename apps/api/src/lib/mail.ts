@@ -2,11 +2,10 @@
  * Basit e-posta gönderimi.
  * SMTP_* tanımlıysa ham TCP/LMTP yok; NODE_SMTP veya dış hook:
  * SMTP tanımlı değilse (veya gönderim başarısızsa) konsola yazar.
- *
- * Prod: SMTP_HOST + SMTP_USER/PASS + npm i nodemailer
- * veya MAIL_WEBHOOK_URL (POST JSON {to,subject,text,html})
+ * SMTP_HOST + SMTP_USER/PASS veya MAIL_WEBHOOK_URL.
  */
 
+import nodemailer from "nodemailer";
 import { resolveSiteOrigin } from "@yenihaber/config";
 
 export type MailMessage = {
@@ -66,15 +65,9 @@ export async function sendMail(
   const host = process.env.SMTP_HOST?.trim();
   if (host) {
     try {
-      // optional peer — may not be installed
-      // @ts-expect-error optional dependency
-      const nodemailer = await import("nodemailer");
-      const createTransport =
-        nodemailer.createTransport ?? nodemailer.default?.createTransport;
-      if (!createTransport) throw new Error("nodemailer createTransport yok");
       const port = Number(process.env.SMTP_PORT || 587);
       const secure = process.env.SMTP_SECURE === "1" || port === 465;
-      const transport = createTransport({
+      const transport = nodemailer.createTransport({
         host,
         port,
         secure,

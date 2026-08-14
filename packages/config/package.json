@@ -6,13 +6,20 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./server": {
+      "types": "./src/server.ts",
+      "client": "./src/server-forbidden.ts",
+      "browser": "./src/server-forbidden.ts",
+      "default": "./src/server.ts"
+    }
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "server-only": "^0.0.1",
     "zod": "^3.24.2"
   },
   "devDependencies": {

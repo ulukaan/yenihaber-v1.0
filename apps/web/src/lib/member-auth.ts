@@ -1,7 +1,8 @@
+import "server-only";
 import { createHash, randomBytes } from "node:crypto";
 import { SignJWT } from "jose";
 import { prisma } from "@yenihaber/database";
-import { ensureJwtSecret } from "@yenihaber/config";
+import { ensureJwtSecret } from "@yenihaber/config/server";
 import { requiresTwoFactor, slugify, type ApiUser, type Role } from "@yenihaber/shared";
 
 function hashToken(raw: string): string {

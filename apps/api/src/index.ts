@@ -1,6 +1,6 @@
 import "./env";
 import { serve } from "@hono/node-server";
-import { loadApiEnv } from "@yenihaber/config";
+import { loadApiEnv } from "@yenihaber/config/server";
 import { apiApp } from "./app";
 
 const env = loadApiEnv(process.env);

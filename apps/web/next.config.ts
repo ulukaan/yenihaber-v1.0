@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
     "bcryptjs",
     "jose",
     "@hono/node-server",
+    "nodemailer",
   ],
   images: {
     remotePatterns: [
