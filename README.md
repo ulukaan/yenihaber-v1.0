@@ -2,6 +2,8 @@
 
 Tam bileşen tabanlı haber sitesi monorepo’su. **Web**, **Admin** ve **API** ayrı uygulamalar; tekrarlayan kod `packages/` altında ortaktır.
 
+Sürüm: **1.1.0** — ayrıntı `CHANGELOG.md`.
+
 Kaynak referanslar (yerel):
 
 - Tasarım/tema rengi: `birhaber` WordPress teması (`theme_color: #e74c3c` → marka accent `#EF233C`)
