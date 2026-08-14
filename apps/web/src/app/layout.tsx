@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Newsreader } from "next/font/google";
+import localFont from "next/font/local";
 import "@yenihaber/ui/globals.css";
 import {
   getSiteSettings,
@@ -7,18 +7,40 @@ import {
 } from "@/lib/site-settings";
 import styles from "./layout.module.css";
 
-const inter = Inter({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600"],
+const inter = localFont({
+  src: [
+    {
+      path: "./fonts/inter-latin-ext-wght-normal.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+    {
+      path: "./fonts/inter-latin-wght-normal.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
   variable: "--font-yh-sans",
   display: "swap",
+  adjustFontFallback: "Arial",
 });
 
-const newsreader = Newsreader({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600"],
+const newsreader = localFont({
+  src: [
+    {
+      path: "./fonts/newsreader-latin-ext-wght-normal.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+    {
+      path: "./fonts/newsreader-latin-wght-normal.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
   variable: "--font-yh-serif",
   display: "swap",
+  adjustFontFallback: "Times New Roman",
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -47,7 +69,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/** Kök layout — Newsreader + Inter, latin-ext */
+/** Kök layout — Newsreader + Inter (repo içi woff2) */
 export default async function RootLayout({
   children,
 }: Readonly<{

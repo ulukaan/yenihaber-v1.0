@@ -3,11 +3,11 @@
  *   pnpm --filter @yenihaber/database clean:seed
  */
 import { config } from "dotenv";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { PrismaClient } from "@prisma/client";
 
-const root = resolve(fileURLToPath(new URL(".", import.meta.url)), "../../..");
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 config({ path: resolve(root, ".env") });
 
 function resolveDatabaseUrl(): string {

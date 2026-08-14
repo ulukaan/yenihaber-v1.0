@@ -2,7 +2,6 @@ import { createHash, randomBytes } from "node:crypto";
 import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { basename, extname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@yenihaber/database";
@@ -21,6 +20,7 @@ import {
   type AuthVariables,
 } from "../lib/auth";
 import { revalidateWeb } from "../lib/revalidate";
+import { resolveFromImportMeta } from "../lib/module-dir";
 
 export const storyRoutes = new Hono<{ Variables: AuthVariables }>();
 
@@ -39,8 +39,10 @@ const MAX_IMAGE = 8 * 1024 * 1024;
 const MAX_VIDEO = 48 * 1024 * 1024;
 
 function uploadsRoot() {
-  const here = fileURLToPath(new URL(".", import.meta.url));
-  return resolve(here, "../../../../data/uploads");
+  return resolveFromImportMeta(
+    import.meta.url,
+    "../../../../data/uploads",
+  );
 }
 
 /** PUBLIC_API_URL veya istek host + API_PREFIX */

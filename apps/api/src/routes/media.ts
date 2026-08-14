@@ -2,7 +2,6 @@ import { createHash, randomBytes } from "node:crypto";
 import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import { basename, extname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "@yenihaber/database";
@@ -12,6 +11,7 @@ import {
   requireRole,
   type AuthVariables,
 } from "../lib/auth";
+import { resolveFromImportMeta } from "../lib/module-dir";
 
 export const mediaRoutes = new Hono<{ Variables: AuthVariables }>();
 
@@ -36,13 +36,17 @@ const KINDS = new Set(["haber", "marka", "genel"]);
 type MediaKind = "haber" | "marka" | "genel";
 
 function uploadsRoot() {
-  const here = fileURLToPath(new URL(".", import.meta.url));
-  return resolve(here, "../../../../data/uploads");
+  return resolveFromImportMeta(
+    import.meta.url,
+    "../../../../data/uploads",
+  );
 }
 
 function webBrandRoot() {
-  const here = fileURLToPath(new URL(".", import.meta.url));
-  return resolve(here, "../../../../apps/web/public/brand");
+  return resolveFromImportMeta(
+    import.meta.url,
+    "../../../../apps/web/public/brand",
+  );
 }
 
 function publicBaseFromRequest(c: { req: { url: string } }): string {

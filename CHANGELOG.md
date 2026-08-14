@@ -1,5 +1,9 @@
 # Sürüm geçmişi
 
+## 1.1.3 — 2026-08-14
+
+Hostinger derlemesi: webpack `new URL(".", import.meta.url)` ifadesini modül `.` sanıyordu; dizin `dirname(fileURLToPath(...))` ile alınıyor. Yazı tipleri Google’dan indirilmiyor, repo içi `next/font/local` (Inter, Newsreader, Manrope).
+
 ## 1.1.2 — 2026-08-14
 
 Hostinger `pnpm build` artık Turbo ikilisi kullanmıyor (EACCES).

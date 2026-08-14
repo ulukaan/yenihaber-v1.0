@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolveFromImportMeta } from "./lib/module-dir";
 
-const root = resolve(fileURLToPath(new URL(".", import.meta.url)), "../../..");
+const root = resolveFromImportMeta(import.meta.url, "../../..");
 config({ path: resolve(root, ".env") });
