@@ -18,7 +18,7 @@
     "setup": "pnpm install && pnpm db:generate && pnpm db:push && pnpm db:seed",
     "check:tokens": "node scripts/check-tokens.mjs",
     "build:hosting": "node scripts/hostinger-prep.mjs && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/database generate && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/web build",
-    "start": "node --import tsx server.mjs"
+    "start": "node server.mjs"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.3",

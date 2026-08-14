@@ -140,6 +140,12 @@ importers:
       '@yenihaber/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      bcryptjs:
+        specifier: ^3.0.2
+        version: 3.0.3
+      jose:
+        specifier: ^6.0.11
+        version: 6.2.8
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@19.2.8)
