@@ -7,8 +7,6 @@ import {
   fuelPrices as fuelPricesFallback,
   liveScores,
   marketBorsa,
-  marketFx,
-  marketGold,
   prayerTimes,
   standings,
   weather,
@@ -16,6 +14,7 @@ import {
   type MarketItem,
 } from "@/lib/live-data";
 import { getFuelPrices } from "@/lib/fuel";
+import { getMarkets } from "@/lib/markets";
 import styles from "./live-widgets.module.css";
 
 export type LiveWidgetsProps = {
@@ -92,6 +91,13 @@ export async function LiveWidgets({
     (show.includes("fuel")
       ? (await getFuelPrices()).items
       : fuelPricesFallback);
+
+  const markets =
+    show.includes("fx") || show.includes("gold")
+      ? await getMarkets()
+      : null;
+  const marketFx = markets?.fx ?? [];
+  const marketGold = markets?.gold ?? [];
 
   const root =
     layout === "stack"
@@ -319,7 +325,9 @@ export async function LiveWidgets({
       ) : null}
 
       {!hideDisclaimer ? (
-        <p className={styles.disclaimer}>* Gösterim amaçlı örnek veri</p>
+        <p className={styles.disclaimer}>
+          * Döviz ve altın: canlidoviz / TCMB. Borsa satırı örnek veri olabilir.
+        </p>
       ) : null}
     </div>
   );

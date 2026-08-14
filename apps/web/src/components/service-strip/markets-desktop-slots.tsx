@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Bitcoin, Coins, DollarSign } from "lucide-react";
+import {
+  Bitcoin,
+  Coins,
+  DollarSign,
+  Euro,
+  PoundSterling,
+} from "lucide-react";
 import type { ApiMarketItem } from "@yenihaber/shared";
 import styles from "./service-strip.module.css";
-
-const API =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
 
 const iconProps = {
   size: 15,
@@ -27,6 +30,8 @@ function resolveList(
 ): ApiMarketItem[] {
   const withValue = live.filter(isUsable);
   if (withValue.length) return withValue;
+  const initialOk = initial.filter(isUsable);
+  if (initialOk.length) return initialOk;
   if (live.length) return live;
   if (initial.length) return initial;
   return [fallback];
@@ -37,6 +42,15 @@ function shortLabel(item: ApiMarketItem, len: number): string {
     item.label.replace(/\/.*$/, "").trim().slice(0, len).toLocaleUpperCase("tr-TR") ||
     item.code.slice(0, 4).toUpperCase()
   );
+}
+
+export function fxIconFor(code: string) {
+  const c = code.toUpperCase();
+  if (c.includes("EUR") || c.includes("EURO")) return Euro;
+  if (c.includes("GBP") || c.includes("STERLIN") || c.includes("POUND")) {
+    return PoundSterling;
+  }
+  return DollarSign;
 }
 
 const FX_FALLBACK: ApiMarketItem = {
@@ -97,7 +111,7 @@ export function MarketsDesktopSlots({
         const endpoints = ["fx", "gold", "crypto"] as const;
         const results = await Promise.all(
           endpoints.map(async (endpoint) => {
-            const res = await fetch(`${API}/markets/${endpoint}${q}`, {
+            const res = await fetch(`/api/live/markets/${endpoint}${q}`, {
               cache: "no-store",
             });
             if (!res.ok) return [] as ApiMarketItem[];
@@ -148,28 +162,29 @@ export function MarketsDesktopSlots({
   const slots = [
     {
       key: "fx",
-      icon: DollarSign,
       list: fxList,
       labelLen: 6,
+      iconFor: (item: ApiMarketItem) => fxIconFor(`${item.code} ${item.label}`),
     },
     {
       key: "gold",
-      icon: Coins,
       list: goldList,
       labelLen: 8,
+      iconFor: () => Coins,
     },
     {
       key: "crypto",
-      icon: Bitcoin,
       list: cryptoList,
       labelLen: 8,
+      iconFor: () => Bitcoin,
     },
   ] as const;
 
   return (
     <>
-      {slots.map(({ key, icon: Icon, list, labelLen }) => {
+      {slots.map(({ key, list, labelLen, iconFor }) => {
         const item = list[tick % list.length]!;
+        const Icon = iconFor(item);
         return (
           <div
             key={`${key}-${tick}`}

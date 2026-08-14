@@ -56,15 +56,15 @@ export type FuelPrice = {
 };
 
 export const marketFx: MarketItem[] = [
-  { label: "USD", value: "34,12", change: "+0,18%", up: true },
-  { label: "EUR", value: "36,84", change: "-0,07%", up: false },
-  { label: "GBP", value: "43,21", change: "+0,22%", up: true },
+  { label: "USD", value: "—", change: "—", up: true },
+  { label: "EUR", value: "—", change: "—", up: false },
+  { label: "GBP", value: "—", change: "—", up: true },
 ];
 
 export const marketGold: MarketItem[] = [
-  { label: "Gram", value: "2.946 ₺", change: "+0,41%", up: true },
-  { label: "Çeyrek", value: "4.812 ₺", change: "+0,38%", up: true },
-  { label: "Ons", value: "2.318 $", change: "-0,12%", up: false },
+  { label: "Gram", value: "—", change: "—", up: true },
+  { label: "Çeyrek", value: "—", change: "—", up: true },
+  { label: "Ons", value: "—", change: "—", up: false },
 ];
 
 export const marketBorsa: MarketItem[] = [
@@ -76,9 +76,9 @@ export const marketBorsa: MarketItem[] = [
 /** Eski market şeridi uyumu */
 export const marketStrip: MarketItem[] = [
   ...marketFx,
-  { label: "BİST 100", value: "9.842", change: "+1,14%", up: true },
-  { label: "ALTIN", value: "2.946", change: "+0,41%", up: true },
-  { label: "BTC", value: "67.420 $", change: "-0,85%", up: false },
+  { label: "BİST 100", value: "—", change: "—", up: true },
+  { label: "ALTIN", value: "—", change: "—", up: true },
+  { label: "BTC", value: "—", change: "—", up: false },
 ];
 
 export const liveScores: LiveScore[] = [

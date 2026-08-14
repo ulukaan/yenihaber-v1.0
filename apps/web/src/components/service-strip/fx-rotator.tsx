@@ -14,8 +14,12 @@ export type FxRotatorProps = {
  * İki döviz slotu — varsayılan 5 sn’de bir sıradaki çifte geçer.
  */
 export function FxRotator({ items, intervalMs = 5000 }: FxRotatorProps) {
-  const list = items.length
-    ? items
+  const usable = items.filter((item) => {
+    const v = (item.value ?? "").trim();
+    return Boolean(v) && v !== "—" && v !== "-";
+  });
+  const list = usable.length
+    ? usable
     : [
         {
           code: "USD",
