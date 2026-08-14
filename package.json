@@ -1,14 +1,16 @@
 {
   "name": "yenihaber",
   "private": true,
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Haber sitesi monorepo — web, admin ve API ayrı uygulamalar; ortak paketler",
   "scripts": {
     "dev": "turbo run dev --parallel",
     "dev:web": "pnpm --filter @yenihaber/web dev",
     "dev:admin": "pnpm --filter @yenihaber/admin dev",
     "dev:api": "pnpm --filter @yenihaber/api dev",
-    "build": "turbo run build --filter=@yenihaber/database --filter=@yenihaber/api --filter=@yenihaber/web",
+    "build": "node scripts/hostinger-prep.mjs && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/database generate && node scripts/hostinger-prep.mjs && node scripts/hostinger-db.mjs && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/web build",
+    "build:hosting": "pnpm run build",
+    "build:turbo": "node ./node_modules/turbo/bin/turbo run build --filter=@yenihaber/web",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "db:generate": "pnpm --filter @yenihaber/database generate",
@@ -17,7 +19,6 @@
     "db:studio": "pnpm --filter @yenihaber/database studio",
     "setup": "pnpm install && pnpm db:generate && pnpm db:push && pnpm db:seed",
     "check:tokens": "node scripts/check-tokens.mjs",
-    "build:hosting": "node scripts/hostinger-prep.mjs && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/database generate && node scripts/hostinger-prep.mjs && node scripts/hostinger-db.mjs && node ./node_modules/pnpm/bin/pnpm.cjs --filter @yenihaber/web build",
     "start": "node server.mjs"
   },
   "dependencies": {

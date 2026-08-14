@@ -1,5 +1,9 @@
 # Sürüm geçmişi
 
+## 1.1.2 — 2026-08-14
+
+Hostinger `pnpm build` artık Turbo ikilisi kullanmıyor (EACCES).
+
 ## 1.1.1 — 2026-08-14
 
 Hostinger derlemesi: API `.js` importları Next ile çözülsün; Prisma motorlarına +x.

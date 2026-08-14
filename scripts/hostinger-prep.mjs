@@ -41,6 +41,7 @@ function walk(dir) {
 function needsExec(name, full) {
   const n = name.toLowerCase();
   if (n === "esbuild" || n === "esbuild.exe") return true;
+  if (n === "turbo") return true;
   if (n.includes("query-engine") || n.includes("schema-engine")) return true;
   if (n.startsWith("libquery_engine")) return true;
   if (full.includes(`${join(".bin")}`) && !n.endsWith(".cmd") && !n.endsWith(".ps1")) {
