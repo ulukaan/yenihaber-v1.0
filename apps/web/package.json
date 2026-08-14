@@ -10,8 +10,10 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@yenihaber/api": "workspace:*",
     "@yenihaber/api-client": "workspace:*",
     "@yenihaber/config": "workspace:*",
+    "@yenihaber/database": "workspace:*",
     "@yenihaber/shared": "workspace:*",
     "@yenihaber/ui": "workspace:*",
     "lucide-react": "^0.511.0",

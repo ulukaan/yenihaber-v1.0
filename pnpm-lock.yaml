@@ -122,12 +122,18 @@ importers:
 
   apps/web:
     dependencies:
+      '@yenihaber/api':
+        specifier: workspace:*
+        version: link:../api
       '@yenihaber/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
       '@yenihaber/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@yenihaber/database':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@yenihaber/shared':
         specifier: workspace:*
         version: link:../../packages/shared
