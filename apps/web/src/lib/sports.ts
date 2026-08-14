@@ -1,5 +1,5 @@
 import type { ApiSports } from "@yenihaber/shared";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 
 const empty: ApiSports = {
   live: [],

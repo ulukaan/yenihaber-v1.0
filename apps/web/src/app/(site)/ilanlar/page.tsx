@@ -7,7 +7,7 @@ import {
 } from "@yenihaber/shared";
 import { CorporatePage } from "@/components/corporate-page/corporate-page";
 import corp from "@/components/corporate-page/corporate-page.module.css";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { getSiteSettings } from "@/lib/site-settings";
 import { resolveCorporate } from "@/lib/corporate";
 import styles from "./ilanlar.module.css";

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { AdSlot } from "@/components/ads/ad-slot";
 import styles from "./archive.module.css";
 

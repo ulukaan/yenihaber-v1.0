@@ -2,7 +2,7 @@ import {
   DEFAULT_MAIN_NAV,
   type ApiMenuItem,
 } from "@yenihaber/shared";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import {
   activeIconIds,
   getCachedMenu,

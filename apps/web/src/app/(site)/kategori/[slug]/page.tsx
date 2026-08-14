@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ApiArticle, ApiCategory } from "@yenihaber/shared";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { CategoryArchive } from "@/components/category-archive/category-archive";
 
 export const dynamic = "force-dynamic";

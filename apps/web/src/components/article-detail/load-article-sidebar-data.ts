@@ -1,5 +1,5 @@
 import type { ApiArticle, ApiCategory } from "@yenihaber/shared";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { getMarkets } from "@/lib/markets";
 import { getPrayerTimes } from "@/lib/prayer";
 import { getFuelPrices } from "@/lib/fuel";

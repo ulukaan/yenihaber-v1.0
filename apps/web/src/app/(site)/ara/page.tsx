@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { NewsCard } from "@/components/news-card/news-card";
 import styles from "@/styles/category.module.css";
 import searchStyles from "./search.module.css";

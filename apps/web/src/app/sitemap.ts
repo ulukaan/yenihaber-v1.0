@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { getSiteSettings } from "@/lib/site-settings";
 
 const STATIC_PATHS = [

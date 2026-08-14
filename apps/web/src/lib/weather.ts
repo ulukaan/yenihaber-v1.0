@@ -186,6 +186,7 @@ export async function getWeather(): Promise<WeatherSnapshot> {
 
     const res = await fetch(url.toString(), {
       next: { revalidate: 1800 },
+      signal: AbortSignal.timeout(8000),
       headers: { Accept: "application/json" },
     });
     if (!res.ok) throw new Error(`weather ${res.status}`);

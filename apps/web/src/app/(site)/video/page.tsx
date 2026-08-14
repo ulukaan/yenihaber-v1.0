@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import styles from "../galeri/archive.module.css";
 
 export const dynamic = "force-dynamic";

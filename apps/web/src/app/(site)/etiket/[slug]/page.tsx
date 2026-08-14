@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ApiArticle } from "@yenihaber/shared";
 import { TAG_INDEX_MIN } from "@yenihaber/shared";
-import { formatRelative, publicApi } from "@/lib/api";
+import { formatRelative } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { SidebarWidgets } from "@/components/sidebar-widgets/sidebar-widgets";
 import styles from "@/styles/category.module.css";
 

@@ -1,13 +1,10 @@
-import { API_BASE } from "@/lib/public-env";
+import { fetchInternalApi } from "@/lib/hono-fetch";
 import { unstable_cache } from "next/cache";
 import type { ApiMenu, ApiMenuItem, MainNav, MenuLocation } from "@yenihaber/shared";
 
-const API =
-  API_BASE;
-
 async function fetchMenu(location: MenuLocation): Promise<ApiMenu | null> {
   try {
-    const res = await fetch(`${API}/menus/${location}`, {
+    const res = await fetchInternalApi(`/menus/${location}`, {
       next: { tags: ["menu"], revalidate: 60 },
     });
     if (!res.ok) return null;

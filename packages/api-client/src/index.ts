@@ -87,6 +87,8 @@ import type {
 export type ApiClientOptions = {
   baseUrl: string;
   getToken?: () => string | null | undefined;
+  /** Node SSG'de göreli `/api` fetch patlar; Hono in-process verilebilir */
+  fetch?: typeof globalThis.fetch;
 };
 
 export class ApiError extends Error {
@@ -118,9 +120,10 @@ export function createApiClient(options: ApiClientOptions) {
       headers.set("Authorization", `Bearer ${token}`);
     }
 
+    const doFetch = options.fetch ?? globalThis.fetch;
     let res: Response;
     try {
-      res = await fetch(`${baseUrl}${path}`, {
+      res = await doFetch(`${baseUrl}${path}`, {
         ...init,
         headers,
         cache: "no-store",

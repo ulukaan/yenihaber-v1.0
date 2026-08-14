@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CorporatePage } from "@/components/corporate-page/corporate-page";
 import corp from "@/components/corporate-page/corporate-page.module.css";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 
 export const metadata: Metadata = {
   title: "KVKK Aydınlatma Metni",

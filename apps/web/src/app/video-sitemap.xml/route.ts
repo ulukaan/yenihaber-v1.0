@@ -1,4 +1,4 @@
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import {
   secondsToIso8601Duration,
   videoEmbedUrl,

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ApiAuthor } from "@yenihaber/shared";
-import { formatDate, formatDateShort, formatRelative, publicApi } from "@/lib/api";
+import { formatDate, formatDateShort, formatRelative } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { FollowAuthorButton } from "@/components/member-account/follow-author-button";
 import styles from "./yazar.module.css";
 

@@ -6,7 +6,7 @@ import {
   HOME_RAIL_MIN_ARTICLES,
   HOME_RAIL_MAX_RECOMMENDED,
 } from "@yenihaber/shared";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { MansetStage } from "@/components/manset-stage/manset-stage";
 import { HeadlineGrid } from "@/components/headline-grid/headline-grid";
 import { LatestFeed } from "@/components/latest-feed/latest-feed";
@@ -175,8 +175,8 @@ export default async function HomePage() {
     generalPoll = pollRes.poll;
     stories = storiesRes.data ?? [];
     surmanset = sideItems;
-  } catch {
-    // API yoksa boş
+  } catch (error) {
+    console.error("anasayfa API", error);
   }
 
   const sortedCats = [...categories]

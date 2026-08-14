@@ -1,6 +1,6 @@
 import type { ApiMarkets, ApiMarketItem } from "@yenihaber/shared";
 import { getMarketsSnapshot } from "@yenihaber/shared";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { marketBorsa as fallbackBorsa } from "@/lib/live-data";
 
 export type { ApiMarketItem, ApiMarkets };

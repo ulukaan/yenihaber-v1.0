@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { publicApi, formatDateShort, formatRelative } from "@/lib/api";
+import { formatDateShort, formatRelative } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import type { ApiAuthor } from "@yenihaber/shared";
 import styles from "./yazarlar.module.css";
 

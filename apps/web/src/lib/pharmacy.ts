@@ -71,6 +71,7 @@ async function collectGet<T>(path: string): Promise<CollectEnvelope<T>> {
 
   const res = await fetch(`${BASE}${path}`, {
     method: "GET",
+    signal: AbortSignal.timeout(8000),
     headers: {
       "content-type": "application/json",
       authorization: `apikey ${key}`,

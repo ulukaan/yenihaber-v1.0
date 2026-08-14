@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PAID_LISTING_KIND_LABELS } from "@yenihaber/shared";
 import { CorporatePage } from "@/components/corporate-page/corporate-page";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import styles from "../ilanlar.module.css";
 
 type Props = { params: Promise<{ slug: string }> };

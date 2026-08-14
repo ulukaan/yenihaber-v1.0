@@ -5,7 +5,7 @@ import {
   type ApiPaidListing,
 } from "@yenihaber/shared";
 import { getVefatNotices } from "@/lib/vefat";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { ServiceShell } from "@/components/service-page/service-shell";
 import s from "@/components/service-page/service-shell.module.css";
 import v from "@/styles/vefat.module.css";

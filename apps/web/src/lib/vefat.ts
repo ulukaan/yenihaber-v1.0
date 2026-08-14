@@ -120,6 +120,7 @@ export async function getVefatNotices(): Promise<VefatSnapshot> {
   const fetchedAt = new Date().toISOString();
   try {
     const res = await fetch(MEBIS_URL, {
+      signal: AbortSignal.timeout(8000),
       headers: {
         accept: "text/html,application/xhtml+xml",
         "user-agent":

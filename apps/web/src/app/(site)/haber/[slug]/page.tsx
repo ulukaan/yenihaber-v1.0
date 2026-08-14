@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { buildNewsArticleJsonLd } from "@/lib/article-meta";
 import { getSiteSettings } from "@/lib/site-settings";
 import { ArticleStream } from "@/components/article-detail/article-stream";

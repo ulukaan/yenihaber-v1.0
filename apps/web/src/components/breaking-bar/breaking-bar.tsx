@@ -1,4 +1,4 @@
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { BreakingTicker } from "@/components/breaking-ticker/breaking-ticker";
 
 /** Header altı son dakika şeridi — tüm sayfalarda */

@@ -1,8 +1,5 @@
-import { API_BASE } from "@/lib/public-env";
+import { fetchInternalApi } from "@/lib/hono-fetch";
 import { NextResponse } from "next/server";
-
-const API =
-  API_BASE;
 
 /**
  * Footer bülten formu — KVKK rızası + API double opt-in.
@@ -17,14 +14,11 @@ export async function POST(request: Request) {
   const origin = new URL(request.url).origin;
 
   if (!email || !consent) {
-    return NextResponse.redirect(
-      `${origin}/?bulten=kvkk#bulten`,
-      303,
-    );
+    return NextResponse.redirect(`${origin}/?bulten=kvkk#bulten`, 303);
   }
 
   try {
-    const res = await fetch(`${API}/newsletter/subscribe`, {
+    const res = await fetchInternalApi("/newsletter/subscribe", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({ email, consent: "true" }),

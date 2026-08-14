@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { NewsCard } from "@/components/news-card/news-card";
 import { SidebarWidgets } from "@/components/sidebar-widgets/sidebar-widgets";
 import styles from "@/styles/category.module.css";

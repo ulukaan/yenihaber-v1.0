@@ -52,6 +52,7 @@ export async function getFuelPrices(): Promise<FuelSnapshot> {
   try {
     const res = await fetch(FUEL_URL, {
       next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(8000),
       headers: {
         Accept: "application/json",
         "User-Agent": "Yenihaber/1.0 (+https://yenihaber.local)",

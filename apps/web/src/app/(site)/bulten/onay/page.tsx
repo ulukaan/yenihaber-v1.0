@@ -1,4 +1,4 @@
-import { API_BASE } from "@/lib/public-env";
+import { fetchInternalApi } from "@/lib/hono-fetch";
 import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "../../yasal.module.css";
@@ -17,15 +17,13 @@ export const metadata: Metadata = {
  */
 export default async function NewsletterConfirmPage({ searchParams }: Props) {
   const { token } = await searchParams;
-  const API =
-    API_BASE;
 
   let state: "missing" | "ok" | "error" | "already" = "missing";
 
   if (token) {
     try {
-      const res = await fetch(
-        `${API}/newsletter/confirm?token=${encodeURIComponent(token)}`,
+      const res = await fetchInternalApi(
+        `/newsletter/confirm?token=${encodeURIComponent(token)}`,
         { cache: "no-store" },
       );
       if (res.ok) {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { publicApi } from "@/lib/api";
+import { publicApi } from "@/lib/server-api";
 import { ElectionCenter } from "@/components/election/election-center";
 import styles from "./page.module.css";
 
