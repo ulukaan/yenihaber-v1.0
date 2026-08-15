@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdirSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, rmSync, symlinkSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -28,3 +28,20 @@ if (existsSync(publicSrc)) {
 }
 
 console.log(`copy-standalone → ${dest}`);
+
+/**
+ * Bazı host panelleri (Hostinger dahil) build çıktısını repo kökünde
+ * ".next" varsayar. Gerçek çıktı apps/web/.next'te — kökte bir sembolik
+ * bağlantı bırakarak panel ayarından bağımsız hale getiriyoruz.
+ */
+const rootNext = join(root, ".next");
+try {
+  rmSync(rootNext, { recursive: true, force: true });
+  symlinkSync(join(web, ".next"), rootNext, "dir");
+  console.log(`root .next bağlantısı → ${join(web, ".next")}`);
+} catch (e) {
+  console.warn(
+    "root .next bağlantısı oluşturulamadı, atlandı:",
+    e instanceof Error ? e.message : e,
+  );
+}
