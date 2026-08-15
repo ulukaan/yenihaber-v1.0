@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdirSync, rmSync, symlinkSync } from "node:fs";
+import { cpSync, existsSync, globSync, mkdirSync, rmSync, symlinkSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -11,8 +11,19 @@ if (!existsSync(standalone)) {
   process.exit(0);
 }
 
+/**
+ * Next.js standalone çıktısı, outputFileTracingRoot monorepo köküne
+ * ayarlıyken orijinal dosya yapısını (apps/web/...) koruyarak üretiyor;
+ * gerçek server.js standalone/apps/web/server.js'de oluyor. Hostinger'ın
+ * kendi Next.js çalıştırma mekanizması ise düz standalone/server.js
+ * bekliyor (başlangıç komutu ayarı hiç yok) — içeriği bir üst seviyeye
+ * taşıyarak ikisiyle de uyumlu hale getiriyoruz.
+ */
 const nested = join(standalone, "apps/web");
-const dest = existsSync(join(nested, "server.js")) ? nested : standalone;
+if (existsSync(join(nested, "server.js"))) {
+  cpSync(nested, standalone, { recursive: true });
+}
+const dest = standalone;
 
 const staticSrc = join(web, ".next/static");
 const staticDest = join(dest, ".next/static");
@@ -25,6 +36,23 @@ const publicSrc = join(web, "public");
 const publicDest = join(dest, "public");
 if (existsSync(publicSrc)) {
   cpSync(publicSrc, publicDest, { recursive: true });
+}
+
+/**
+ * Prisma generated client (native query engine dahil) pnpm'in derin
+ * .pnpm store yolunda yaşıyor; taşınan standalone server.js oradan
+ * @prisma/client'ı bulsa da, kendi içindeki mutlak engine yolu bulunamaz
+ * hale gelebiliyor. Prisma'nın da aradığı standalone/.prisma/client'a
+ * kopyalayarak garantiye alıyoruz.
+ */
+const prismaClientDirs = globSync(
+  join(root, "node_modules/.pnpm/@prisma+client@*/node_modules/.prisma/client"),
+);
+if (prismaClientDirs.length > 0) {
+  const prismaDest = join(dest, ".prisma/client");
+  mkdirSync(prismaDest, { recursive: true });
+  cpSync(prismaClientDirs[0], prismaDest, { recursive: true });
+  console.log(`prisma client → ${prismaDest}`);
 }
 
 console.log(`copy-standalone → ${dest}`);
