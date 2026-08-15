@@ -17,6 +17,14 @@ function rewriteMysqlHostForRuntime(url: string): string {
   return url.replace(/@[^/@:]+\.hstgr\.io(?=:\d+)/i, "@localhost");
 }
 
+/** Paylaşımlı hosting'de hesap genelinde max_user_connections düşük olabilir */
+function withConnectionLimit(url: string): string {
+  if (!url.startsWith("mysql://")) return url;
+  if (/connection_limit=/i.test(url)) return url;
+  const sep = url.includes("?") ? "&" : "?";
+  return `${url}${sep}connection_limit=5`;
+}
+
 function fromMysqlParts(env: NodeJS.ProcessEnv): string {
   const user = env.MYSQL_USER ?? env.DB_USER;
   const pass = env.MYSQL_PASSWORD ?? env.DB_PASSWORD;
@@ -38,7 +46,7 @@ function resolveDatabaseUrl(): string {
     if (file.startsWith("/") || /^[A-Za-z]:/.test(file)) return raw;
     return `file:${resolve(root, "data/yenihaber.db")}`;
   }
-  return rewriteMysqlHostForRuntime(raw);
+  return withConnectionLimit(rewriteMysqlHostForRuntime(raw));
 }
 
 process.env.DATABASE_URL = resolveDatabaseUrl();
