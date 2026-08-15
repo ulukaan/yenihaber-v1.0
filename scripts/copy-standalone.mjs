@@ -1,6 +1,27 @@
-import { cpSync, existsSync, globSync, mkdirSync, rmSync, symlinkSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, symlinkSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+
+/** node_modules yapısı (pnpm .pnpm store, hoisted, vs.) fark etmeden gerçek engine dosyasını bulur */
+function findPrismaEngineDirs(dir, depth = 0) {
+  if (depth > 10) return [];
+  let entries;
+  try {
+    entries = readdirSync(dir, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+  const found = [];
+  for (const entry of entries) {
+    const full = join(dir, entry.name);
+    if (entry.isFile() && /^libquery_engine-.*\.so\.node$/.test(entry.name)) {
+      found.push(dirname(full));
+    } else if (entry.isDirectory() && entry.name !== ".bin") {
+      found.push(...findPrismaEngineDirs(full, depth + 1));
+    }
+  }
+  return found;
+}
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const web = join(root, "apps/web");
@@ -45,14 +66,19 @@ if (existsSync(publicSrc)) {
  * hale gelebiliyor. Prisma'nın da aradığı standalone/.prisma/client'a
  * kopyalayarak garantiye alıyoruz.
  */
-const prismaClientDirs = globSync(
-  join(root, "node_modules/.pnpm/@prisma+client@*/node_modules/.prisma/client"),
-);
-if (prismaClientDirs.length > 0) {
+const prismaClientDirs = findPrismaEngineDirs(join(root, "node_modules"));
+// @prisma/engines sadece binary depolar; generated client kodunun (index.js
+// vb.) yanındaki gerçek .prisma/client klasörünü tercih et.
+const prismaClientSrc =
+  prismaClientDirs.find((d) => d.includes(`${join(".prisma", "client")}`)) ??
+  prismaClientDirs[0];
+if (prismaClientSrc) {
   const prismaDest = join(dest, ".prisma/client");
   mkdirSync(prismaDest, { recursive: true });
-  cpSync(prismaClientDirs[0], prismaDest, { recursive: true });
-  console.log(`prisma client → ${prismaDest}`);
+  cpSync(prismaClientSrc, prismaDest, { recursive: true });
+  console.log(`prisma client → ${prismaDest} (kaynak: ${prismaClientSrc})`);
+} else {
+  console.warn("copy-standalone: Prisma query engine bulunamadı");
 }
 
 console.log(`copy-standalone → ${dest}`);
