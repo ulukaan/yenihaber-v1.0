@@ -43,6 +43,12 @@ if (!existsSync(standalone)) {
 const nested = join(standalone, "apps/web");
 if (existsSync(join(nested, "server.js"))) {
   cpSync(nested, standalone, { recursive: true });
+  // Nested'i sil — hem server.mjs'in "önce nested'e bak" sırası hem de
+  // Hostinger'ın düz yapı beklentisi tek, tutarlı bir server.js'e düşsün.
+  // (İçindeki Prisma engine kopyası düz konuma taşınmadığı için, nested
+  // kalırsa hangi mekanizma çalıştırırsa çalıştırsın engine bulunamaz hatası
+  // tekrar ortaya çıkabiliyordu.)
+  rmSync(nested, { recursive: true, force: true });
 }
 const dest = standalone;
 
