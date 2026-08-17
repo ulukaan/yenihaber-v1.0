@@ -1,0 +1,12 @@
+{
+  "name": "Yenihaber (web + admin + api + MySQL)",
+  "user": "ubuntu",
+  "install": "bash scripts/cloud-agent-install.sh",
+  "start": "bash scripts/cloud-agent-start.sh",
+  "terminals": [
+    {
+      "name": "dev (web:3000 admin:3001 api:4000)",
+      "command": "export NODE_ENV=development DATABASE_URL=\"mysql://yenihaber:yenihaber@127.0.0.1:3306/yenihaber\" JWT_SECRET=\"dev-local-jwt-secret-please-change-32chars\" && pnpm dev"
+    }
+  ]
+}
