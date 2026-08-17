@@ -3,15 +3,17 @@ import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
 
 const configDir = path.dirname(fileURLToPath(import.meta.url));
-const isVercel = process.env.VERCEL === "1";
-/** Windows'ta standalone symlink EPERM; Vercel kendi tracing'ini yönetir */
+/** Windows'ta standalone symlink EPERM; Hostinger Linux'ta açılır */
 const standalone =
-  !isVercel &&
-  (process.platform !== "win32" || process.env.FORCE_STANDALONE === "1");
+  process.platform !== "win32" || process.env.FORCE_STANDALONE === "1";
 
 const nextConfig: NextConfig = {
-  outputFileTracingRoot: path.join(configDir, "../.."),
-  ...(standalone ? { output: "standalone" as const } : {}),
+  ...(standalone
+    ? {
+        output: "standalone" as const,
+        outputFileTracingRoot: path.join(configDir, "../.."),
+      }
+    : {}),
   typescript: {
     ignoreBuildErrors: true,
   },

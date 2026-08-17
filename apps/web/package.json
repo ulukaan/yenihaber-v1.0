@@ -6,7 +6,6 @@
     "dev": "next dev --port 3000",
     "build": "node ../../node_modules/typescript/bin/tsc -p ../../packages/api/tsconfig.json && next build && node ../../scripts/copy-standalone.mjs",
     "start": "next start --port 3000",
-    "postinstall": "pnpm --filter @yenihaber/database run generate",
     "lint": "next lint",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
