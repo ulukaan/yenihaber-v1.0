@@ -26,7 +26,7 @@ model User {
   /** @deprecated → Author */
   slug           String?             @unique
   title          String?
-  bio            String?
+  bio            String?             @db.Text
   avatarUrl      String?
   twitterUrl     String?
   linkedinUrl    String?
@@ -62,11 +62,11 @@ model Author {
   displayName    String
   slug           String    @unique
   title          String?
-  bio            String?
+  bio            String?   @db.Text
   photoUrl       String?
   twitterUrl     String?
   linkedinUrl    String?
-  socialsJson    String?
+  socialsJson    String?   @db.Text
   status         String    @default("yayinda")
   isColumnist    Boolean   @default(false)
   columnistOrder Int       @default(0)
@@ -128,7 +128,7 @@ model Category {
   slug                String     @unique
   /** Menü sırası (kök) / kardeş sırası */
   sortOrder           Int        @default(0)
-  description         String?
+  description         String?    @db.Text
   /** @deprecated → commentsEnabled tersi ile senkron */
   disableQuickComment Boolean    @default(false)
   /** Yorumlara açık */
@@ -196,8 +196,8 @@ model Article {
   /** Manşette kısa başlık — boşsa title kullanılır */
   headlineTitle    String?
   slug             String       @unique
-  excerpt          String?
-  content          String
+  excerpt          String?      @db.Text
+  content          String       @db.LongText
   /** haber | video | galeri — ayrı CMS değil, aynı onay/arşiv */
   contentType      String       @default("haber")
   coverImage       String?
@@ -228,14 +228,14 @@ model Article {
   relatedArticleId String?
   /** Harici yönlendirme URL (max 250 istemci) */
   redirectUrl      String?
-  updateNote       String?
+  updateNote       String?      @db.Text
   metaTitle        String?
-  metaDescription  String?
+  metaDescription  String?      @db.Text
   viewCount        Int          @default(0)
   /** Kelime÷190 — kayıtta hesaplanır */
   readingMinutes   Int          @default(1)
   /** Kapak altı galeri JSON: [{url,alt?}] — ilk eleman kapakla senkron */
-  galleryImages    String?
+  galleryImages    String?      @db.Text
   lockedById       String?
   lockedAt         DateTime?
   lastAutosavedAt  DateTime?
@@ -247,7 +247,7 @@ model Article {
   videoPoster      String?
   /** yatay | dikey */
   videoOrientation String       @default("yatay")
-  videoTranscript  String?
+  videoTranscript  String?      @db.Text
   /** kaynak / telif — yayın öncesi zorunlu */
   videoSource      String?
   videoIsLive      Boolean      @default(false)
@@ -284,8 +284,8 @@ model ArticleRevision {
   id        String   @id @default(cuid())
   articleId String
   editorId  String
-  snapshot  String
-  note      String?
+  snapshot  String   @db.LongText
+  note      String?  @db.Text
   createdAt DateTime @default(now())
   article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
   editor    User     @relation(fields: [editorId], references: [id], onDelete: Restrict)
@@ -300,7 +300,7 @@ model AuditLog {
   action     String
   entityType String
   entityId   String?
-  meta       String?
+  meta       String?  @db.Text
   ipHash     String?
   createdAt  DateTime @default(now())
   actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
@@ -347,7 +347,7 @@ model Comment {
   name          String
   /** Yazar e-posta (opsiyonel, sitede gizli) */
   authorEmail   String?
-  content       String
+  content       String    @db.Text
   /** BEKLEMEDE | ONAYLI | ARSIV | COP */
   status        String    @default("BEKLEMEDE")
   isQuick       Boolean   @default(false)
@@ -446,7 +446,7 @@ model Media {
 
 model Setting {
   key         String   @id
-  value       String
+  value       String   @db.Text
   /** site | appearance | seo | integrations | social | content | email | legal */
   groupName   String   @default("site")
   updatedAt   DateTime @default(now()) @updatedAt
@@ -475,8 +475,8 @@ model FrontLayout {
   id           String    @id @default(cuid())
   kind         String
   status       String
-  slotsJson    String
-  breakingJson String?
+  slotsJson    String    @db.LongText
+  breakingJson String?   @db.Text
   lockedById   String?
   lockedAt     DateTime?
   updatedById  String?
@@ -496,8 +496,8 @@ model FrontLayoutLog {
   kind      String
   actorId   String?
   action    String
-  summary   String
-  snapshot  String?
+  summary   String   @db.Text
+  snapshot  String?  @db.LongText
   createdAt DateTime @default(now())
   actor     User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
 
@@ -520,7 +520,7 @@ model Ad {
   imageUrl       String?
   imageUrlMobile String?
   targetUrl      String?
-  htmlCode       String?
+  htmlCode       String?   @db.Text
   adsenseSlotId  String?
   device         String    @default("all")
   startAt        DateTime?
@@ -546,7 +546,7 @@ model ContactMessage {
   email     String    @default("")
   topic     String    @default("genel")
   subject   String    @default("")
-  body      String
+  body      String    @db.Text
   /** new | read | archived */
   status    String    @default("new")
   ipHash    String?
@@ -845,13 +845,13 @@ model PaidListing {
   /** vefat | taziye | tesekkur | tebrik | anma | duyuru | is | emlak | diger */
   kind          String    @default("duyuru")
   title         String
-  body          String    @default("")
+  body          String    @default("") @db.Text
   /** Vefat vb. için kişi adı */
   personName    String?
   imageUrl      String?
   contactName   String?
   contactPhone  String?
-  customerNote  String?
+  customerNote  String?   @db.Text
   /** TL — bilgilendirme / fatura notu */
   priceTry      Int       @default(0)
   durationDays  Int       @default(7)
