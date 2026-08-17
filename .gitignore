@@ -18,3 +18,4 @@ uploads
 *.zip
 .git.bak
 **/.git.bak/**
+*.tsbuildinfo
